@@ -52,18 +52,18 @@ public class AuthService implements IAuthService {
 
     @Override
     @Transactional
-    public User register(AuthRegisterDTO dto, User register) {
+    public User register(AuthRegisterDTO dto) {
         String className = AuthRegisterDTO.class.getSimpleName();
         if (userRepository.existsByEmail(dto.getEmail()))
             throw new ValueAlreadyInDatabaseException("email", className);
 
-        UserPerfil defaultUserPerfil = userPerfilRepository.findByName(dto.getPerfilName());
+        UserPerfil defaultUserPerfil = userPerfilRepository.findByName("Default");
         if (defaultUserPerfil == null)
             throw new DbValueNotFoundException("name", className);
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.getPassword());
 
-        User newUser = new User(dto.getName(), dto.getEmail(), encryptedPassword, defaultUserPerfil, register);
+        User newUser = new User(dto.getName(), dto.getEmail(), encryptedPassword, defaultUserPerfil);
         userRepository.save(newUser);
 
         return newUser;

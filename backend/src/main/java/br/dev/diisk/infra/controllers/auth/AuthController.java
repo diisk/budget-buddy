@@ -43,19 +43,16 @@ public class AuthController {
         return responseService.ok(response);
     }
 
-    @PreAuthorize("hasAuthority('MANAGE_USERS')")
-    @SecurityRequirement(name = "bearer-key")
     @PostMapping("/register")
     public ResponseEntity<GenericResponse<AuthRegisterResponseDTO>> register(@RequestBody @Valid AuthRegisterDTO dto,
-            @AuthenticationPrincipal User user,
             UriComponentsBuilder uriBuilder) {
-        User newUser = service.register(dto, user);
+        User newUser = service.register(dto);
         AuthRegisterResponseDTO response = mapper.map(newUser, AuthRegisterResponseDTO.class);
         URI uri = uriBuilder.path("users/{id}").buildAndExpand(response.getId()).toUri();
         return responseService.created(uri, response);
     }
 
-    @PreAuthorize("hasAuthority('RENEW_TOKEN')")
+    @PreAuthorize("hasAuthority('DEFAULT')")
     @SecurityRequirement(name = "bearer-key")
     @PostMapping("/renew")
     public ResponseEntity<GenericResponse<AuthLoginResponseDTO>> renew(@AuthenticationPrincipal User user) {

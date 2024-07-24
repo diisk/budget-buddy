@@ -38,7 +38,7 @@ public class PerfilSeed implements ApplicationRunner {
 
     private List<UserPermissionEnum> getDefaultPerfil() {
         List<UserPermissionEnum> permissions = new ArrayList<>();
-        permissions.add(UserPermissionEnum.RENEW_TOKEN);
+        permissions.add(UserPermissionEnum.DEFAULT);
         return permissions;
     }
 

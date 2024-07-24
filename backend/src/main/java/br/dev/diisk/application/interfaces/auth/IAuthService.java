@@ -11,6 +11,6 @@ public interface IAuthService {
     
     public AuthLoginResponseDTO renew(User user);
 
-    public User register(AuthRegisterDTO dto, User register);
+    public User register(AuthRegisterDTO dto);
 
 }
