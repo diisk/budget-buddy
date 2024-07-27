@@ -1,4 +1,4 @@
-package br.dev.diisk.application;
+package br.dev.diisk.domain;
 
 public abstract class GlobalMessages {
 

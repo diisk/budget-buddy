@@ -1,6 +1,6 @@
 package br.dev.diisk.domain.dtos.auth;
 
-import br.dev.diisk.application.GlobalMessages;
+import br.dev.diisk.domain.GlobalMessages;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

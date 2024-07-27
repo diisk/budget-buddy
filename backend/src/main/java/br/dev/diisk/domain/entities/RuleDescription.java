@@ -1,5 +1,6 @@
 package br.dev.diisk.domain.entities;
 
+import br.dev.diisk.domain.dtos.income.RuleDescriptionDTO;
 import br.dev.diisk.domain.enums.TypeRuleDescription;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,5 +34,11 @@ public class RuleDescription {
 
     public Boolean isNegative() {
         return negative;
+    }
+
+    public RuleDescription(RuleDescriptionDTO dto) {
+        this.negative = dto.isNegative();
+        this.type = dto.getType();
+        this.value = dto.getValue();
     }
 }

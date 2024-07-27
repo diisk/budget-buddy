@@ -2,7 +2,9 @@ package br.dev.diisk.domain.entities;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import br.dev.diisk.domain.dtos.income.FilterDescriptionDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,5 +28,10 @@ public class FilterDescription {
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<RuleDescription> rules = new HashSet<>();
+
+    public FilterDescription(FilterDescriptionDTO dto){
+        this.rules = dto.getRules()
+        .stream().map(RuleDescription::new).collect(Collectors.toSet());
+    }
 
 }

@@ -10,7 +10,7 @@ public class ValueAlreadyInDatabaseException extends RuntimeException {
     private FieldError fieldError;
 
     public ValueAlreadyInDatabaseException(String field, String objectName) {
-        this.fieldError = new FieldError(objectName, field, "This value already exist in database.");
+        this.fieldError = new FieldError(objectName, field, "This value already exists in database.");
     }
 
 }
