@@ -5,26 +5,26 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.dev.diisk.application.dtos.income.CreateIncomeRequest;
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
-import br.dev.diisk.domain.cases.income.IAddIncomeCase;
-import br.dev.diisk.domain.dtos.income.CreateIncomeDTO;
+import br.dev.diisk.domain.cases.income.ICreateIncomeCase;
 import br.dev.diisk.domain.entities.income.Income;
 import br.dev.diisk.domain.entities.income.IncomeCategory;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.domain.repositories.income.IIncomeCategoryRepository;
-import br.dev.diisk.domain.repositories.income.IIncomeRepository;
+import br.dev.diisk.domain.repositories.income.IncomeCategoryRepository;
+import br.dev.diisk.domain.repositories.income.IncomeRepository;
 
 @Component
-public class AddIncomeCase implements IAddIncomeCase {
+public class AddIncomeCase implements ICreateIncomeCase {
 
     @Autowired
-    private IIncomeRepository incomeRepository;
+    private IncomeRepository incomeRepository;
 
     @Autowired
-    private IIncomeCategoryRepository incomeCategoryRepository;
+    private IncomeCategoryRepository incomeCategoryRepository;
 
     @Override
-    public Income execute(CreateIncomeDTO dto, User owner) {
+    public Income execute(CreateIncomeRequest dto, User owner) {
         Optional<IncomeCategory> foundedCategory = incomeCategoryRepository.findByIdAndUserId(dto.getCategoryId(),
                 owner.getId());
 

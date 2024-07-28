@@ -11,49 +11,48 @@ import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.exceptions.ValueAlreadyInDatabaseException;
 import br.dev.diisk.application.interfaces.auth.IAuthService;
 import br.dev.diisk.application.interfaces.auth.ITokenService;
-import br.dev.diisk.domain.dtos.auth.AuthLoginDTO;
-import br.dev.diisk.domain.dtos.auth.AuthLoginResponseDTO;
-import br.dev.diisk.domain.dtos.auth.AuthRegisterDTO;
+import br.dev.diisk.application.dtos.auth.LoginRequest;
+import br.dev.diisk.application.dtos.auth.RegisterRequest;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.entities.user.UserPerfil;
-import br.dev.diisk.domain.repositories.user.IUserPerfilRepository;
-import br.dev.diisk.domain.repositories.user.IUserRepository;
+import br.dev.diisk.domain.repositories.user.UserPerfilRepository;
+import br.dev.diisk.domain.repositories.user.UserRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService implements IAuthService {
 
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private IUserPerfilRepository userPerfilRepository;
+    private UserPerfilRepository userPerfilRepository;
 
     @Autowired
     private ITokenService tokenService;
 
     @Override
-    public AuthLoginResponseDTO login(AuthLoginDTO dto) {
+    public String login(LoginRequest dto) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(dto.getEmail(),
                 dto.getPassword());
         Authentication auth = authenticationManager.authenticate(usernamePassword);
         String token = tokenService.generateToken((User) auth.getPrincipal());
-        return new AuthLoginResponseDTO(token);
+        return token;
     }
 
     @Override
-    public AuthLoginResponseDTO renew(User user) {
+    public String renew(User user) {
         String token = tokenService.generateToken(user);
-        return new AuthLoginResponseDTO(token);
+        return token;
     }
 
     @Override
     @Transactional
-    public User register(AuthRegisterDTO dto) {
-        String className = AuthRegisterDTO.class.getSimpleName();
+    public User register(RegisterRequest dto) {
+        String className = RegisterRequest.class.getSimpleName();
         if (userRepository.existsByEmail(dto.getEmail()))
             throw new ValueAlreadyInDatabaseException("email", className);
 

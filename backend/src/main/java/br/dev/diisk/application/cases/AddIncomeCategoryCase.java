@@ -6,23 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.dev.diisk.application.interfaces.income.CreateIncomeCategoryValidator;
-import br.dev.diisk.domain.cases.income.IAddIncomeCategoryCase;
-import br.dev.diisk.domain.dtos.income.CreateIncomeCategoryDTO;
+import br.dev.diisk.domain.cases.income.ICreateCategoryCase;
+import br.dev.diisk.application.dtos.income.CreateCategoryRequest;
 import br.dev.diisk.domain.entities.income.IncomeCategory;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.domain.repositories.income.IIncomeCategoryRepository;
+import br.dev.diisk.domain.repositories.income.IncomeCategoryRepository;
 
 @Component
-public class AddIncomeCategoryCase implements IAddIncomeCategoryCase {
+public class AddIncomeCategoryCase implements ICreateCategoryCase {
 
     @Autowired
     private List<CreateIncomeCategoryValidator> validators;
 
     @Autowired
-    private IIncomeCategoryRepository incomeCategoryRepository;
+    private IncomeCategoryRepository incomeCategoryRepository;
 
     @Override
-    public IncomeCategory execute(CreateIncomeCategoryDTO dto, User owner) {
+    public IncomeCategory execute(CreateCategoryRequest dto, User owner) {
         validators.forEach(validation -> validation.validate(dto, owner));
         IncomeCategory incomeCategory = new IncomeCategory(dto);
         incomeCategory.setUser(owner);

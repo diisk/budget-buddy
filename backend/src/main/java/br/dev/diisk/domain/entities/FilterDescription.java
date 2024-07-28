@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import br.dev.diisk.domain.dtos.income.FilterDescriptionDTO;
+import br.dev.diisk.application.dtos.income.FilterDescriptionDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

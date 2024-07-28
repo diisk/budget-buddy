@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import br.dev.diisk.application.interfaces.auth.ITokenService;
-import br.dev.diisk.domain.repositories.user.IUserRepository;
+import br.dev.diisk.domain.repositories.user.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private ITokenService tokenService;
 
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(

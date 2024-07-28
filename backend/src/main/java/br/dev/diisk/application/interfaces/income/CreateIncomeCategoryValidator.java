@@ -1,11 +1,11 @@
 package br.dev.diisk.application.interfaces.income;
 
 
-import br.dev.diisk.domain.dtos.income.CreateIncomeCategoryDTO;
+import br.dev.diisk.application.dtos.income.CreateCategoryRequest;
 import br.dev.diisk.domain.entities.user.User;
 
 public interface CreateIncomeCategoryValidator {
 
-    void validate(CreateIncomeCategoryDTO dto, User user);
+    void validate(CreateCategoryRequest dto, User user);
 
 }
