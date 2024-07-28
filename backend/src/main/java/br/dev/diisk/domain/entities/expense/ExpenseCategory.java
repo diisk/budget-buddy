@@ -1,10 +1,16 @@
 package br.dev.diisk.domain.entities.expense;
 
+import java.math.BigDecimal;
+
 import br.dev.diisk.domain.entities.FinanceCategory;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-public class ExpenseCategory extends FinanceCategory{
+@Getter
+@NoArgsConstructor
+public class ExpenseCategory extends FinanceCategory {
 
-
+    private BigDecimal budgetLimit;
 }

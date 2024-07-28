@@ -2,7 +2,6 @@ package br.dev.diisk.application.cases;
 
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +13,7 @@ import br.dev.diisk.domain.entities.income.IncomeCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.income.IIncomeCategoryRepository;
 import br.dev.diisk.domain.repositories.income.IIncomeRepository;
+import br.dev.diisk.infra.services.CustomMapperService;
 
 @Component
 public class UpdateIncomeCase implements IUpdateIncomeCase {
@@ -22,7 +22,7 @@ public class UpdateIncomeCase implements IUpdateIncomeCase {
     private IIncomeRepository incomeRepository;
 
     @Autowired
-    private ModelMapper mapper;
+    private CustomMapperService mapper;
 
     @Autowired
     private IIncomeCategoryRepository incomeCategoryRepository;

@@ -2,7 +2,6 @@ package br.dev.diisk.infra.controllers.auth;
 
 import java.net.URI;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +20,7 @@ import br.dev.diisk.domain.dtos.auth.AuthRegisterDTO;
 import br.dev.diisk.domain.dtos.auth.AuthRegisterResponseDTO;
 import br.dev.diisk.domain.entities.GenericResponse;
 import br.dev.diisk.domain.entities.user.User;
+import br.dev.diisk.infra.services.CustomMapperService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
@@ -32,7 +32,7 @@ public class AuthController {
     private IAuthService service;
 
     @Autowired
-    private ModelMapper mapper;
+    private CustomMapperService mapper;
 
     @Autowired
     private IResponseService responseService;
