@@ -16,12 +16,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.dev.diisk.application.interfaces.IResponseService;
 import br.dev.diisk.application.interfaces.auth.IAuthService;
 import br.dev.diisk.application.dtos.auth.LoginRequest;
+import br.dev.diisk.application.dtos.auth.LoginResponse;
 import br.dev.diisk.application.dtos.auth.RegisterRequest;
-import br.dev.diisk.infra.dtos.auth.LoginResponse;
+import br.dev.diisk.application.dtos.auth.RegisterResponse;
+import br.dev.diisk.application.dtos.auth.RenewResponse;
 import br.dev.diisk.domain.entities.GenericResponse;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.infra.dtos.auth.RegisterResponse;
-import br.dev.diisk.infra.dtos.auth.RenewResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 

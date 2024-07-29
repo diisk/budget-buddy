@@ -26,23 +26,33 @@ public abstract class BaseMapper<S, T> implements Function<S, T> {
     }
 
     @PostConstruct
-    private void init(){
-        TypeMap<S,T> typeMap = mapper.createTypeMap(sourceType, targetType);
+    private void init() {
+        TypeMap<S, T> typeMap = mapper.createTypeMap(sourceType, targetType);
         configureMapping(typeMap);
     }
 
-    protected abstract void configureMapping(TypeMap<S,T> typeMap);
+    protected void configureMapping(TypeMap<S, T> typeMap){
 
+    }
+
+    protected void doComplexMap(S source, T target){
+
+    }
+    
     @Override
     public T apply(S source) {
-        return mapper.map(source, targetType);
+        T target = mapper.map(source, targetType);
+        doComplexMap(source, target);
+        return target;
     }
 
     public List<T> mapList(Collection<S> source) {
-        return source.stream().map(this).collect(Collectors.toList());
+        var test = source.stream().map(this).collect(Collectors.toList());
+        return test;
     }
 
     public Set<T> mapSet(Collection<S> source) {
-        return source.stream().map(this).collect(Collectors.toSet());
+        var test = source.stream().map(this).collect(Collectors.toSet());
+        return test;
     }
 }

@@ -1,19 +1,15 @@
-package br.dev.diisk.application.dtos.income;
+package br.dev.diisk.application.dtos.expense;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-import br.dev.diisk.domain.GlobalMessages;
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class UpdateIncomeRequest {
+public class UpdateExpenseRequest {
     private String description;
     private Long categoryId;
-    @Positive(message = GlobalMessages.POSITIVE_VALUE)
     private BigDecimal value;
     private LocalDateTime date;
 

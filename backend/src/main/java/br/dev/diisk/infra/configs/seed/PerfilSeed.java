@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 
 import br.dev.diisk.domain.entities.user.UserPerfil;
 import br.dev.diisk.domain.enums.user.UserPermissionEnum;
-import br.dev.diisk.domain.repositories.user.UserPerfilRepository;
+import br.dev.diisk.domain.repositories.user.IUserPerfilRepository;
 import jakarta.transaction.Transactional;
 
 @Component
 public class PerfilSeed implements ApplicationRunner {
 
     @Autowired
-    private UserPerfilRepository userPerfilRepository;
+    private IUserPerfilRepository userPerfilRepository;
 
     @Override
     @Transactional

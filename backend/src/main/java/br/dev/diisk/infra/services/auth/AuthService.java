@@ -15,21 +15,21 @@ import br.dev.diisk.application.dtos.auth.LoginRequest;
 import br.dev.diisk.application.dtos.auth.RegisterRequest;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.entities.user.UserPerfil;
-import br.dev.diisk.domain.repositories.user.UserPerfilRepository;
-import br.dev.diisk.domain.repositories.user.UserRepository;
+import br.dev.diisk.domain.repositories.user.IUserPerfilRepository;
+import br.dev.diisk.domain.repositories.user.IUserRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService implements IAuthService {
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserPerfilRepository userPerfilRepository;
+    private IUserPerfilRepository userPerfilRepository;
 
     @Autowired
     private ITokenService tokenService;

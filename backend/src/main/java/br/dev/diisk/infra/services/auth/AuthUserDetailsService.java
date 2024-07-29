@@ -6,13 +6,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.dev.diisk.domain.repositories.user.UserRepository;
+import br.dev.diisk.domain.repositories.user.IUserRepository;
 
 @Service
 public class AuthUserDetailsService implements UserDetailsService{
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
 
     @Override

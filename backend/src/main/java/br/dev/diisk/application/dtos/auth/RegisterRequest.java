@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
         @Email(message = GlobalMessages.INVALID_FIELD)
         private String email;
-        @NotBlank(message = GlobalMessages.BLANK_FIELD)
+        @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
         private String name;
-        @NotBlank(message = GlobalMessages.BLANK_FIELD)
+        @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
         private String password;
 }

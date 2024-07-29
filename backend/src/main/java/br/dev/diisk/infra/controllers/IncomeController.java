@@ -3,8 +3,6 @@ package br.dev.diisk.infra.controllers;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,25 +15,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.dev.diisk.application.interfaces.IResponseService;
+import br.dev.diisk.application.interfaces.income.ICreateCategoryCase;
+import br.dev.diisk.application.interfaces.income.ICreateIncomeCase;
+import br.dev.diisk.application.interfaces.income.IUpdateIncomeCase;
 import br.dev.diisk.application.mappers.income.IncomeCategoryToResponseMapper;
+import br.dev.diisk.application.mappers.income.IncomeToResponseMapper;
 import br.dev.diisk.application.dtos.income.CreateCategoryRequest;
 import br.dev.diisk.application.dtos.income.CreateIncomeRequest;
+import br.dev.diisk.application.dtos.income.IncomeCategoryResponse;
+import br.dev.diisk.application.dtos.income.IncomeResponse;
 import br.dev.diisk.application.dtos.income.UpdateIncomeRequest;
-import br.dev.diisk.domain.cases.income.ICreateIncomeCase;
-import br.dev.diisk.domain.cases.income.ICreateCategoryCase;
-import br.dev.diisk.domain.cases.income.IUpdateIncomeCase;
-import br.dev.diisk.infra.dtos.income.CreateIncomeResponse;
 import br.dev.diisk.domain.entities.GenericResponse;
 import br.dev.diisk.domain.entities.income.Income;
 import br.dev.diisk.domain.entities.income.IncomeCategory;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.domain.repositories.income.IncomeCategoryRepository;
-import br.dev.diisk.domain.repositories.income.IncomeRepository;
-import br.dev.diisk.infra.dtos.income.IncomeCategoryResponse;
-import br.dev.diisk.infra.dtos.income.ListIncomesResponse;
+import br.dev.diisk.domain.repositories.income.IIncomeCategoryRepository;
+import br.dev.diisk.domain.repositories.income.IIncomeRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("incomes")
@@ -44,10 +42,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 public class IncomeController {
 
     @Autowired
-    private ModelMapper mapper;
+    private IncomeCategoryToResponseMapper incomeCategoryToResponseMapper;
 
     @Autowired
-    private IncomeCategoryToResponseMapper incomeCategoryToResponseMapper;
+    private IncomeToResponseMapper incomeToResponseMapper;
 
     @Autowired
     private ICreateIncomeCase createIncomeCase;
@@ -59,10 +57,10 @@ public class IncomeController {
     private ICreateCategoryCase createCategoryCase;
 
     @Autowired
-    private IncomeCategoryRepository incomeCategoryRepository;
+    private IIncomeCategoryRepository incomeCategoryRepository;
 
     @Autowired
-    private IncomeRepository incomeRepository;
+    private IIncomeRepository incomeRepository;
 
     @Autowired
     private IResponseService responseService;
@@ -76,18 +74,20 @@ public class IncomeController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<GenericResponse<ListIncomesResponse>> updateIncome(@PathVariable Long id,
-            @RequestBody UpdateIncomeRequest dto,
+    public ResponseEntity<GenericResponse<IncomeResponse>> updateIncome(@PathVariable Long id,
+            @RequestBody @Valid UpdateIncomeRequest dto,
             @AuthenticationPrincipal User user) {
         Income income = updateIncomeCase.execute(id, dto, user);
-        return responseService.ok(new ListIncomesResponse(income));
+        IncomeResponse response = incomeToResponseMapper.apply(income);
+        return responseService.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<GenericResponse<CreateIncomeResponse>> createIncome(@RequestBody CreateIncomeRequest dto,
+    public ResponseEntity<GenericResponse<IncomeResponse>> createIncome(@RequestBody @Valid CreateIncomeRequest dto,
             @AuthenticationPrincipal User user) {
         Income income = createIncomeCase.execute(dto, user);
-        return responseService.ok(new CreateIncomeResponse(income));
+        IncomeResponse response = incomeToResponseMapper.apply(income);
+        return responseService.ok(response);
     }
 
     @GetMapping("categories")
@@ -99,13 +99,14 @@ public class IncomeController {
     }
 
     @GetMapping
-    public ResponseEntity<GenericResponse<List<ListIncomesResponse>>> listIncomes(
+    public ResponseEntity<GenericResponse<List<IncomeResponse>>> listIncomes(
             @RequestParam LocalDateTime beginsAt,
             @RequestParam LocalDateTime endsAt,
             @AuthenticationPrincipal User user) {
         Set<Income> incomes = incomeRepository.findAllByUserIdAndPeriod(user.getId(),
                 beginsAt, endsAt);
-        return responseService.ok(incomes.stream().map(ListIncomesResponse::new).toList());
+        List<IncomeResponse> response = incomeToResponseMapper.mapList(incomes);
+        return responseService.ok(response);
     }
 
 }
