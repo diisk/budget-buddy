@@ -1,10 +1,7 @@
 package br.dev.diisk.application.cases.income;
 
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import br.dev.diisk.application.dtos.income.CreateIncomeRequest;
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.interfaces.income.ICreateIncomeCase;
@@ -15,14 +12,16 @@ import br.dev.diisk.domain.repositories.income.IIncomeCategoryRepository;
 import br.dev.diisk.domain.repositories.income.IIncomeRepository;
 import jakarta.transaction.Transactional;
 
-@Component
+@Service
 public class AddIncomeCase implements ICreateIncomeCase {
 
-    @Autowired
     private IIncomeRepository incomeRepository;
-
-    @Autowired
     private IIncomeCategoryRepository incomeCategoryRepository;
+
+    public AddIncomeCase(IIncomeRepository incomeRepository, IIncomeCategoryRepository incomeCategoryRepository) {
+        this.incomeRepository = incomeRepository;
+        this.incomeCategoryRepository = incomeCategoryRepository;
+    }
 
     @Override
     @Transactional

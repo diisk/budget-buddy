@@ -3,9 +3,7 @@ package br.dev.diisk.application.cases.expense;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import br.dev.diisk.application.dtos.expense.UpdateExpenseRequest;
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.interfaces.expense.IUpdateExpenseCase;
@@ -16,17 +14,19 @@ import br.dev.diisk.domain.repositories.expense.IExpenseCategoryRepository;
 import br.dev.diisk.domain.repositories.expense.IExpenseRepository;
 import jakarta.transaction.Transactional;
 
-@Component
+@Service
 public class UpdateExpenseCase implements IUpdateExpenseCase {
 
-    @Autowired
     private IExpenseRepository expenseRepository;
-
-    @Autowired
     private ModelMapper mapper;
-
-    @Autowired
     private IExpenseCategoryRepository expenseCategoryRepository;
+
+    public UpdateExpenseCase(IExpenseRepository expenseRepository, ModelMapper mapper,
+            IExpenseCategoryRepository expenseCategoryRepository) {
+        this.expenseRepository = expenseRepository;
+        this.mapper = mapper;
+        this.expenseCategoryRepository = expenseCategoryRepository;
+    }
 
     @Override
     @Transactional

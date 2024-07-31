@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import br.dev.diisk.domain.GlobalMessages;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,10 @@ public class CreateExpenseRequest {
 
     private Long categoryId;
 
-    @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     @Positive(message = GlobalMessages.POSITIVE_VALUE)
+    @NotNull(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private BigDecimal value;
-    @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
+    @NotNull(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private LocalDateTime date;
 
 }

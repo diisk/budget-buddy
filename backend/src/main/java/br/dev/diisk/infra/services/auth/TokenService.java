@@ -3,14 +3,10 @@ package br.dev.diisk.infra.services.auth;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-
 import br.dev.diisk.application.interfaces.auth.ITokenService;
 import br.dev.diisk.domain.entities.user.User;
 
@@ -19,9 +15,12 @@ public class TokenService implements ITokenService {
 
     @Value("${spring.application.name}")
     private String appName;
-
-    @Autowired
     private Algorithm algorithm;
+
+
+    public TokenService(Algorithm algorithm) {
+        this.algorithm = algorithm;
+    }
 
     @Override
     public String generateToken(User user) {

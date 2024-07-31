@@ -11,6 +11,5 @@ public class IncomeCategoryResponse {
 
     private Long id;
     private String name;
-    // private List<FilterDescriptionDTO> filters;
     
 }

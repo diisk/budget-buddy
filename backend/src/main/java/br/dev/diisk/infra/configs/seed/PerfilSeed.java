@@ -2,12 +2,9 @@ package br.dev.diisk.infra.configs.seed;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
 import br.dev.diisk.domain.entities.user.UserPerfil;
 import br.dev.diisk.domain.enums.user.UserPermissionEnum;
 import br.dev.diisk.domain.repositories.user.IUserPerfilRepository;
@@ -16,8 +13,11 @@ import jakarta.transaction.Transactional;
 @Component
 public class PerfilSeed implements ApplicationRunner {
 
-    @Autowired
     private IUserPerfilRepository userPerfilRepository;
+
+    public PerfilSeed(IUserPerfilRepository userPerfilRepository) {
+        this.userPerfilRepository = userPerfilRepository;
+    }
 
     @Override
     @Transactional

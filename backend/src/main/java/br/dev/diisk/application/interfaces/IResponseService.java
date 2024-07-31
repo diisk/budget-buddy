@@ -3,7 +3,7 @@ package br.dev.diisk.application.interfaces;
 import java.net.URI;
 import org.springframework.http.ResponseEntity;
 
-import br.dev.diisk.domain.entities.GenericResponse;
+import br.dev.diisk.application.dtos.GenericResponse;
 
 public interface IResponseService {
 

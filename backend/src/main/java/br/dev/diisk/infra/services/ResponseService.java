@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import br.dev.diisk.application.dtos.GenericResponse;
 import br.dev.diisk.application.interfaces.IResponseService;
-import br.dev.diisk.domain.entities.GenericResponse;
 
 @Service
 public class ResponseService implements IResponseService {

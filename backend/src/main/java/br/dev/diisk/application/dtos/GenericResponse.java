@@ -1,4 +1,4 @@
-package br.dev.diisk.domain.entities;
+package br.dev.diisk.application.dtos;
 
 import java.time.LocalDateTime;
 

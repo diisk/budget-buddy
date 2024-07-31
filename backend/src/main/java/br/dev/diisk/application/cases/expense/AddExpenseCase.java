@@ -2,9 +2,7 @@ package br.dev.diisk.application.cases.expense;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import br.dev.diisk.application.dtos.expense.CreateExpenseRequest;
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.interfaces.expense.ICreateExpenseCase;
@@ -15,14 +13,16 @@ import br.dev.diisk.domain.repositories.expense.IExpenseCategoryRepository;
 import br.dev.diisk.domain.repositories.expense.IExpenseRepository;
 import jakarta.transaction.Transactional;
 
-@Component
+@Service
 public class AddExpenseCase implements ICreateExpenseCase {
 
-    @Autowired
     private IExpenseRepository expenseRepository;
-
-    @Autowired
     private IExpenseCategoryRepository expenseCategoryRepository;
+    
+    public AddExpenseCase(IExpenseRepository expenseRepository, IExpenseCategoryRepository expenseCategoryRepository) {
+        this.expenseRepository = expenseRepository;
+        this.expenseCategoryRepository = expenseCategoryRepository;
+    }
 
     @Override
     @Transactional

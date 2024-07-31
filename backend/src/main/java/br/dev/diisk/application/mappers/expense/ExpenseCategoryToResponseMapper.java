@@ -1,6 +1,6 @@
 package br.dev.diisk.application.mappers.expense;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import br.dev.diisk.application.dtos.expense.ExpenseCategoryResponse;
@@ -10,13 +10,13 @@ import br.dev.diisk.domain.entities.expense.ExpenseCategory;
 @Component
 public class ExpenseCategoryToResponseMapper extends BaseMapper<ExpenseCategory, ExpenseCategoryResponse> {
 
-    @Autowired
     private FilterDescriptionToDtoMapper filterDescriptionToDtoMapper;
 
-    public ExpenseCategoryToResponseMapper() {
-        super(ExpenseCategory.class, ExpenseCategoryResponse.class);
+    public ExpenseCategoryToResponseMapper(ModelMapper mapper,
+            FilterDescriptionToDtoMapper filterDescriptionToDtoMapper) {
+        super(mapper);
+        this.filterDescriptionToDtoMapper = filterDescriptionToDtoMapper;
     }
-
 
     @Override
     protected void doComplexMap(ExpenseCategory source, ExpenseCategoryResponse target) {

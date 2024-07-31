@@ -2,7 +2,6 @@ package br.dev.diisk.infra.configs;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,8 +16,11 @@ import jakarta.persistence.EntityNotFoundException;
 @RestControllerAdvice
 public class GenericExceptionManager {
 
-    @Autowired
     private IResponseService responseService;
+    
+    public GenericExceptionManager(IResponseService responseService) {
+        this.responseService = responseService;
+    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> tratarEntityNotFound() {

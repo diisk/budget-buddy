@@ -1,12 +1,10 @@
 package br.dev.diisk.infra.services.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.exceptions.ValueAlreadyInDatabaseException;
 import br.dev.diisk.application.interfaces.auth.IAuthService;
@@ -22,17 +20,18 @@ import jakarta.transaction.Transactional;
 @Service
 public class AuthService implements IAuthService {
 
-    @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
     private IUserPerfilRepository userPerfilRepository;
-
-    @Autowired
     private ITokenService tokenService;
+
+    public AuthService(IUserRepository userRepository, AuthenticationManager authenticationManager,
+            IUserPerfilRepository userPerfilRepository, ITokenService tokenService) {
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.userPerfilRepository = userPerfilRepository;
+        this.tokenService = tokenService;
+    }
 
     @Override
     public String login(LoginRequest dto) {
