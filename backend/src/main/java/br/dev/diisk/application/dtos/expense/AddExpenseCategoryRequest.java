@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class CreateExpenseCategoryRequest {
+public class AddExpenseCategoryRequest {
     @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private String name;
     private List<FilterDescriptionDTO> filters;

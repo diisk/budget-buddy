@@ -2,9 +2,9 @@ package br.dev.diisk.application.cases.income;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import br.dev.diisk.application.dtos.income.CreateIncomeRequest;
+import br.dev.diisk.application.dtos.income.AddIncomeRequest;
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
-import br.dev.diisk.application.interfaces.income.ICreateIncomeCase;
+import br.dev.diisk.application.interfaces.income.IAddIncomeCase;
 import br.dev.diisk.domain.entities.income.Income;
 import br.dev.diisk.domain.entities.income.IncomeCategory;
 import br.dev.diisk.domain.entities.user.User;
@@ -13,7 +13,7 @@ import br.dev.diisk.domain.repositories.income.IIncomeRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class AddIncomeCase implements ICreateIncomeCase {
+public class AddIncomeCase implements IAddIncomeCase {
 
     private IIncomeRepository incomeRepository;
     private IIncomeCategoryRepository incomeCategoryRepository;
@@ -25,7 +25,7 @@ public class AddIncomeCase implements ICreateIncomeCase {
 
     @Override
     @Transactional
-    public Income execute(CreateIncomeRequest dto, User owner) {
+    public Income execute(AddIncomeRequest dto, User owner) {
         Optional<IncomeCategory> foundedCategory = incomeCategoryRepository.findByIdAndUserId(dto.getCategoryId(),
                 owner.getId());
 

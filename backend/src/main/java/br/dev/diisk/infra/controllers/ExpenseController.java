@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import br.dev.diisk.application.interfaces.IResponseService;
-import br.dev.diisk.application.interfaces.expense.ICreateExpenseCategoryCase;
-import br.dev.diisk.application.interfaces.expense.ICreateExpenseCase;
+import br.dev.diisk.application.interfaces.expense.IAddExpenseCategoryCase;
+import br.dev.diisk.application.interfaces.expense.IAddExpenseCase;
 import br.dev.diisk.application.interfaces.expense.IListExpensesCategoriesCase;
 import br.dev.diisk.application.interfaces.expense.IListExpensesCase;
 import br.dev.diisk.application.interfaces.expense.IUpdateExpenseCase;
 import br.dev.diisk.application.mappers.expense.ExpenseCategoryToResponseMapper;
 import br.dev.diisk.application.mappers.expense.ExpenseToResponseMapper;
 import br.dev.diisk.application.dtos.GenericResponse;
-import br.dev.diisk.application.dtos.expense.CreateExpenseCategoryRequest;
-import br.dev.diisk.application.dtos.expense.CreateExpenseRequest;
+import br.dev.diisk.application.dtos.expense.AddExpenseCategoryRequest;
+import br.dev.diisk.application.dtos.expense.AddExpenseRequest;
 import br.dev.diisk.application.dtos.expense.ExpenseCategoryResponse;
 import br.dev.diisk.application.dtos.expense.ExpenseResponse;
 import br.dev.diisk.application.dtos.expense.UpdateExpenseRequest;
@@ -42,32 +42,32 @@ public class ExpenseController {
 
     private ExpenseCategoryToResponseMapper expenseCategoryToResponseMapper;
     private ExpenseToResponseMapper expenseToResponseMapper;
-    private ICreateExpenseCase createExpenseCase;
+    private IAddExpenseCase addExpenseCase;
     private IUpdateExpenseCase updateExpenseCase;
-    private ICreateExpenseCategoryCase createExpenseCategoryCase;
+    private IAddExpenseCategoryCase addExpenseCategoryCase;
     private IResponseService responseService;
     private IListExpensesCategoriesCase listExpensesCategoriesCase;
     private IListExpensesCase listExpensesCase;
 
     public ExpenseController(ExpenseCategoryToResponseMapper expenseCategoryToResponseMapper,
-            ExpenseToResponseMapper expenseToResponseMapper, ICreateExpenseCase createExpenseCase,
-            IUpdateExpenseCase updateExpenseCase, ICreateExpenseCategoryCase createCategoryCase,
+            ExpenseToResponseMapper expenseToResponseMapper, IAddExpenseCase addExpenseCase,
+            IUpdateExpenseCase updateExpenseCase, IAddExpenseCategoryCase addCategoryCase,
             IResponseService responseService, IListExpensesCategoriesCase listCategoriesCase,
             IListExpensesCase listExpensesCase) {
         this.expenseCategoryToResponseMapper = expenseCategoryToResponseMapper;
         this.expenseToResponseMapper = expenseToResponseMapper;
-        this.createExpenseCase = createExpenseCase;
+        this.addExpenseCase = addExpenseCase;
         this.updateExpenseCase = updateExpenseCase;
-        this.createExpenseCategoryCase = createCategoryCase;
+        this.addExpenseCategoryCase = addCategoryCase;
         this.responseService = responseService;
         this.listExpensesCategoriesCase = listCategoriesCase;
         this.listExpensesCase = listExpensesCase;
     }
 
     @PostMapping("categories")
-    public ResponseEntity<GenericResponse<ExpenseCategoryResponse>> createCategory(
-            @RequestBody CreateExpenseCategoryRequest dto, @AuthenticationPrincipal User user) {
-        ExpenseCategory expenseCategory = createExpenseCategoryCase.execute(dto, user);
+    public ResponseEntity<GenericResponse<ExpenseCategoryResponse>> addCategory(
+            @RequestBody AddExpenseCategoryRequest dto, @AuthenticationPrincipal User user) {
+        ExpenseCategory expenseCategory = addExpenseCategoryCase.execute(dto, user);
         ExpenseCategoryResponse response = expenseCategoryToResponseMapper.apply(expenseCategory);
         return responseService.ok(response);
     }
@@ -82,9 +82,9 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public ResponseEntity<GenericResponse<ExpenseResponse>> createExpense(@RequestBody @Valid CreateExpenseRequest dto,
+    public ResponseEntity<GenericResponse<ExpenseResponse>> addExpense(@RequestBody @Valid AddExpenseRequest dto,
             @AuthenticationPrincipal User user) {
-        Expense expense = createExpenseCase.execute(dto, user);
+        Expense expense = addExpenseCase.execute(dto, user);
         ExpenseResponse response = expenseToResponseMapper.apply(expense);
         return responseService.ok(response);
     }

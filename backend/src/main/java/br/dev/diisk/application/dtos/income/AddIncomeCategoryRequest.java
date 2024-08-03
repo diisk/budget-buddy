@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class CreateIncomeCategoryRequest {
+public class AddIncomeCategoryRequest {
     @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private String name;
 }

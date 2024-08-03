@@ -3,9 +3,9 @@ package br.dev.diisk.application.cases.expense;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import br.dev.diisk.application.dtos.expense.CreateExpenseRequest;
+import br.dev.diisk.application.dtos.expense.AddExpenseRequest;
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
-import br.dev.diisk.application.interfaces.expense.ICreateExpenseCase;
+import br.dev.diisk.application.interfaces.expense.IAddExpenseCase;
 import br.dev.diisk.domain.entities.expense.Expense;
 import br.dev.diisk.domain.entities.expense.ExpenseCategory;
 import br.dev.diisk.domain.entities.user.User;
@@ -14,7 +14,7 @@ import br.dev.diisk.domain.repositories.expense.IExpenseRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class AddExpenseCase implements ICreateExpenseCase {
+public class AddExpenseCase implements IAddExpenseCase {
 
     private IExpenseRepository expenseRepository;
     private IExpenseCategoryRepository expenseCategoryRepository;
@@ -26,7 +26,7 @@ public class AddExpenseCase implements ICreateExpenseCase {
 
     @Override
     @Transactional
-    public Expense execute(CreateExpenseRequest dto, User owner) {
+    public Expense execute(AddExpenseRequest dto, User owner) {
         Optional<ExpenseCategory> foundedCategory = expenseCategoryRepository.findByIdAndUserId(dto.getCategoryId(),
                 owner.getId());
 
