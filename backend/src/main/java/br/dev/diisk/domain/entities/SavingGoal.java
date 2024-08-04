@@ -5,10 +5,8 @@ import java.time.LocalDateTime;
 
 import br.dev.diisk.domain.entities.user.User;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,19 +15,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SavingGoal {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "saving_goals")
+public class SavingGoal extends RastreableEntity{
     
     private String goalName;
-    private BigDecimal targetAmount;
-    private BigDecimal currentAmount;
-    private LocalDateTime startDate;
+    private BigDecimal targetValue;
+    private BigDecimal currentValue;
     private LocalDateTime endDate;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User user;
 
 }

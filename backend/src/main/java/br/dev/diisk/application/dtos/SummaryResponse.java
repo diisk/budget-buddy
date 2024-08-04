@@ -1,6 +1,5 @@
 package br.dev.diisk.application.dtos;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import br.dev.diisk.application.dtos.expense_category.CategoryExpensesDetailsDTO;
@@ -12,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DashboardSummaryResponse {
-    private BigDecimal totalBalance;
+public class SummaryResponse {
+    private BalanceDetailsDTO balanceDetails;
     private BudgetSummaryDTO budgetSummary;
     private List<CategoryExpensesDetailsDTO> expensesByCategory;
     private List<CategoryIncomesDetailsDTO> incomesByCategory;

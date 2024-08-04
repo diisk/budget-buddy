@@ -22,12 +22,11 @@ public class AddFundStorageCase implements IAddFundStorageCase {
     @Override
     @CacheEvict(value = "funds-storages", allEntries = true)
     public FundStorage execute(AddFundStorageRequest request, User owner) {
-        FundStorage resource = new FundStorage();
-        resource.setCreditCard(request.getCreditCard());
-        resource.setActive(true);
-        resource.setName(request.getName());
-        resource.setUser(owner);
-        return fundStorageRepository.save(resource);
+        FundStorage storage = new FundStorage();
+        storage.setCreditCard(request.getCreditCard());
+        storage.setName(request.getName());
+        storage.setUser(owner);
+        return fundStorageRepository.save(storage);
     }
 
 }

@@ -18,6 +18,7 @@ public class ListExpensesCase implements IListExpensesCase{
 
     @Override
     public Set<Expense> execute(Long userId, LocalDateTime beginsAt, LocalDateTime endsAt) {
+        if(endsAt==null) endsAt = LocalDateTime.now();
         return expenseRepository.findAllByUserIdAndPeriod(userId, beginsAt, endsAt);
     }
 

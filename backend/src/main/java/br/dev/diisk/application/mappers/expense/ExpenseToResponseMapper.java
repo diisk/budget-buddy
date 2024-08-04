@@ -17,7 +17,7 @@ public class ExpenseToResponseMapper extends BaseMapper<Expense, ExpenseResponse
     @Override
     protected void doComplexMap(Expense source, ExpenseResponse target) {
         target.setCategoryName(source.getCategory().getName());
-        target.setResourceName(source.getResource().getName());
+        target.setStorageName(source.getStorage().getName());
     }
 
 }

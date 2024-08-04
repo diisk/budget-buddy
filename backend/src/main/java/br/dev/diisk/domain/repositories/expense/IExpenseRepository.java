@@ -22,10 +22,16 @@ public interface IExpenseRepository extends JpaRepository<Expense, Long> {
             SELECT i FROM Expense i
             JOIN i.user u
             JOIN FETCH i.category c
-            JOIN FETCH i.resource r
+            JOIN FETCH i.storage r
             WHERE (
                 u.id = :id
-                AND i.date BETWEEN :beginsAt AND :endsAt
+                AND (
+                    (
+                        :beginsAt is NULL
+                        AND i.date <= :endsAt
+                    )
+                    OR i.date BETWEEN :beginsAt AND :endsAt
+                )
             )
             """)
     Set<Expense> findAllByUserIdAndPeriod(Long id, LocalDateTime beginsAt, LocalDateTime endsAt);

@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "funds_storages")
 public class FundStorage {
 
     @Id
@@ -30,7 +33,12 @@ public class FundStorage {
     @Column(nullable = false)
     private Boolean active;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User user;
+
+    @PrePersist
+    private void init(){
+        active = true;
+    }
 
 }

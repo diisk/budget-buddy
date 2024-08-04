@@ -23,9 +23,9 @@ public class AddExpenseRequestFundStorageExistsValidation implements IAddExpense
 
     @Override
     public void validate(List<AddExpenseRequest> dtos, User user) {
-        Set<FundStorage> resources = listFundStorageCase.execute(user.getId());
+        Set<FundStorage> storages = listFundStorageCase.execute(user.getId());
         for(AddExpenseRequest dto : dtos){
-            if (resources.stream().noneMatch(resource -> resource.getId()==dto.getResourceId()))
+            if (storages.stream().noneMatch(storage -> storage.getId()==dto.getFundStorageId()))
             throw new DbValueNotFoundException("id", FundStorage.class.getSimpleName());
         }
     }

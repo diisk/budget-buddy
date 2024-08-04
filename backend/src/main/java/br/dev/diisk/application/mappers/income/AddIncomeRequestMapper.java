@@ -28,16 +28,17 @@ public class AddIncomeRequestMapper extends BaseMapper<AddIncomeRequest, Income>
 
     @Override
     protected void doComplexMap(AddIncomeRequest source, Income target) {
-        Set<FundStorage> resources = listFundStorageCase.execute(source.getUserId());
-        Set<IncomeCategory> categories = listIncomesCategoriesCase.execute(source.getUserId());
+        Set<FundStorage> storages = listFundStorageCase.execute(source.getUser().getId());
+        Set<IncomeCategory> categories = listIncomesCategoriesCase.execute(source.getUser().getId());
 
-        FundStorage resource = resources.stream()
+        FundStorage storage = storages.stream()
                 .filter(res -> res.getId() == source.getFundStorageId()).findFirst().get();
         IncomeCategory category = categories.stream()
                 .filter(cat -> cat.getId() == source.getCategoryId()).findFirst().get();
 
+        target.setUser(source.getUser());
         target.setCategory(category);
-        target.setResource(resource);
+        target.setStorage(storage);
     }
 
 }

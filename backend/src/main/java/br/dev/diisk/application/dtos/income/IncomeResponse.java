@@ -13,7 +13,7 @@ public class IncomeResponse {
     private Long id;
     private String description;
     private String categoryName;
-    private String resourceName;
+    private String storageName;
     private BigDecimal value;
     private String date;
 

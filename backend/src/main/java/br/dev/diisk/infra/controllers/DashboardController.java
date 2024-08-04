@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import br.dev.diisk.application.interfaces.IResponseService;
+import br.dev.diisk.application.interfaces.dashboard.IGetSummaryCase;
 import br.dev.diisk.application.dtos.GenericResponse;
-import br.dev.diisk.application.dtos.DashboardSummaryResponse;
+import br.dev.diisk.application.dtos.SummaryResponse;
 import br.dev.diisk.domain.entities.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
@@ -21,18 +22,20 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 public class DashboardController {
 
     private IResponseService responseService;
+    private IGetSummaryCase getSummaryCase;
 
-    public DashboardController(IResponseService responseService) {
+    public DashboardController(IResponseService responseService, IGetSummaryCase getSummaryCase) {
         this.responseService = responseService;
+        this.getSummaryCase = getSummaryCase;
     }
 
     @GetMapping("summary")
-    public ResponseEntity<GenericResponse<DashboardSummaryResponse>> getSummary(
-            @RequestParam LocalDateTime beginsAt,
-            @RequestParam LocalDateTime endsAt,
+    public ResponseEntity<GenericResponse<SummaryResponse>> getSummary(
+            @RequestParam(required = false) LocalDateTime beginsAt,
+            @RequestParam(required = false) LocalDateTime endsAt,
             @AuthenticationPrincipal User user) {
-        
-        DashboardSummaryResponse response = new DashboardSummaryResponse();
+
+        SummaryResponse response = getSummaryCase.execute(beginsAt, endsAt, user);
         return responseService.ok(response);
     }
 

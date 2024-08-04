@@ -1,4 +1,4 @@
-package br.dev.diisk.application.dtos.income_category;
+package br.dev.diisk.application.dtos.fund_storage;
 
 import java.math.BigDecimal;
 
@@ -11,11 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CategoryIncomesDetailsDTO {
-
+public class FundStorageDetailsDTO {
     @JsonIgnore
     private Long id;
-
-    private String categoryName;
-    private BigDecimal value;
+    
+    private String name;
+    private Boolean creditCard;
+    private BigDecimal balance;
 }

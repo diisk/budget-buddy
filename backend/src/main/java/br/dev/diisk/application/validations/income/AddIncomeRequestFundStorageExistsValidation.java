@@ -15,17 +15,17 @@ import br.dev.diisk.domain.entities.user.User;
 @Component
 public class AddIncomeRequestFundStorageExistsValidation implements IAddIncomeRequestValidator {
 
-    private IListFundStorageCase listBalanceResourceCase;
+    private IListFundStorageCase listFundStorageCase;
 
-    public AddIncomeRequestFundStorageExistsValidation(IListFundStorageCase listBalanceResourceCase) {
-        this.listBalanceResourceCase = listBalanceResourceCase;
+    public AddIncomeRequestFundStorageExistsValidation(IListFundStorageCase listFundStorageCase) {
+        this.listFundStorageCase = listFundStorageCase;
     }
 
     @Override
     public void validate(List<AddIncomeRequest> dtos, User user) {
-        Set<FundStorage> resources = listBalanceResourceCase.execute(user.getId());
+        Set<FundStorage> storages = listFundStorageCase.execute(user.getId());
         for (AddIncomeRequest dto : dtos) {
-            if (resources.stream().noneMatch(resource -> resource.getId() == dto.getFundStorageId()))
+            if (storages.stream().noneMatch(storage -> storage.getId() == dto.getFundStorageId()))
                 throw new DbValueNotFoundException("id", FundStorage.class.getSimpleName());
         }
     }

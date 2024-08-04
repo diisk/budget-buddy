@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class SavingGoalDTO {
     private String goalName;
-    private BigDecimal targetAmount;
-    private BigDecimal currentAmount;
+    private BigDecimal targetValue;
+    private BigDecimal currentValue;
     private BigDecimal percentageAchieved;
 }

@@ -29,7 +29,7 @@ public class User extends RastreableEntity implements UserDetails {
     
     private String password;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "perfil_id")
     private UserPerfil perfil;
 

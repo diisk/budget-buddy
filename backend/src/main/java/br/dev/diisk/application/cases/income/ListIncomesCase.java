@@ -19,6 +19,7 @@ public class ListIncomesCase implements IListIncomesCase{
 
     @Override
     public Set<Income> execute(Long userId, LocalDateTime beginsAt, LocalDateTime endsAt) {
+        if(endsAt==null) endsAt = LocalDateTime.now();
         return incomeRepository.findAllByUserIdAndPeriod(userId, beginsAt, endsAt);
     }
 

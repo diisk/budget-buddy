@@ -83,8 +83,8 @@ public class ExpenseController {
 
     @GetMapping
     public ResponseEntity<GenericResponse<List<ExpenseResponse>>> listExpenses(
-            @RequestParam LocalDateTime beginsAt,
-            @RequestParam LocalDateTime endsAt,
+            @RequestParam(required = false) LocalDateTime beginsAt,
+            @RequestParam(required = false) LocalDateTime endsAt,
             @AuthenticationPrincipal User user) {
         Set<Expense> expenses = listExpensesCase.execute(user.getId(),
                 beginsAt, endsAt);

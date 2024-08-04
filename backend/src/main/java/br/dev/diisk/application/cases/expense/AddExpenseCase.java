@@ -1,15 +1,15 @@
 package br.dev.diisk.application.cases.expense;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import br.dev.diisk.application.dtos.expense.AddExpenseRequest;
-import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.interfaces.expense.IAddExpenseCase;
+import br.dev.diisk.application.interfaces.expense.IAddExpenseRequestValidator;
+import br.dev.diisk.application.mappers.expense.AddExpenseRequestMapper;
 import br.dev.diisk.domain.entities.expense.Expense;
-import br.dev.diisk.domain.entities.expense.ExpenseCategory;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.domain.repositories.expense.IExpenseCategoryRepository;
 import br.dev.diisk.domain.repositories.expense.IExpenseRepository;
 import jakarta.transaction.Transactional;
 
@@ -17,28 +17,25 @@ import jakarta.transaction.Transactional;
 public class AddExpenseCase implements IAddExpenseCase {
 
     private IExpenseRepository expenseRepository;
-    private IExpenseCategoryRepository expenseCategoryRepository;
-    
-    public AddExpenseCase(IExpenseRepository expenseRepository, IExpenseCategoryRepository expenseCategoryRepository) {
+    private List<IAddExpenseRequestValidator> validations;
+    private AddExpenseRequestMapper addExpenseRequestMapper;
+
+    public AddExpenseCase(IExpenseRepository expenseRepository, List<IAddExpenseRequestValidator> validations,
+            AddExpenseRequestMapper addExpenseRequestMapper) {
         this.expenseRepository = expenseRepository;
-        this.expenseCategoryRepository = expenseCategoryRepository;
+        this.validations = validations;
+        this.addExpenseRequestMapper = addExpenseRequestMapper;
     }
 
     @Override
     @Transactional
     public Expense execute(AddExpenseRequest dto, User owner) {
-        Optional<ExpenseCategory> foundedCategory = expenseCategoryRepository.findByIdAndUserId(dto.getCategoryId(),
-                owner.getId());
+        List<AddExpenseRequest> toValidate = new ArrayList<>();
+        toValidate.add(dto);
+        validations.forEach(validation -> validation.validate(toValidate, owner));
 
-        if (foundedCategory.isEmpty())
-            throw new DbValueNotFoundException("id", ExpenseCategory.class.getSimpleName());
-
-        Expense expense = new Expense();
-        expense.setCategory(foundedCategory.get());
-        expense.setUser(owner);
-        expense.setDate(dto.getDate());
-        expense.setValue(dto.getValue());
-        expense.setDescription(dto.getDescription());
+        dto.setUser(owner);
+        Expense expense = addExpenseRequestMapper.apply(dto);
         return expenseRepository.save(expense);
     }
 

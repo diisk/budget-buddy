@@ -29,7 +29,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "perfils", indexes = {
+@Table(name = "users_perfils", indexes = {
         @Index(name = "index_id", columnList = "id")
 })
 public class UserPerfil {

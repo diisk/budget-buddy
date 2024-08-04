@@ -20,9 +20,9 @@ public abstract class FinanceEntry extends RastreableEntity{
     private String description;
     private LocalDateTime date;
     
-    @ManyToOne
-    private FundStorage resource;
+    @ManyToOne(optional = false)
+    private FundStorage storage;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User user;
 }

@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HistoryDTO {
-    private String month;
-    private BigDecimal amount;
+    private Integer month;
+    private Integer year;
+    private BigDecimal value;
 }

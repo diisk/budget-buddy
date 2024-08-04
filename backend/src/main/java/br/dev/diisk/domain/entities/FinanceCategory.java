@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,11 @@ public abstract class FinanceCategory {
     @Column(nullable = false)
     private Boolean active;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User user;
+
+    @PrePersist
+    private void init(){
+        active = true;
+    }
 }

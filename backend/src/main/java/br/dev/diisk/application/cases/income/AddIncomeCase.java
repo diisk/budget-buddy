@@ -2,6 +2,7 @@ package br.dev.diisk.application.cases.income;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 import br.dev.diisk.application.dtos.income.AddIncomeRequest;
 import br.dev.diisk.application.interfaces.income.IAddIncomeCase;
@@ -33,7 +34,7 @@ public class AddIncomeCase implements IAddIncomeCase {
         toValidate.add(dto);
         validations.forEach(validation -> validation.validate(toValidate, owner));
 
-        dto.setUserId(owner.getId());
+        dto.setUser(owner);
         Income income = addIncomeRequestMapper.apply(dto);
         return incomeRepository.save(income);
     }
