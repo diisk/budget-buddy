@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class UpdateExpenseRequest {
     private String description;
     private Long categoryId;
+    private Long resourceId;
     private BigDecimal value;
     private LocalDateTime date;
 

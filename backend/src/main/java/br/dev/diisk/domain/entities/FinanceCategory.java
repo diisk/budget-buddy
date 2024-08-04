@@ -24,6 +24,9 @@ public abstract class FinanceCategory {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private Boolean active;
+
     @ManyToOne
     private User user;
 }

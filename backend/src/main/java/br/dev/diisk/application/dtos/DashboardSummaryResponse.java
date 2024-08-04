@@ -3,8 +3,8 @@ package br.dev.diisk.application.dtos;
 import java.math.BigDecimal;
 import java.util.List;
 
-import br.dev.diisk.application.dtos.expense.CategoryExpensesDetailsDTO;
-import br.dev.diisk.application.dtos.income.CategoryIncomesDetailsDTO;
+import br.dev.diisk.application.dtos.expense_category.CategoryExpensesDetailsDTO;
+import br.dev.diisk.application.dtos.income_category.CategoryIncomesDetailsDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

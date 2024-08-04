@@ -17,6 +17,7 @@ public class IncomeToResponseMapper extends BaseMapper<Income, IncomeResponse> {
     @Override
     protected void doComplexMap(Income source, IncomeResponse target) {
         target.setCategoryName(source.getCategory().getName());
+        target.setResourceName(source.getResource().getName());
     }
 
 }

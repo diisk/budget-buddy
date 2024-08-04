@@ -22,6 +22,7 @@ public interface IIncomeRepository extends JpaRepository<Income, Long> {
             SELECT i FROM Income i
             JOIN i.user u
             JOIN FETCH i.category c
+            JOIN FETCH i.resource r
             WHERE (
                 u.id = :id
                 AND i.date BETWEEN :beginsAt AND :endsAt

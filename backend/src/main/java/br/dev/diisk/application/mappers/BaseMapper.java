@@ -47,6 +47,10 @@ public abstract class BaseMapper<S, T> implements Function<S, T> {
         return target;
     }
 
+    public void update(S source, T target) {
+        mapper.map(source, target);
+    }
+
     public List<T> mapList(Collection<S> source) {
         var test = source.stream().map(this).collect(Collectors.toList());
         return test;

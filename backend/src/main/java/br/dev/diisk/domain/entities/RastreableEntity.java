@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -37,8 +36,7 @@ public abstract class RastreableEntity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    @PreRemove
-    private void preRemove() {
+    public void remove() {
         this.removed = true;
     }
 

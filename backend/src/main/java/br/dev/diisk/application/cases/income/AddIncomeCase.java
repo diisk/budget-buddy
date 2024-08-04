@@ -1,14 +1,14 @@
 package br.dev.diisk.application.cases.income;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import br.dev.diisk.application.dtos.income.AddIncomeRequest;
-import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.interfaces.income.IAddIncomeCase;
+import br.dev.diisk.application.interfaces.income.IAddIncomeRequestValidator;
+import br.dev.diisk.application.mappers.income.AddIncomeRequestMapper;
 import br.dev.diisk.domain.entities.income.Income;
-import br.dev.diisk.domain.entities.income.IncomeCategory;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.domain.repositories.income.IIncomeCategoryRepository;
 import br.dev.diisk.domain.repositories.income.IIncomeRepository;
 import jakarta.transaction.Transactional;
 
@@ -16,28 +16,25 @@ import jakarta.transaction.Transactional;
 public class AddIncomeCase implements IAddIncomeCase {
 
     private IIncomeRepository incomeRepository;
-    private IIncomeCategoryRepository incomeCategoryRepository;
+    private List<IAddIncomeRequestValidator> validations;
+    private AddIncomeRequestMapper addIncomeRequestMapper;
 
-    public AddIncomeCase(IIncomeRepository incomeRepository, IIncomeCategoryRepository incomeCategoryRepository) {
+    public AddIncomeCase(IIncomeRepository incomeRepository, List<IAddIncomeRequestValidator> validations,
+            AddIncomeRequestMapper addIncomeRequestMapper) {
         this.incomeRepository = incomeRepository;
-        this.incomeCategoryRepository = incomeCategoryRepository;
+        this.validations = validations;
+        this.addIncomeRequestMapper = addIncomeRequestMapper;
     }
 
     @Override
     @Transactional
     public Income execute(AddIncomeRequest dto, User owner) {
-        Optional<IncomeCategory> foundedCategory = incomeCategoryRepository.findByIdAndUserId(dto.getCategoryId(),
-                owner.getId());
+        List<AddIncomeRequest> toValidate = new ArrayList<>();
+        toValidate.add(dto);
+        validations.forEach(validation -> validation.validate(toValidate, owner));
 
-        if (foundedCategory.isEmpty())
-            throw new DbValueNotFoundException("id", IncomeCategory.class.getSimpleName());
-
-        Income income = new Income();
-        income.setCategory(foundedCategory.get());
-        income.setUser(owner);
-        income.setDate(dto.getDate());
-        income.setValue(dto.getValue());
-        income.setDescription(dto.getDescription());
+        dto.setUserId(owner.getId());
+        Income income = addIncomeRequestMapper.apply(dto);
         return incomeRepository.save(income);
     }
 

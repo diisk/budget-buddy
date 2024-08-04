@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class UpdateIncomeRequest {
     private String description;
     private Long categoryId;
+    private Long resourceId;
     @Positive(message = GlobalMessages.POSITIVE_VALUE)
     private BigDecimal value;
     private LocalDateTime date;

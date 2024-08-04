@@ -16,7 +16,11 @@ public class AddExpenseRequest {
     @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private String description;
 
+    @NotNull(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private Long categoryId;
+
+    @NotNull(message = GlobalMessages.BLANK_OR_NULL_FIELD)
+    private Long resourceId;
 
     @Positive(message = GlobalMessages.POSITIVE_VALUE)
     @NotNull(message = GlobalMessages.BLANK_OR_NULL_FIELD)

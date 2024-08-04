@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import br.dev.diisk.domain.entities.user.User;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -17,18 +14,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class FinanceEntry {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public abstract class FinanceEntry extends RastreableEntity{
     
     private BigDecimal value;
     private String description;
     private LocalDateTime date;
     
     @ManyToOne
-    private BalanceResource resource;
+    private FundStorage resource;
 
     @ManyToOne
     private User user;

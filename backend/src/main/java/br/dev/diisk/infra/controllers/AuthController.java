@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.dev.diisk.application.interfaces.IAddBalanceResourceCase;
 import br.dev.diisk.application.interfaces.IResponseService;
-import br.dev.diisk.application.interfaces.auth.IAuthService;
-import br.dev.diisk.application.dtos.CreateBalanceResourceRequest;
+import br.dev.diisk.application.interfaces.auth.IAuthLoginCase;
+import br.dev.diisk.application.interfaces.auth.IAuthRegisterCase;
+import br.dev.diisk.application.interfaces.auth.IAuthRenewCase;
 import br.dev.diisk.application.dtos.GenericResponse;
 import br.dev.diisk.application.dtos.auth.LoginRequest;
 import br.dev.diisk.application.dtos.auth.LoginResponse;
@@ -30,30 +30,32 @@ import jakarta.validation.Valid;
 @RequestMapping("auth")
 public class AuthController {
 
-    private IAuthService service;
-    private IAddBalanceResourceCase addBalanceResourceCase;
+    private IAuthLoginCase authLoginCase;
+    private IAuthRegisterCase authRegisterCase;
+    private IAuthRenewCase authRenewCase;
     private ModelMapper mapper;
     private IResponseService responseService;
 
-    public AuthController(IAuthService service, IAddBalanceResourceCase addBalanceResourceCase, ModelMapper mapper,
-            IResponseService responseService) {
-        this.service = service;
-        this.addBalanceResourceCase = addBalanceResourceCase;
+    public AuthController(IAuthLoginCase authLoginCase, IAuthRegisterCase authRegisterCase,
+            IAuthRenewCase authRenewCase,
+            ModelMapper mapper, IResponseService responseService) {
+        this.authLoginCase = authLoginCase;
+        this.authRegisterCase = authRegisterCase;
+        this.authRenewCase = authRenewCase;
         this.mapper = mapper;
         this.responseService = responseService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<GenericResponse<LoginResponse>> login(@RequestBody @Valid LoginRequest dto) {
-        String token = service.login(dto);
+        String token = authLoginCase.execute(dto);
         return responseService.ok(new LoginResponse(token));
     }
 
     @PostMapping("/register")
     public ResponseEntity<GenericResponse<RegisterResponse>> register(@RequestBody @Valid RegisterRequest dto,
             UriComponentsBuilder uriBuilder) {
-        User newUser = service.register(dto);
-        addBalanceResourceCase.execute(new CreateBalanceResourceRequest("Conta Corrente", false), newUser);
+        User newUser = authRegisterCase.execute(dto);
         RegisterResponse response = mapper.map(newUser, RegisterResponse.class);
         URI uri = uriBuilder.path("users/{id}").buildAndExpand(response.getId()).toUri();
         return responseService.created(uri, response);
@@ -63,7 +65,7 @@ public class AuthController {
     @SecurityRequirement(name = "bearer-key")
     @PostMapping("/renew")
     public ResponseEntity<GenericResponse<RenewResponse>> renew(@AuthenticationPrincipal User user) {
-        String token = service.renew(user);
+        String token = authRenewCase.execute(user);
         return responseService.ok(new RenewResponse(token));
     }
 
