@@ -32,6 +32,7 @@ public class AddExpenseCategoryCase implements IAddExpenseCategoryCase {
         validators.forEach(validation -> validation.validate(dto, owner));
         ExpenseCategory expenseCategory = new ExpenseCategory();
         expenseCategory.setName(dto.getName());
+        expenseCategory.setBudgetLimit(dto.getBudgetLimit());
         expenseCategory.setUser(owner);
         return expenseCategoryRepository.save(expenseCategory);
     }

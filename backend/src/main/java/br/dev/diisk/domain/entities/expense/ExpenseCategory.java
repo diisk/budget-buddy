@@ -1,7 +1,7 @@
 package br.dev.diisk.domain.entities.expense;
 
 import java.math.BigDecimal;
-import br.dev.diisk.domain.entities.FinanceCategory;
+import br.dev.diisk.domain.entities.TransactionCategory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "expenses_categories")
-public class ExpenseCategory extends FinanceCategory {
+public class ExpenseCategory extends TransactionCategory {
 
     @Column(nullable = false)
     private BigDecimal budgetLimit;

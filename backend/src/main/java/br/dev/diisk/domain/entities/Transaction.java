@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class FinanceEntry extends RastreableEntity{
+public abstract class Transaction extends RastreableEntity{
     
     private BigDecimal value;
     private String description;

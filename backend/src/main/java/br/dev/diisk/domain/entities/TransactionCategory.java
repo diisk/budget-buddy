@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class FinanceCategory {
+public abstract class TransactionCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,3 +4,4 @@ colocar o nome dos meses no historico
 validar os dados, principalmente as datas
 categorização automatica baseado na descrição
 criar endpoints das metas de economia
+colocar o dto de retorno de despesas para mostrar o orçamento

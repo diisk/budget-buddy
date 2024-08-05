@@ -1,6 +1,6 @@
 package br.dev.diisk.domain.entities.expense;
 
-import br.dev.diisk.domain.entities.FinanceEntry;
+import br.dev.diisk.domain.entities.Transaction;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Expense extends FinanceEntry{
+public class Expense extends Transaction{
     
     @ManyToOne(optional = false)
     private ExpenseCategory category;

@@ -27,4 +27,8 @@ public class UtilService {
         return result;
     }
 
+    public Boolean equalsIgnoreCaseAndAccents(String str1, String str2){
+        return removeAccents(str1).equalsIgnoreCase(removeAccents(str2));
+    }
+
 }
