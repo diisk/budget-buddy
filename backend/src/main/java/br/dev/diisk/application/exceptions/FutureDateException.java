@@ -11,7 +11,7 @@ public class FutureDateException extends RuntimeException {
     private FieldError fieldError;
 
     public FutureDateException(String field) {
-        this.fieldError = new FieldError(LocalDateTime.class.getSimpleName(), field, "The specified datetime is after the actual datetime.");
+        this.fieldError = new FieldError(LocalDateTime.class.getSimpleName(), field, "The specified datetime is after the current datetime.");
     }
 
 }

@@ -1,7 +1,5 @@
 alerta para quando estiver proximo de exceder o orçamento
-fazer entidade de historico para armazenar saldo mensal e atualizar quando houver transações
-colocar o nome dos meses no historico
-validar os dados, principalmente as datas
+atualizar historico mensal quando houver transações
+colocar o nome dos meses no retorno historico
 categorização automatica baseado na descrição
-criar endpoints das metas de economia
-colocar o dto de retorno de despesas para mostrar o orçamento
+fazer um handler de Exception global, e organizar as exceptions

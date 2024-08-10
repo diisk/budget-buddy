@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import br.dev.diisk.domain.entities.user.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -16,8 +17,13 @@ import lombok.Setter;
 @Setter
 public abstract class Transaction extends RastreableEntity{
     
+    @Column(nullable = false)
     private BigDecimal value;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private LocalDateTime date;
     
     @ManyToOne(optional = false)

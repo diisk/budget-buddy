@@ -21,12 +21,14 @@ import lombok.Setter;
 @Table(name = "users")
 @NoArgsConstructor
 public class User extends RastreableEntity implements UserDetails {
-
+    
+    @Column(nullable = false)
     private String name;
     
     @Column(unique = true)
     private String email;
     
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne(optional = false)

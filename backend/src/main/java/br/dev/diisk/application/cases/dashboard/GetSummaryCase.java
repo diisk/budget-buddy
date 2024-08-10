@@ -127,7 +127,7 @@ public class GetSummaryCase implements IGetSummaryCase {
             if (catDetails == null) {
                 catDetails = new CategoryExpensesDetailsDTO();
                 catDetails.setId(category.getId());
-                catDetails.setBudget(category.getBudgetLimit());
+                catDetails.setBudgetLimit(category.getBudgetLimit());
                 catDetails.setCategoryName(category.getName());
                 catDetails.setValue(BigDecimal.ZERO);
                 list.add(catDetails);
@@ -136,7 +136,7 @@ public class GetSummaryCase implements IGetSummaryCase {
         }
 
         for(CategoryExpensesDetailsDTO cat:list){
-            cat.setPercentageUsed(cat.getValue().divide(cat.getBudget(),2,RoundingMode.HALF_EVEN));
+            cat.setPercentageUsed(cat.getValue().divide(cat.getBudgetLimit(),2,RoundingMode.HALF_EVEN));
         }
 
         return list;

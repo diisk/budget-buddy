@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.exceptions.FutureDateException;
 import br.dev.diisk.application.exceptions.InsufficientFundsException;
+import br.dev.diisk.application.exceptions.PastDateException;
 import br.dev.diisk.application.exceptions.ValueAlreadyInDatabaseException;
 import br.dev.diisk.application.interfaces.IResponseService;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,6 +42,11 @@ public class GenericExceptionManager {
 
     @ExceptionHandler(FutureDateException.class)
     public ResponseEntity<?> tratarFutureDateException(FutureDateException ex) {
+        return responseService.badRequest(new FieldErrorData(ex.getFieldError()));
+    }
+
+    @ExceptionHandler(PastDateException.class)
+    public ResponseEntity<?> tratarPastDateException(PastDateException ex) {
         return responseService.badRequest(new FieldErrorData(ex.getFieldError()));
     }
 

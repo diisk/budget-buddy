@@ -3,6 +3,7 @@ package br.dev.diisk.domain.entities.notification;
 import br.dev.diisk.domain.entities.RastreableEntity;
 import br.dev.diisk.domain.entities.expense.ExpenseCategory;
 import br.dev.diisk.domain.entities.user.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,10 @@ public class Notification extends RastreableEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(nullable = false)
     private String message;
+
+    @Column(nullable = false)
     private Boolean readed;
 
     @ManyToOne(optional = false)

@@ -3,6 +3,7 @@ package br.dev.diisk.application.cases.saving_goal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import br.dev.diisk.application.interfaces.saving_goal.IListActiveSavingGoalsCase;
@@ -19,6 +20,7 @@ public class ListActiveSavingGoalsCase implements IListActiveSavingGoalsCase {
     }
 
     @Override
+    @Cacheable("saving-goals")
     public Set<SavingGoal> execute(Long userId, LocalDateTime referenceDate) {
         return savingGoalRepository.findActivesByUser(userId, referenceDate);
     }

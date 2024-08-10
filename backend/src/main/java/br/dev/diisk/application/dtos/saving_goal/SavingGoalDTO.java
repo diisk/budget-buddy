@@ -1,4 +1,4 @@
-package br.dev.diisk.application.dtos;
+package br.dev.diisk.application.dtos.saving_goal;
 
 import java.math.BigDecimal;
 

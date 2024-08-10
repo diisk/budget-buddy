@@ -59,7 +59,7 @@ public class IncomeController {
 
     @PostMapping("categories")
     public ResponseEntity<GenericResponse<IncomeCategoryResponse>> addCategory(
-            @RequestBody AddIncomeCategoryRequest dto, @AuthenticationPrincipal User user) {
+            @Valid @RequestBody AddIncomeCategoryRequest dto, @AuthenticationPrincipal User user) {
         IncomeCategory incomeCategory = addIncomeCategoryCase.execute(dto, user);
         IncomeCategoryResponse response = incomeCategoryToResponseMapper.apply(incomeCategory);
         return responseService.ok(response);

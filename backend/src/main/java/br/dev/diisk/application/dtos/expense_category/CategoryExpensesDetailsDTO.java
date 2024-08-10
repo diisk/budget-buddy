@@ -18,6 +18,6 @@ public class CategoryExpensesDetailsDTO {
     
     private String categoryName;
     private BigDecimal value;
-    private BigDecimal budget;
+    private BigDecimal budgetLimit;
     private BigDecimal percentageUsed;
 }

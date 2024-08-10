@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.dev.diisk.application.dtos.expense_category.CategoryExpensesDetailsDTO;
 import br.dev.diisk.application.dtos.income_category.CategoryIncomesDetailsDTO;
+import br.dev.diisk.application.dtos.saving_goal.SavingGoalDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

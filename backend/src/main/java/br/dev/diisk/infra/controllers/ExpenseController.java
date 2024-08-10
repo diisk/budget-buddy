@@ -59,7 +59,7 @@ public class ExpenseController {
 
     @PostMapping("categories")
     public ResponseEntity<GenericResponse<ExpenseCategoryResponse>> addCategory(
-            @RequestBody AddExpenseCategoryRequest dto, @AuthenticationPrincipal User user) {
+            @Valid @RequestBody AddExpenseCategoryRequest dto, @AuthenticationPrincipal User user) {
         ExpenseCategory expenseCategory = addExpenseCategoryCase.execute(dto, user);
         ExpenseCategoryResponse response = expenseCategoryToResponseMapper.apply(expenseCategory);
         return responseService.ok(response);
