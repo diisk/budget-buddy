@@ -19,7 +19,7 @@ public class ListExpensesCategoriesCase implements IListExpensesCategoriesCase{
     }
 
     @Override
-    @Cacheable("expenses-categories")
+    @Cacheable(value = "expenses-categories", key = "#userId")
     public Set<ExpenseCategory> execute(Long userId) {
         return expenseCategoryRepository.findAllByUserId(userId);
     }

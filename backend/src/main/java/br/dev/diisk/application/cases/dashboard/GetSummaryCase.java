@@ -33,6 +33,7 @@ import br.dev.diisk.domain.entities.income.Income;
 import br.dev.diisk.domain.entities.income.IncomeCategory;
 import br.dev.diisk.domain.entities.notification.Notification;
 import br.dev.diisk.domain.entities.user.User;
+import br.dev.diisk.infra.services.UtilService;
 
 @Service
 public class GetSummaryCase implements IGetSummaryCase {
@@ -43,17 +44,20 @@ public class GetSummaryCase implements IGetSummaryCase {
     private NotificationToLastNotificationMapper notificationToLastNotificationMapper;
     private IListActiveSavingGoalsCase listActiveSavingGoalsCase;
     private SavingGoalToDtoMapper savingGoalToDtoMapper;
-
+    private UtilService utilService;
+    
     public GetSummaryCase(IListIncomesCase listIncomesCase, IListExpensesCase listExpensesCase,
             IListLastNotificationsCase listLastNotificationsCase,
             NotificationToLastNotificationMapper notificationToLastNotificationMapper,
-            IListActiveSavingGoalsCase listActiveSavingGoalsCase, SavingGoalToDtoMapper savingGoalToDtoMapper) {
+            IListActiveSavingGoalsCase listActiveSavingGoalsCase, SavingGoalToDtoMapper savingGoalToDtoMapper,
+            UtilService utilService) {
         this.listIncomesCase = listIncomesCase;
         this.listExpensesCase = listExpensesCase;
         this.listLastNotificationsCase = listLastNotificationsCase;
         this.notificationToLastNotificationMapper = notificationToLastNotificationMapper;
         this.listActiveSavingGoalsCase = listActiveSavingGoalsCase;
         this.savingGoalToDtoMapper = savingGoalToDtoMapper;
+        this.utilService = utilService;
     }
 
     @Override
@@ -67,11 +71,15 @@ public class GetSummaryCase implements IGetSummaryCase {
         Set<Notification> lastNotifications = listLastNotificationsCase.execute(user.getId(), endsAt);
         Set<SavingGoal> activeSavingGoals = listActiveSavingGoalsCase.execute(user.getId(), endsAt);
 
-        summary.setBalanceDetails(getBalanceDetails(incomes, expenses));
-        summary.setBudgetSummary(getBudgetSummary(incomes, expenses));
         summary.setIncomesByCategory(getIncomesByCategory(incomes));
         summary.setExpensesByCategory(getExpensesByCategory(expenses));
+
+        //trocar esses 3
+        summary.setBalanceDetails(getBalanceDetails(incomes, expenses));
+        summary.setBudgetSummary(getBudgetSummary(incomes, expenses));
         summary.setHistoryGraphs(getHistoryGraphs(incomes, expenses));
+
+
         summary.setNotifications(notificationToLastNotificationMapper.mapList(lastNotifications));
         summary.setSavingGoals(savingGoalToDtoMapper.mapList(activeSavingGoals));
 
@@ -92,6 +100,7 @@ public class GetSummaryCase implements IGetSummaryCase {
             if (dto == null) {
                 dto = new HistoryDTO();
                 dto.setValue(BigDecimal.ZERO);
+                dto.setMonthName(utilService.getMonthName(date));
                 dto.setMonth(date.getMonthValue());
                 dto.setYear(date.getYear());
                 history.getIncomeHistory().add(dto);

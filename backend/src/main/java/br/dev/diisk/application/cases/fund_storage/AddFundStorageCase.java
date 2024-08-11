@@ -20,7 +20,7 @@ public class AddFundStorageCase implements IAddFundStorageCase {
 
     @Transactional
     @Override
-    @CacheEvict(value = "funds-storages", allEntries = true)
+    @CacheEvict(value = "funds-storages", key = "#owner.getId()")
     public FundStorage execute(AddFundStorageRequest request, User owner) {
         FundStorage storage = new FundStorage();
         storage.setCreditCard(request.getCreditCard());

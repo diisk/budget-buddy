@@ -25,7 +25,6 @@ public abstract class RastreableEntity {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @Getter(value = AccessLevel.NONE)

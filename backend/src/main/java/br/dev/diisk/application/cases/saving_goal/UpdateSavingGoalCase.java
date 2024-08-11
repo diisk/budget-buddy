@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import br.dev.diisk.application.dtos.saving_goal.UpdateSavingGoalRequest;
@@ -15,6 +14,8 @@ import br.dev.diisk.application.interfaces.saving_goal.IUpdateSavingGoalValidato
 import br.dev.diisk.domain.entities.SavingGoal;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.saving_goal.ISavingGoalRepository;
+import br.dev.diisk.infra.services.CacheService;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UpdateSavingGoalCase implements IUpdateSavingGoalCase {
@@ -23,21 +24,25 @@ public class UpdateSavingGoalCase implements IUpdateSavingGoalCase {
     private ISavingGoalRepository savingGoalRepository;
     private ModelMapper mapper;
     private List<IUpdateSavingGoalValidator> validations;
-
+    private CacheService cacheService;
+    
     public UpdateSavingGoalCase(IListActiveSavingGoalsCase listActiveSavingGoalsCase,
             ISavingGoalRepository savingGoalRepository, ModelMapper mapper,
-            List<IUpdateSavingGoalValidator> validations) {
+            List<IUpdateSavingGoalValidator> validations, CacheService cacheService) {
         this.listActiveSavingGoalsCase = listActiveSavingGoalsCase;
         this.savingGoalRepository = savingGoalRepository;
         this.mapper = mapper;
         this.validations = validations;
+        this.cacheService = cacheService;
     }
 
     @Override
-    @CacheEvict(value = "saving-goals", allEntries = true)
+    @Transactional
     public SavingGoal execute(Long id, UpdateSavingGoalRequest dto, User user) {
 
         validations.forEach(validation->validation.validate(id, dto, user));
+
+        cacheService.evictCache("saving-goals", user.getId().toString());
 
         Set<SavingGoal> savingGoals = listActiveSavingGoalsCase.execute(user.getId(), LocalDateTime.now());
         SavingGoal savingGoal = savingGoals.stream().filter(sg -> sg.getId() == id).findFirst().get();

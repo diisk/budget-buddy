@@ -20,7 +20,7 @@ public class ListActiveSavingGoalsCase implements IListActiveSavingGoalsCase {
     }
 
     @Override
-    @Cacheable("saving-goals")
+    @Cacheable(value = "saving-goals", key = "#userId+'-'+#referenceDate")
     public Set<SavingGoal> execute(Long userId, LocalDateTime referenceDate) {
         return savingGoalRepository.findActivesByUser(userId, referenceDate);
     }

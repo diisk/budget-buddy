@@ -1,6 +1,9 @@
 package br.dev.diisk.infra.services;
 
 import java.text.Normalizer;
+import java.time.LocalDateTime;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +18,15 @@ public class UtilService {
                 .replaceAll("-[a-z]{1,2}-", "-");
     }
 
+    public LocalDateTime toReference(LocalDateTime dateTime) {
+        return LocalDateTime.of(dateTime.getYear(), dateTime.getMonthValue(), 1, 0, 0);
+    }
+
+    public String getMonthName(LocalDateTime dateTime) {
+        String name = dateTime.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault());
+        return name.toUpperCase().charAt(0) + name.toLowerCase().substring(1);
+    }
+
     public String onlyNumbers(String input) {
         String result = input.replaceAll("[\\D,\\.]", "");
         return result;
@@ -27,7 +39,7 @@ public class UtilService {
         return result;
     }
 
-    public Boolean equalsIgnoreCaseAndAccents(String str1, String str2){
+    public Boolean equalsIgnoreCaseAndAccents(String str1, String str2) {
         return removeAccents(str1).equalsIgnoreCase(removeAccents(str2));
     }
 

@@ -19,7 +19,7 @@ public class ListFundStorageCase implements IListFundStorageCase {
     }
 
     @Override
-    @Cacheable("funds-storages")
+    @Cacheable(value = "funds-storages", key = "#userId")
     public Set<FundStorage> execute(Long userId) {
         return fundStorageRepository.findAllByUserId(userId);
     }

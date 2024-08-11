@@ -19,7 +19,7 @@ public class ListIncomesCategoriesCase implements IListIncomesCategoriesCase{
     }
 
     @Override
-    @Cacheable("incomes-categories")
+    @Cacheable(value = "incomes-categories", key = "#userId")
     public Set<IncomeCategory> execute(Long userId) {
         return incomeCategoryRepository.findAllByUserId(userId);
     }

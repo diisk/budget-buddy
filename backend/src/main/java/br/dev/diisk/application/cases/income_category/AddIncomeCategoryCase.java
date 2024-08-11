@@ -27,7 +27,7 @@ public class AddIncomeCategoryCase implements IAddIncomeCategoryCase {
 
     @Override
     @Transactional
-    @CacheEvict(value = "incomes-categories", allEntries = true)
+    @CacheEvict(value = "incomes-categories", key = "#owner.getId()")
     public IncomeCategory execute(AddIncomeCategoryRequest dto, User owner) {
         validators.forEach(validation -> validation.validate(dto, owner));
         IncomeCategory incomeCategory = new IncomeCategory();

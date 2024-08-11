@@ -27,7 +27,7 @@ public class AddExpenseCategoryCase implements IAddExpenseCategoryCase {
 
     @Override
     @Transactional
-    @CacheEvict(value = "expenses-categories", allEntries = true)
+    @CacheEvict(value = "expenses-categories", key = "#owner.getId()")
     public ExpenseCategory execute(AddExpenseCategoryRequest dto, User owner) {
         validators.forEach(validation -> validation.validate(dto, owner));
         ExpenseCategory expenseCategory = new ExpenseCategory();
