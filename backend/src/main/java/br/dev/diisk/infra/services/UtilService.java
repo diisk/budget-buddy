@@ -1,5 +1,7 @@
 package br.dev.diisk.infra.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
@@ -30,6 +32,10 @@ public class UtilService {
     public String onlyNumbers(String input) {
         String result = input.replaceAll("[\\D,\\.]", "");
         return result;
+    }
+
+    public BigDecimal divide(BigDecimal bigDecimal1, BigDecimal bigdeDecimal2){
+        return bigDecimal1.divide(bigdeDecimal2,2,RoundingMode.HALF_EVEN);
     }
 
     public String removeAccents(String input) {

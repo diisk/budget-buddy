@@ -1,24 +1,26 @@
 package br.dev.diisk.application.mappers.saving_goal;
 
-import java.math.RoundingMode;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import br.dev.diisk.application.dtos.saving_goal.SavingGoalDTO;
 import br.dev.diisk.application.mappers.BaseMapper;
 import br.dev.diisk.domain.entities.SavingGoal;
+import br.dev.diisk.infra.services.UtilService;
 
 @Component
 public class SavingGoalToDtoMapper extends BaseMapper<SavingGoal, SavingGoalDTO> {
 
-    public SavingGoalToDtoMapper(ModelMapper mapper) {
+    private UtilService utilService;
+
+    public SavingGoalToDtoMapper(ModelMapper mapper, UtilService utilService) {
         super(mapper);
+        this.utilService = utilService;
     }
 
-   @Override
-   protected void doComplexMap(SavingGoal source, SavingGoalDTO target) {
-       target.setPercentageAchieved(source.getCurrentValue().divide(source.getTargetValue(),2,RoundingMode.HALF_EVEN));
-   }
+    @Override
+    protected void doComplexMap(SavingGoal source, SavingGoalDTO target) {
+        target.setPercentageAchieved(utilService.divide(source.getCurrentValue(), source.getTargetValue()));
+    }
 
 }

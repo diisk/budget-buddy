@@ -7,7 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class LastNotificationDTO {
+public class LastBudgetNotificationDTO {
     private String categoryName;
     private String message;
 }

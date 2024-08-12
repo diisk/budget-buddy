@@ -1,7 +1,6 @@
 package br.dev.diisk.domain.repositories.notification;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,20 +11,10 @@ public interface INotificationRepository extends JpaRepository<Notification, Lon
 
     @Query("""
             SELECT n FROM Notification n
-            JOIN FETCH n.category c
             WHERE (
                 n.user.id = :userId
-                AND n.createdAt <= :referenceDate
-                AND n.createdAt = (
-                    SELECT MAX(n2.createdAt) FROM Notification n2
-                    WHERE (
-                        n2.user.id = :userId
-                        AND n2.createdAt <= :referenceDate
-                        AND c.id = n2.category.id
-                    )
-                )
-            )
+            ) ORDER BY n.createdAt DESC
             """)
-    Set<Notification> findLastNotifications(Long userId, LocalDateTime referenceDate);
+    List<Notification> findAllByUserId(Long userId);
 
 }

@@ -1,4 +1,6 @@
 alerta para quando estiver proximo de exceder o orçamento
-ajustar o dashboard para usar o historico mensal
-categorização automatica baseado na descrição
+alerta para quando o saldo mensal alterar para negativo
 fazer um handler de Exception global, e organizar as exceptions
+mesclar as entidades incomes e expenses em uma só transaction
+fazer endpoints dos storages
+fazer updates das despesas e receitas

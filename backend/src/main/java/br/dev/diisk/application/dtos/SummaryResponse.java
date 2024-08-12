@@ -18,6 +18,7 @@ public class SummaryResponse {
     private List<CategoryExpensesDetailsDTO> expensesByCategory;
     private List<CategoryIncomesDetailsDTO> incomesByCategory;
     private HistoryGraphsDTO historyGraphs;
-    private List<LastNotificationDTO> notifications;
+    private List<NotificationDTO> notifications;
+    private List<LastBudgetNotificationDTO> budgetNotifications;
     private List<SavingGoalDTO> savingGoals;
 }

@@ -1,19 +1,20 @@
 package br.dev.diisk.application.cases.dashboard;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import br.dev.diisk.application.dtos.BalanceDetailsDTO;
 import br.dev.diisk.application.dtos.BudgetSummaryDTO;
 import br.dev.diisk.application.dtos.HistoryDTO;
 import br.dev.diisk.application.dtos.HistoryGraphsDTO;
+import br.dev.diisk.application.dtos.NotificationDTO;
 import br.dev.diisk.application.dtos.SummaryResponse;
 import br.dev.diisk.application.dtos.expense_category.CategoryExpensesDetailsDTO;
 import br.dev.diisk.application.dtos.fund_storage.FundStorageDetailsDTO;
@@ -21,7 +22,8 @@ import br.dev.diisk.application.dtos.income_category.CategoryIncomesDetailsDTO;
 import br.dev.diisk.application.interfaces.dashboard.IGetSummaryCase;
 import br.dev.diisk.application.interfaces.expense.IListExpensesCase;
 import br.dev.diisk.application.interfaces.income.IListIncomesCase;
-import br.dev.diisk.application.interfaces.notification.IListLastNotificationsCase;
+import br.dev.diisk.application.interfaces.notification.IListLastBudgetNotificationCase;
+import br.dev.diisk.application.interfaces.notification.IListNotificationCase;
 import br.dev.diisk.application.interfaces.saving_goal.IListActiveSavingGoalsCase;
 import br.dev.diisk.application.mappers.notification.NotificationToLastNotificationMapper;
 import br.dev.diisk.application.mappers.saving_goal.SavingGoalToDtoMapper;
@@ -31,6 +33,7 @@ import br.dev.diisk.domain.entities.expense.Expense;
 import br.dev.diisk.domain.entities.expense.ExpenseCategory;
 import br.dev.diisk.domain.entities.income.Income;
 import br.dev.diisk.domain.entities.income.IncomeCategory;
+import br.dev.diisk.domain.entities.notification.BudgetNotification;
 import br.dev.diisk.domain.entities.notification.Notification;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.infra.services.UtilService;
@@ -40,24 +43,28 @@ public class GetSummaryCase implements IGetSummaryCase {
 
     private IListIncomesCase listIncomesCase;
     private IListExpensesCase listExpensesCase;
-    private IListLastNotificationsCase listLastNotificationsCase;
+    private IListLastBudgetNotificationCase listLastBudgetNotificationsCase;
+    private IListNotificationCase listNotificationCase;
     private NotificationToLastNotificationMapper notificationToLastNotificationMapper;
     private IListActiveSavingGoalsCase listActiveSavingGoalsCase;
     private SavingGoalToDtoMapper savingGoalToDtoMapper;
     private UtilService utilService;
-    
+    private ModelMapper mapper;
+
     public GetSummaryCase(IListIncomesCase listIncomesCase, IListExpensesCase listExpensesCase,
-            IListLastNotificationsCase listLastNotificationsCase,
+            IListLastBudgetNotificationCase listLastBudgetNotificationsCase, IListNotificationCase listNotificationCase,
             NotificationToLastNotificationMapper notificationToLastNotificationMapper,
             IListActiveSavingGoalsCase listActiveSavingGoalsCase, SavingGoalToDtoMapper savingGoalToDtoMapper,
-            UtilService utilService) {
+            UtilService utilService, ModelMapper mapper) {
         this.listIncomesCase = listIncomesCase;
         this.listExpensesCase = listExpensesCase;
-        this.listLastNotificationsCase = listLastNotificationsCase;
+        this.listLastBudgetNotificationsCase = listLastBudgetNotificationsCase;
+        this.listNotificationCase = listNotificationCase;
         this.notificationToLastNotificationMapper = notificationToLastNotificationMapper;
         this.listActiveSavingGoalsCase = listActiveSavingGoalsCase;
         this.savingGoalToDtoMapper = savingGoalToDtoMapper;
         this.utilService = utilService;
+        this.mapper = mapper;
     }
 
     @Override
@@ -68,19 +75,19 @@ public class GetSummaryCase implements IGetSummaryCase {
             endsAt = LocalDateTime.now();
         Set<Income> incomes = listIncomesCase.execute(user.getId(), beginsAt, endsAt);
         Set<Expense> expenses = listExpensesCase.execute(user.getId(), beginsAt, endsAt);
-        Set<Notification> lastNotifications = listLastNotificationsCase.execute(user.getId(), endsAt);
+        Set<BudgetNotification> lastNotifications = listLastBudgetNotificationsCase.execute(user.getId(), endsAt);
+        List<Notification> notifications = listNotificationCase.execute(user.getId());
         Set<SavingGoal> activeSavingGoals = listActiveSavingGoalsCase.execute(user.getId(), endsAt);
 
         summary.setIncomesByCategory(getIncomesByCategory(incomes));
         summary.setExpensesByCategory(getExpensesByCategory(expenses));
 
-        //trocar esses 3
         summary.setBalanceDetails(getBalanceDetails(incomes, expenses));
-        summary.setBudgetSummary(getBudgetSummary(incomes, expenses));
-        summary.setHistoryGraphs(getHistoryGraphs(incomes, expenses));
+        summary.setBudgetSummary(getBudgetSummary(incomes, expenses));// History
+        summary.setHistoryGraphs(getHistoryGraphs(incomes, expenses));// HISTORY
 
-
-        summary.setNotifications(notificationToLastNotificationMapper.mapList(lastNotifications));
+        summary.setBudgetNotifications(notificationToLastNotificationMapper.mapList(lastNotifications));
+        summary.setNotifications(notifications.stream().map(not -> mapper.map(not, NotificationDTO.class)).toList());
         summary.setSavingGoals(savingGoalToDtoMapper.mapList(activeSavingGoals));
 
         return summary;
@@ -144,8 +151,8 @@ public class GetSummaryCase implements IGetSummaryCase {
             catDetails.setValue(catDetails.getValue().add(expense.getValue()));
         }
 
-        for(CategoryExpensesDetailsDTO cat:list){
-            cat.setPercentageUsed(cat.getValue().divide(cat.getBudgetLimit(),2,RoundingMode.HALF_EVEN));
+        for (CategoryExpensesDetailsDTO cat : list) {
+            cat.setPercentageUsed(utilService.divide(cat.getValue(),cat.getBudgetLimit()));
         }
 
         return list;
