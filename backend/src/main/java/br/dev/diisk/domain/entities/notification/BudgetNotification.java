@@ -1,6 +1,6 @@
 package br.dev.diisk.domain.entities.notification;
 
-import br.dev.diisk.domain.entities.expense.ExpenseCategory;
+import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -18,6 +18,6 @@ import lombok.Setter;
 public class BudgetNotification extends Notification{
 
     @ManyToOne(optional = false)
-    private ExpenseCategory category;
+    private TransactionCategory category;
 
 }

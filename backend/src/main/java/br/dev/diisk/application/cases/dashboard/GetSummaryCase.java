@@ -16,33 +16,29 @@ import br.dev.diisk.application.dtos.HistoryDTO;
 import br.dev.diisk.application.dtos.HistoryGraphsDTO;
 import br.dev.diisk.application.dtos.NotificationDTO;
 import br.dev.diisk.application.dtos.SummaryResponse;
-import br.dev.diisk.application.dtos.expense_category.CategoryExpensesDetailsDTO;
 import br.dev.diisk.application.dtos.fund_storage.FundStorageDetailsDTO;
-import br.dev.diisk.application.dtos.income_category.CategoryIncomesDetailsDTO;
+import br.dev.diisk.application.dtos.transaction_category.CategoryTransactionDetailsDTO;
 import br.dev.diisk.application.interfaces.dashboard.IGetSummaryCase;
-import br.dev.diisk.application.interfaces.expense.IListExpensesCase;
-import br.dev.diisk.application.interfaces.income.IListIncomesCase;
 import br.dev.diisk.application.interfaces.notification.IListLastBudgetNotificationCase;
 import br.dev.diisk.application.interfaces.notification.IListNotificationCase;
 import br.dev.diisk.application.interfaces.saving_goal.IListActiveSavingGoalsCase;
+import br.dev.diisk.application.interfaces.transaction.IListTransactionCase;
 import br.dev.diisk.application.mappers.notification.NotificationToLastNotificationMapper;
 import br.dev.diisk.application.mappers.saving_goal.SavingGoalToDtoMapper;
 import br.dev.diisk.domain.entities.FundStorage;
 import br.dev.diisk.domain.entities.SavingGoal;
-import br.dev.diisk.domain.entities.expense.Expense;
-import br.dev.diisk.domain.entities.expense.ExpenseCategory;
-import br.dev.diisk.domain.entities.income.Income;
-import br.dev.diisk.domain.entities.income.IncomeCategory;
 import br.dev.diisk.domain.entities.notification.BudgetNotification;
 import br.dev.diisk.domain.entities.notification.Notification;
+import br.dev.diisk.domain.entities.transaction.Transaction;
+import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
+import br.dev.diisk.domain.enums.TransactionTypeEnum;
 import br.dev.diisk.infra.services.UtilService;
 
 @Service
 public class GetSummaryCase implements IGetSummaryCase {
 
-    private IListIncomesCase listIncomesCase;
-    private IListExpensesCase listExpensesCase;
+    private IListTransactionCase listTransactionCase;
     private IListLastBudgetNotificationCase listLastBudgetNotificationsCase;
     private IListNotificationCase listNotificationCase;
     private NotificationToLastNotificationMapper notificationToLastNotificationMapper;
@@ -51,13 +47,12 @@ public class GetSummaryCase implements IGetSummaryCase {
     private UtilService utilService;
     private ModelMapper mapper;
 
-    public GetSummaryCase(IListIncomesCase listIncomesCase, IListExpensesCase listExpensesCase,
+    public GetSummaryCase(IListTransactionCase listTransactionCase,
             IListLastBudgetNotificationCase listLastBudgetNotificationsCase, IListNotificationCase listNotificationCase,
             NotificationToLastNotificationMapper notificationToLastNotificationMapper,
             IListActiveSavingGoalsCase listActiveSavingGoalsCase, SavingGoalToDtoMapper savingGoalToDtoMapper,
             UtilService utilService, ModelMapper mapper) {
-        this.listIncomesCase = listIncomesCase;
-        this.listExpensesCase = listExpensesCase;
+        this.listTransactionCase = listTransactionCase;
         this.listLastBudgetNotificationsCase = listLastBudgetNotificationsCase;
         this.listNotificationCase = listNotificationCase;
         this.notificationToLastNotificationMapper = notificationToLastNotificationMapper;
@@ -73,8 +68,10 @@ public class GetSummaryCase implements IGetSummaryCase {
 
         if (endsAt == null)
             endsAt = LocalDateTime.now();
-        Set<Income> incomes = listIncomesCase.execute(user.getId(), beginsAt, endsAt);
-        Set<Expense> expenses = listExpensesCase.execute(user.getId(), beginsAt, endsAt);
+        Set<Transaction> incomes = listTransactionCase.execute(user.getId(), TransactionTypeEnum.INCOME, beginsAt,
+                endsAt);
+        Set<Transaction> expenses = listTransactionCase.execute(user.getId(), TransactionTypeEnum.EXPENSE, beginsAt,
+                endsAt);
         Set<BudgetNotification> lastNotifications = listLastBudgetNotificationsCase.execute(user.getId(), endsAt);
         List<Notification> notifications = listNotificationCase.execute(user.getId());
         Set<SavingGoal> activeSavingGoals = listActiveSavingGoalsCase.execute(user.getId(), endsAt);
@@ -93,13 +90,13 @@ public class GetSummaryCase implements IGetSummaryCase {
         return summary;
     }
 
-    private HistoryGraphsDTO getHistoryGraphs(Collection<Income> incomes, Collection<Expense> expenses) {
+    private HistoryGraphsDTO getHistoryGraphs(Collection<Transaction> incomes, Collection<Transaction> expenses) {
         HistoryGraphsDTO history = new HistoryGraphsDTO();
 
         history.setExpenseHistory(new ArrayList<>());
         history.setIncomeHistory(new ArrayList<>());
 
-        for (Income income : incomes) {
+        for (Transaction income : incomes) {
             LocalDateTime date = income.getDate();
             HistoryDTO dto = history.getIncomeHistory().stream()
                     .filter(his -> his.getMonth() == date.getMonthValue() && his.getYear() == date.getYear())
@@ -115,7 +112,7 @@ public class GetSummaryCase implements IGetSummaryCase {
             dto.setValue(dto.getValue().add(income.getValue()));
         }
 
-        for (Expense expense : expenses) {
+        for (Transaction expense : expenses) {
             LocalDateTime date = expense.getDate();
             HistoryDTO dto = history.getExpenseHistory().stream()
                     .filter(his -> his.getMonth() == date.getMonthValue() && his.getYear() == date.getYear())
@@ -133,15 +130,15 @@ public class GetSummaryCase implements IGetSummaryCase {
         return history;
     }
 
-    private List<CategoryExpensesDetailsDTO> getExpensesByCategory(Collection<Expense> expenses) {
-        List<CategoryExpensesDetailsDTO> list = new ArrayList<>();
+    private List<CategoryTransactionDetailsDTO> getExpensesByCategory(Collection<Transaction> expenses) {
+        List<CategoryTransactionDetailsDTO> list = new ArrayList<>();
 
-        for (Expense expense : expenses) {
-            ExpenseCategory category = expense.getCategory();
-            CategoryExpensesDetailsDTO catDetails = list.stream()
+        for (Transaction expense : expenses) {
+            TransactionCategory category = expense.getCategory();
+            CategoryTransactionDetailsDTO catDetails = list.stream()
                     .filter(cat -> cat.getId() == category.getId()).findFirst().orElse(null);
             if (catDetails == null) {
-                catDetails = new CategoryExpensesDetailsDTO();
+                catDetails = new CategoryTransactionDetailsDTO();
                 catDetails.setId(category.getId());
                 catDetails.setBudgetLimit(category.getBudgetLimit());
                 catDetails.setCategoryName(category.getName());
@@ -151,22 +148,22 @@ public class GetSummaryCase implements IGetSummaryCase {
             catDetails.setValue(catDetails.getValue().add(expense.getValue()));
         }
 
-        for (CategoryExpensesDetailsDTO cat : list) {
-            cat.setPercentageUsed(utilService.divide(cat.getValue(),cat.getBudgetLimit()));
+        for (CategoryTransactionDetailsDTO cat : list) {
+            cat.setPercentageUsed(utilService.divide(cat.getValue(), cat.getBudgetLimit()));
         }
 
         return list;
     }
 
-    private List<CategoryIncomesDetailsDTO> getIncomesByCategory(Collection<Income> incomes) {
-        List<CategoryIncomesDetailsDTO> list = new ArrayList<>();
+    private List<CategoryTransactionDetailsDTO> getIncomesByCategory(Collection<Transaction> incomes) {
+        List<CategoryTransactionDetailsDTO> list = new ArrayList<>();
 
-        for (Income income : incomes) {
-            IncomeCategory category = income.getCategory();
-            CategoryIncomesDetailsDTO catDetails = list.stream()
+        for (Transaction income : incomes) {
+            TransactionCategory category = income.getCategory();
+            CategoryTransactionDetailsDTO catDetails = list.stream()
                     .filter(cat -> cat.getId() == category.getId()).findFirst().orElse(null);
             if (catDetails == null) {
-                catDetails = new CategoryIncomesDetailsDTO();
+                catDetails = new CategoryTransactionDetailsDTO();
                 catDetails.setId(category.getId());
                 catDetails.setCategoryName(category.getName());
                 catDetails.setValue(BigDecimal.ZERO);
@@ -178,7 +175,7 @@ public class GetSummaryCase implements IGetSummaryCase {
         return list;
     }
 
-    private BudgetSummaryDTO getBudgetSummary(Collection<Income> incomes, Collection<Expense> expenses) {
+    private BudgetSummaryDTO getBudgetSummary(Collection<Transaction> incomes, Collection<Transaction> expenses) {
         BudgetSummaryDTO budgetSummary = new BudgetSummaryDTO();
         BigDecimal totalIncome = incomes
                 .stream().map(inc -> inc.getValue()).reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -192,13 +189,13 @@ public class GetSummaryCase implements IGetSummaryCase {
         return budgetSummary;
     }
 
-    private BalanceDetailsDTO getBalanceDetails(Collection<Income> incomes, Collection<Expense> expenses) {
+    private BalanceDetailsDTO getBalanceDetails(Collection<Transaction> incomes, Collection<Transaction> expenses) {
         BalanceDetailsDTO details = new BalanceDetailsDTO();
 
         details.setTotalBalance(BigDecimal.ZERO);
         details.setFundStorageBalances(new ArrayList<FundStorageDetailsDTO>());
 
-        for (Income income : incomes) {
+        for (Transaction income : incomes) {
             FundStorage fundStorage = income.getStorage();
             details.setTotalBalance(details.getTotalBalance().add(income.getValue()));
             FundStorageDetailsDTO fundDetails = details.getFundStorageBalances()
@@ -215,7 +212,7 @@ public class GetSummaryCase implements IGetSummaryCase {
             fundDetails.setBalance(fundDetails.getBalance().add(income.getValue()));
         }
 
-        for (Expense expense : expenses) {
+        for (Transaction expense : expenses) {
             details.setTotalBalance(details.getTotalBalance().subtract(expense.getValue()));
             FundStorageDetailsDTO fundDetails = details.getFundStorageBalances()
                     .stream().filter(fund -> fund.getId() == expense.getStorage().getId())

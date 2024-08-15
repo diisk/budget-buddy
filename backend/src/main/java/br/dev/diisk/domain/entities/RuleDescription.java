@@ -1,6 +1,6 @@
 package br.dev.diisk.domain.entities;
 
-import br.dev.diisk.domain.enums.TypeRuleDescription;
+import br.dev.diisk.domain.enums.TypeRuleDescriptionEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,7 +28,7 @@ public class RuleDescription {
     private Boolean negative;
 
     @Enumerated(EnumType.STRING)
-    private TypeRuleDescription type;
+    private TypeRuleDescriptionEnum type;
     private String value;
 
     public Boolean isNegative() {
