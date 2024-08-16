@@ -1,11 +1,13 @@
 package br.dev.diisk.infra.services;
 
 import java.net.URI;
+import java.util.Collection;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import br.dev.diisk.application.dtos.ErrorResponse;
 import br.dev.diisk.application.dtos.GenericResponse;
 import br.dev.diisk.application.interfaces.IResponseService;
 
@@ -14,7 +16,7 @@ public class ResponseService implements IResponseService {
 
     @Override
     public <T> ResponseEntity<GenericResponse<T>> ok(T content) {
-        return genericResponse(content, HttpStatus.OK, true);
+        return successResponse(content, HttpStatus.OK);
     }
 
     @Override
@@ -24,10 +26,7 @@ public class ResponseService implements IResponseService {
 
     @Override
     public <T> ResponseEntity<GenericResponse<T>> created(URI uri, T content) {
-        GenericResponse<T> ret = new GenericResponse<T>();
-        ret.setStatusCode(HttpStatus.CREATED.value());
-        ret.setContent(content);
-        return ResponseEntity.created(uri).body(ret);
+        return ResponseEntity.created(uri).body(new GenericResponse<T>(content, HttpStatus.CREATED.value()));
     }
 
     @Override
@@ -35,38 +34,58 @@ public class ResponseService implements IResponseService {
         return created(uri, null);
     }
 
-    private <T> ResponseEntity<GenericResponse<T>> error(HttpStatus httpStatus, T content) {
-        return genericResponse(content, httpStatus, false);
+    private <T> ResponseEntity<GenericResponse<T>> successResponse(T content, HttpStatus httpStatus) {
+        return ResponseEntity.status(httpStatus).body(
+                new GenericResponse<T>(content, httpStatus.value()));
     }
 
-    private <T> ResponseEntity<GenericResponse<T>> genericResponse(T content, HttpStatus httpStatus,
-            Boolean success) {
-        GenericResponse<T> ret = new GenericResponse<T>();
-        ret.setContent(content);
-        ret.setStatusCode(httpStatus.value());
-        ret.setSuccess(success);
-        return ResponseEntity.status(httpStatus).body(ret);
+    private ResponseEntity<GenericResponse<?>> errorResponse(Collection<ErrorResponse> errors, HttpStatus httpStatus) {
+        return ResponseEntity.status(httpStatus).body(new GenericResponse<Object>(httpStatus.value(), errors));
     }
 
-    @Override
-    public <T> ResponseEntity<GenericResponse<T>> badRequest(T content) {
-        return error(HttpStatus.BAD_REQUEST, content);
+    private ResponseEntity<GenericResponse<?>> errorResponse(ErrorResponse error, HttpStatus httpStatus) {
+        return ResponseEntity.status(httpStatus)
+                .body(GenericResponse.getErrorInstanceFor(httpStatus.value(), error));
     }
 
     @Override
-    public <T> ResponseEntity<GenericResponse<T>> badRequest() {
-        return badRequest(null);
+    public ResponseEntity<GenericResponse<?>> badRequest(ErrorResponse error) {
+        return errorResponse(error, HttpStatus.BAD_REQUEST);
     }
 
     @Override
-    public <T> ResponseEntity<GenericResponse<T>> notFound(T content) {
-        return error(HttpStatus.NOT_FOUND, content);
-
+    public ResponseEntity<GenericResponse<?>> badRequest(Collection<ErrorResponse> errors) {
+        return errorResponse(errors, HttpStatus.BAD_REQUEST);
     }
 
     @Override
-    public <T> ResponseEntity<GenericResponse<T>> notFound() {
-        return notFound(null);
+    public ResponseEntity<GenericResponse<?>> notFound(ErrorResponse error) {
+        return errorResponse(error, HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<GenericResponse<?>> notFound(Collection<ErrorResponse> errors) {
+        return errorResponse(errors, HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<GenericResponse<?>> unauthorized(ErrorResponse error) {
+        return errorResponse(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<GenericResponse<?>> unauthorized(Collection<ErrorResponse> errors) {
+        return errorResponse(errors, HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<GenericResponse<?>> forbidden(ErrorResponse error) {
+        return errorResponse(error, HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<GenericResponse<?>> forbidden(Collection<ErrorResponse> errors) {
+        return errorResponse(errors, HttpStatus.FORBIDDEN);
     }
 
 }

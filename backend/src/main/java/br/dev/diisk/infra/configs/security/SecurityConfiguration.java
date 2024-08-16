@@ -17,14 +17,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private SecurityFilter securityFilter;
-
-    public SecurityConfiguration(SecurityFilter securityFilter) {
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    
+    public SecurityConfiguration(SecurityFilter securityFilter, CustomAccessDeniedHandler customAccessDeniedHandler,
+            CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.securityFilter = securityFilter;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .exceptionHandling(exc -> {
+                    exc.authenticationEntryPoint(customAuthenticationEntryPoint);
+                    exc.accessDeniedHandler(customAccessDeniedHandler);
+                })
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // .authorizeHttpRequests(
@@ -52,7 +61,7 @@ public class SecurityConfiguration {
 
     // @Bean
     // static GrantedAuthorityDefaults rolePrefix() {
-    //     return new GrantedAuthorityDefaults("");
+    // return new GrantedAuthorityDefaults("");
     // }
 
 }

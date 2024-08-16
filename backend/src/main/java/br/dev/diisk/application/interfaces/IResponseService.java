@@ -1,8 +1,11 @@
 package br.dev.diisk.application.interfaces;
 
 import java.net.URI;
+import java.util.Collection;
+
 import org.springframework.http.ResponseEntity;
 
+import br.dev.diisk.application.dtos.ErrorResponse;
 import br.dev.diisk.application.dtos.GenericResponse;
 
 public interface IResponseService {
@@ -15,12 +18,20 @@ public interface IResponseService {
 
     public <T> ResponseEntity<GenericResponse<T>> created(URI uri);
 
-    public <T> ResponseEntity<GenericResponse<T>> badRequest(T content);
+    public ResponseEntity<GenericResponse<?>> badRequest(ErrorResponse error);
 
-    public <T> ResponseEntity<GenericResponse<T>> badRequest();
+    public ResponseEntity<GenericResponse<?>> badRequest(Collection<ErrorResponse> errors);
 
-    public <T> ResponseEntity<GenericResponse<T>> notFound(T content);
+    public ResponseEntity<GenericResponse<?>> notFound(ErrorResponse error);
 
-    public <T> ResponseEntity<GenericResponse<T>> notFound();
+    public ResponseEntity<GenericResponse<?>> notFound(Collection<ErrorResponse> errors);
+
+    public ResponseEntity<GenericResponse<?>> unauthorized(ErrorResponse error);
+
+    public ResponseEntity<GenericResponse<?>> unauthorized(Collection<ErrorResponse> errors);
+
+    public ResponseEntity<GenericResponse<?>> forbidden(ErrorResponse error);
+
+    public ResponseEntity<GenericResponse<?>> forbidden(Collection<ErrorResponse> errors);
 
 }

@@ -1,13 +1,11 @@
 package br.dev.diisk.infra.configs;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import br.dev.diisk.application.dtos.ErrorResponse;
 import br.dev.diisk.application.exceptions.DbValueNotFoundException;
 import br.dev.diisk.application.exceptions.FutureDateException;
 import br.dev.diisk.application.exceptions.InsufficientFundsException;
@@ -26,45 +24,38 @@ public class GenericExceptionManager {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> tratarEntityNotFound() {
-        return responseService.notFound();
+    public ResponseEntity<?> tratarEntityNotFound(EntityNotFoundException ex) {
+        return responseService.notFound(new ErrorResponse(ex.getMessage()));
     }
 
     @ExceptionHandler(ValueAlreadyInDatabaseException.class)
     public ResponseEntity<?> tratarValueAlreadyInDatabaseException(ValueAlreadyInDatabaseException ex) {
-        return responseService.badRequest(new FieldErrorData(ex.getFieldError()));
+        return responseService.badRequest(new ErrorResponse(ex.getFieldError()));
     }
 
     @ExceptionHandler(InsufficientFundsException.class)
     public ResponseEntity<?> tratarInsufficientFundsException(InsufficientFundsException ex) {
-        return responseService.badRequest(new FieldErrorData(ex.getFieldError()));
+        return responseService.badRequest(new ErrorResponse(ex.getFieldError()));
     }
 
     @ExceptionHandler(FutureDateException.class)
     public ResponseEntity<?> tratarFutureDateException(FutureDateException ex) {
-        return responseService.badRequest(new FieldErrorData(ex.getFieldError()));
+        return responseService.badRequest(new ErrorResponse(ex.getFieldError()));
     }
 
     @ExceptionHandler(PastDateException.class)
     public ResponseEntity<?> tratarPastDateException(PastDateException ex) {
-        return responseService.badRequest(new FieldErrorData(ex.getFieldError()));
+        return responseService.badRequest(new ErrorResponse(ex.getFieldError()));
     }
 
     @ExceptionHandler(DbValueNotFoundException.class)
     public ResponseEntity<?> tratarDbValueNotFoundException(DbValueNotFoundException ex) {
-        return responseService.badRequest(new FieldErrorData(ex.getFieldError()));
+        return responseService.badRequest(new ErrorResponse(ex.getFieldError()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> tratarErro400(MethodArgumentNotValidException ex) {
-        List<FieldError> erros = ex.getFieldErrors();
-        return responseService.badRequest(erros.stream().map(FieldErrorData::new).toList());
-    }
-
-    private record FieldErrorData(String field, String object, String message) {
-        public FieldErrorData(FieldError error) {
-            this(error.getField(), error.getObjectName(), error.getDefaultMessage());
-        }
+        return responseService.badRequest(ex.getFieldErrors().stream().map(ErrorResponse::new).toList());
     }
 
 }
