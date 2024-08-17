@@ -1,6 +1,7 @@
 alerta para quando estiver proximo de exceder o orçamento
 alerta para quando o saldo mensal alterar para negativo
-transformar o monthlyhistory para ter categoria
 fazer endpoints dos storages
 fazer updates das transactions
 passar todas as mensagens para o globalmessages
+verificar o cache das transactions se está tudo certo
+testar o fluxo completo

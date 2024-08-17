@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import br.dev.diisk.application.interfaces.IResponseService;
 import br.dev.diisk.application.interfaces.transaction.IAddTransactionCase;
+import br.dev.diisk.application.interfaces.transaction.IListTransactionByTypeCase;
 import br.dev.diisk.application.interfaces.transaction.IListTransactionCase;
 import br.dev.diisk.application.interfaces.transaction_category.IAddTransactionCategoryCase;
 import br.dev.diisk.application.interfaces.transaction_category.IListTransactionCategoryCase;
@@ -44,19 +45,19 @@ public class TransactionController {
     private final IAddTransactionCategoryCase addTransactionCategoryCase;
     private final IResponseService responseService;
     private final IListTransactionCategoryCase listTransactionCategoryCase;
-    private final IListTransactionCase listTransactionCase;
+    private final IListTransactionByTypeCase listTransactionByTypeCase;
 
     public TransactionController(ModelMapper mapper, TransactionToResponseMapper transactionToResponseMapper,
             IAddTransactionCase addTransactionCase, IAddTransactionCategoryCase addTransactionCategoryCase,
             IResponseService responseService, IListTransactionCategoryCase listTransactionCategoryCase,
-            IListTransactionCase listTransactionCase) {
+            IListTransactionByTypeCase listTransactionByTypeCase) {
         this.mapper = mapper;
         this.transactionToResponseMapper = transactionToResponseMapper;
         this.addTransactionCase = addTransactionCase;
         this.addTransactionCategoryCase = addTransactionCategoryCase;
         this.responseService = responseService;
         this.listTransactionCategoryCase = listTransactionCategoryCase;
-        this.listTransactionCase = listTransactionCase;
+        this.listTransactionByTypeCase = listTransactionByTypeCase;
     }
 
     @PostMapping("categories")
@@ -92,7 +93,7 @@ public class TransactionController {
             @RequestParam(required = false) LocalDateTime endsAt,
             @RequestParam TransactionTypeEnum type,
             @AuthenticationPrincipal User user) {
-        Set<Transaction> transactions = listTransactionCase.execute(user.getId(), type,
+        Set<Transaction> transactions = listTransactionByTypeCase.execute(user.getId(), type,
                 beginsAt, endsAt);
         List<TransactionResponse> response = transactionToResponseMapper.mapList(transactions);
         return responseService.ok(response);

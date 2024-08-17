@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.dev.diisk.domain.entities.transaction.Transaction;
-import br.dev.diisk.domain.enums.TransactionTypeEnum;
 
 public interface ITransactionRepository extends JpaRepository<Transaction, Long> {
 
@@ -24,7 +23,7 @@ public interface ITransactionRepository extends JpaRepository<Transaction, Long>
             JOIN FETCH t.storage s
             WHERE (
                 t.user.id = :userId
-                AND t.type = :type
+                AND t.category.id = :categoryId
                 AND (
                     (
                         :beginsAt is NULL
@@ -34,7 +33,7 @@ public interface ITransactionRepository extends JpaRepository<Transaction, Long>
                 )
             )
             """)
-    Set<Transaction> findAllInPeriod(Long userId, TransactionTypeEnum type, LocalDateTime beginsAt,
+    Set<Transaction> findAllInPeriod(Long userId, Long categoryId, LocalDateTime beginsAt,
             LocalDateTime endsAt);
 
 }

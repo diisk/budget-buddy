@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import br.dev.diisk.domain.entities.transaction.Transaction;
-import br.dev.diisk.domain.enums.TransactionTypeEnum;
+import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 
 public interface IListTransactionCase {
     
-    Set<Transaction> execute(Long userId, TransactionTypeEnum type , LocalDateTime beginsAt, LocalDateTime endsAt);
+    Set<Transaction> execute(Long userId, TransactionCategory category , LocalDateTime beginsAt, LocalDateTime endsAt);
     
 }

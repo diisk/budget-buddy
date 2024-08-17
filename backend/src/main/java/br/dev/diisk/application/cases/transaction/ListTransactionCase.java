@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.dev.diisk.application.interfaces.transaction.IListTransactionCase;
 import br.dev.diisk.domain.entities.transaction.Transaction;
-import br.dev.diisk.domain.enums.TransactionTypeEnum;
+import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.repositories.transaction.ITransactionRepository;
 
 @Service
@@ -22,11 +22,11 @@ public class ListTransactionCase implements IListTransactionCase {
 
     @Override
     @Cacheable(value = "transactions", key = "#userId+'-'+type+'-'+#beginsAt+'-'+#endsAt")
-    public Set<Transaction> execute(Long userId, TransactionTypeEnum type, LocalDateTime beginsAt,
+    public Set<Transaction> execute(Long userId, TransactionCategory category, LocalDateTime beginsAt,
             LocalDateTime endsAt) {
         if (endsAt == null)
             endsAt = LocalDateTime.now();
-        return transactionRepository.findAllInPeriod(userId, type, beginsAt, endsAt);
+        return transactionRepository.findAllInPeriod(userId, category.getId(), beginsAt, endsAt);
     }
 
 }

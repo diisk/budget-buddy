@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,9 @@ import br.dev.diisk.application.interfaces.dashboard.IGetSummaryCase;
 import br.dev.diisk.application.interfaces.notification.IListLastBudgetNotificationCase;
 import br.dev.diisk.application.interfaces.notification.IListNotificationCase;
 import br.dev.diisk.application.interfaces.saving_goal.IListActiveSavingGoalsCase;
+import br.dev.diisk.application.interfaces.transaction.IListTransactionByTypeCase;
 import br.dev.diisk.application.interfaces.transaction.IListTransactionCase;
+import br.dev.diisk.application.interfaces.transaction_category.IListTransactionCategoryCase;
 import br.dev.diisk.application.mappers.notification.NotificationToLastNotificationMapper;
 import br.dev.diisk.application.mappers.saving_goal.SavingGoalToDtoMapper;
 import br.dev.diisk.domain.entities.FundStorage;
@@ -38,26 +42,28 @@ import br.dev.diisk.infra.services.UtilService;
 @Service
 public class GetSummaryCase implements IGetSummaryCase {
 
-    private final IListTransactionCase listTransactionCase;
+    private final IListTransactionByTypeCase listTransactionByTypeCase;
     private final IListLastBudgetNotificationCase listLastBudgetNotificationsCase;
     private final IListNotificationCase listNotificationCase;
     private final NotificationToLastNotificationMapper notificationToLastNotificationMapper;
     private final IListActiveSavingGoalsCase listActiveSavingGoalsCase;
     private final SavingGoalToDtoMapper savingGoalToDtoMapper;
+    private final IListTransactionCategoryCase listTransactionCategoryCase;
     private final UtilService utilService;
     private final ModelMapper mapper;
 
-    public GetSummaryCase(IListTransactionCase listTransactionCase,
+    public GetSummaryCase(IListTransactionByTypeCase listTransactionByTypeCase,
             IListLastBudgetNotificationCase listLastBudgetNotificationsCase, IListNotificationCase listNotificationCase,
             NotificationToLastNotificationMapper notificationToLastNotificationMapper,
             IListActiveSavingGoalsCase listActiveSavingGoalsCase, SavingGoalToDtoMapper savingGoalToDtoMapper,
-            UtilService utilService, ModelMapper mapper) {
-        this.listTransactionCase = listTransactionCase;
+            IListTransactionCategoryCase listTransactionCategoryCase, UtilService utilService, ModelMapper mapper) {
+        this.listTransactionByTypeCase = listTransactionByTypeCase;
         this.listLastBudgetNotificationsCase = listLastBudgetNotificationsCase;
         this.listNotificationCase = listNotificationCase;
         this.notificationToLastNotificationMapper = notificationToLastNotificationMapper;
         this.listActiveSavingGoalsCase = listActiveSavingGoalsCase;
         this.savingGoalToDtoMapper = savingGoalToDtoMapper;
+        this.listTransactionCategoryCase = listTransactionCategoryCase;
         this.utilService = utilService;
         this.mapper = mapper;
     }
@@ -68,10 +74,11 @@ public class GetSummaryCase implements IGetSummaryCase {
 
         if (endsAt == null)
             endsAt = LocalDateTime.now();
-        Set<Transaction> incomes = listTransactionCase.execute(user.getId(), TransactionTypeEnum.INCOME, beginsAt,
+        Set<Transaction> incomes = listTransactionByTypeCase.execute(user.getId(), TransactionTypeEnum.INCOME, beginsAt,
                 endsAt);
-        Set<Transaction> expenses = listTransactionCase.execute(user.getId(), TransactionTypeEnum.EXPENSE, beginsAt,
-                endsAt);
+        Set<Transaction> expenses = listTransactionByTypeCase.execute(user.getId(), TransactionTypeEnum.EXPENSE,
+                beginsAt, endsAt);
+
         Set<BudgetNotification> lastNotifications = listLastBudgetNotificationsCase.execute(user.getId(), endsAt);
         List<Notification> notifications = listNotificationCase.execute(user.getId());
         Set<SavingGoal> activeSavingGoals = listActiveSavingGoalsCase.execute(user.getId(), endsAt);

@@ -47,7 +47,7 @@ public class AddTransactionCase implements IAddTransactionCase {
         Transaction transaction = addTransactionRequestMapper.apply(dto);
         transactionRepository.save(transaction);
 
-        updateMonthlyHistoryCase.execute(owner, transaction.getDate());
+        updateMonthlyHistoryCase.execute(owner, transaction.getDate(), transaction.getCategory());
 
         return transaction;
     }
