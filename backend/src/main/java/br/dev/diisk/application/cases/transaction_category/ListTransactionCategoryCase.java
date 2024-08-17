@@ -13,7 +13,7 @@ import br.dev.diisk.domain.repositories.transaction.ITransactionCategoryReposito
 @Service
 public class ListTransactionCategoryCase implements IListTransactionCategoryCase {
 
-    private ITransactionCategoryRepository transactionCategoryRepository;
+    private final ITransactionCategoryRepository transactionCategoryRepository;
 
     public ListTransactionCategoryCase(ITransactionCategoryRepository transactionCategoryRepository) {
         this.transactionCategoryRepository = transactionCategoryRepository;

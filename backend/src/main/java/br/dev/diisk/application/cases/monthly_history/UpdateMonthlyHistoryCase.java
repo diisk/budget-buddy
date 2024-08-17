@@ -20,10 +20,10 @@ import jakarta.transaction.Transactional;
 @Service
 public class UpdateMonthlyHistoryCase implements IUpdateMonthlyHistoryCase {
 
-    private UtilService utilService;
-    private IListTransactionCase listTransactionCase;
-    private IMonthlyHistoriRepository monthlyHistoriRepository;
-    private IGetMonthlyHistoryCase getMonthlyHistoryCase;
+    private final UtilService utilService;
+    private final IListTransactionCase listTransactionCase;
+    private final IMonthlyHistoriRepository monthlyHistoriRepository;
+    private final IGetMonthlyHistoryCase getMonthlyHistoryCase;
 
     public UpdateMonthlyHistoryCase(UtilService utilService, IListTransactionCase listTransactionCase,
             IMonthlyHistoriRepository monthlyHistoriRepository, IGetMonthlyHistoryCase getMonthlyHistoryCase) {

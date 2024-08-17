@@ -17,9 +17,9 @@ import jakarta.transaction.Transactional;
 @Service
 public class AddSavingGoalCase implements IAddSavingGoalCase {
 
-    private ISavingGoalRepository savingGoalRepository;
-    private List<IAddSavingGoalValidator> validations;
-    private CacheService cacheService;
+    private final ISavingGoalRepository savingGoalRepository;
+    private final List<IAddSavingGoalValidator> validations;
+    private final CacheService cacheService;
     
     public AddSavingGoalCase(ISavingGoalRepository savingGoalRepository, List<IAddSavingGoalValidator> validations,
             CacheService cacheService) {

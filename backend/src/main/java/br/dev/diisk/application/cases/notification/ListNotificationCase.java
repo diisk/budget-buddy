@@ -10,7 +10,11 @@ import br.dev.diisk.domain.repositories.notification.INotificationRepository;
 @Service
 public class ListNotificationCase implements IListNotificationCase{
 
-    private INotificationRepository notificationRepository;
+    private final INotificationRepository notificationRepository;
+
+    public ListNotificationCase(INotificationRepository notificationRepository) {
+        this.notificationRepository = notificationRepository;
+    }
 
     @Override
     public List<Notification> execute(Long userId) {

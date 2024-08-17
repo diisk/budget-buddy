@@ -1,4 +1,4 @@
-package br.dev.diisk.infra.configs.security;
+package br.dev.diisk.infra.configurations.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

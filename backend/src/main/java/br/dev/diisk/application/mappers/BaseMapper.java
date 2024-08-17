@@ -17,7 +17,7 @@ public abstract class BaseMapper<S, T> implements Function<S, T> {
     private Class<T> targetType;
     private Class<S> sourceType;
     
-    private ModelMapper mapper;
+    private final ModelMapper mapper;
 
     @SuppressWarnings("unchecked")
     public BaseMapper(ModelMapper mapper) {

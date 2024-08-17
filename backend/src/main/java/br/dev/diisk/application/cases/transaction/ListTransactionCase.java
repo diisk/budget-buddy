@@ -14,7 +14,7 @@ import br.dev.diisk.domain.repositories.transaction.ITransactionRepository;
 @Service
 public class ListTransactionCase implements IListTransactionCase {
 
-    private ITransactionRepository transactionRepository;
+    private final ITransactionRepository transactionRepository;
 
     public ListTransactionCase(ITransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;

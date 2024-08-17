@@ -13,7 +13,7 @@ import br.dev.diisk.domain.repositories.saving_goal.ISavingGoalRepository;
 @Service
 public class ListActiveSavingGoalsCase implements IListActiveSavingGoalsCase {
 
-    private ISavingGoalRepository savingGoalRepository;
+    private final ISavingGoalRepository savingGoalRepository;
 
     public ListActiveSavingGoalsCase(ISavingGoalRepository savingGoalRepository) {
         this.savingGoalRepository = savingGoalRepository;

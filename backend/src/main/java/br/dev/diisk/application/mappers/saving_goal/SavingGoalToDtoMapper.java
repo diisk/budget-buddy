@@ -11,7 +11,7 @@ import br.dev.diisk.infra.services.UtilService;
 @Component
 public class SavingGoalToDtoMapper extends BaseMapper<SavingGoal, SavingGoalDTO> {
 
-    private UtilService utilService;
+    private final UtilService utilService;
 
     public SavingGoalToDtoMapper(ModelMapper mapper, UtilService utilService) {
         super(mapper);

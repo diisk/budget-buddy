@@ -12,7 +12,7 @@ import jakarta.transaction.Transactional;
 @Service
 public class AddFundStorageCase implements IAddFundStorageCase {
 
-    private IFundStorageRepository fundStorageRepository;
+    private final IFundStorageRepository fundStorageRepository;
 
     public AddFundStorageCase(IFundStorageRepository fundStorageRepository) {
         this.fundStorageRepository = fundStorageRepository;

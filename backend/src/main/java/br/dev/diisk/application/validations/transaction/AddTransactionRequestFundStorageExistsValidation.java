@@ -15,7 +15,7 @@ import br.dev.diisk.domain.entities.user.User;
 @Component
 public class AddTransactionRequestFundStorageExistsValidation implements IAddTransactionRequestValidator {
 
-    private IListFundStorageCase listFundStorageCase;
+    private final IListFundStorageCase listFundStorageCase;
 
     public AddTransactionRequestFundStorageExistsValidation(IListFundStorageCase listFundStorageCase) {
         this.listFundStorageCase = listFundStorageCase;

@@ -9,7 +9,7 @@ import br.dev.diisk.domain.entities.user.User;
 @Service
 public class AuthRenewCase implements IAuthRenewCase{
 
-    private ITokenService tokenService;
+    private final ITokenService tokenService;
     
     public AuthRenewCase(ITokenService tokenService) {
         this.tokenService = tokenService;

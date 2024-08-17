@@ -16,8 +16,8 @@ import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 @Component
 public class AddTransactionRequestMapper extends BaseMapper<AddTransactionRequest, Transaction> {
 
-    private IListFundStorageCase listFundStorageCase;
-    private IListTransactionCategoryCase listTransactionCategoryCase;
+    private final IListFundStorageCase listFundStorageCase;
+    private final IListTransactionCategoryCase listTransactionCategoryCase;
 
     public AddTransactionRequestMapper(ModelMapper mapper, IListFundStorageCase listFundStorageCase,
             IListTransactionCategoryCase listTransactionCategoryCase) {

@@ -16,13 +16,13 @@ import br.dev.diisk.domain.entities.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
-@RequestMapping("dashboard")
+@RequestMapping("api/dashboard")
 @PreAuthorize("hasAuthority('DEFAULT')")
 @SecurityRequirement(name = "bearer-key")
 public class DashboardController {
 
-    private IResponseService responseService;
-    private IGetSummaryCase getSummaryCase;
+    private final IResponseService responseService;
+    private final IGetSummaryCase getSummaryCase;
 
     public DashboardController(IResponseService responseService, IGetSummaryCase getSummaryCase) {
         this.responseService = responseService;

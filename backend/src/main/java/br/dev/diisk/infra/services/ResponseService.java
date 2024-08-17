@@ -88,4 +88,14 @@ public class ResponseService implements IResponseService {
         return errorResponse(errors, HttpStatus.FORBIDDEN);
     }
 
+    @Override
+    public ResponseEntity<GenericResponse<?>> internal(ErrorResponse error) {
+        return errorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<GenericResponse<?>> internal(Collection<ErrorResponse> errors) {
+        return errorResponse(errors, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

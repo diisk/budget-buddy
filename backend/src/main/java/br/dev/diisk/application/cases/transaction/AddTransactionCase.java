@@ -18,11 +18,11 @@ import jakarta.transaction.Transactional;
 @Service
 public class AddTransactionCase implements IAddTransactionCase {
 
-    private ITransactionRepository transactionRepository;
-    private List<IAddTransactionRequestValidator> validations;
+    private final ITransactionRepository transactionRepository;
+    private final List<IAddTransactionRequestValidator> validations;
     private AddTransactionRequestMapper addTransactionRequestMapper;
-    private IUpdateMonthlyHistoryCase updateMonthlyHistoryCase;
-    private CacheService cacheService;
+    private final IUpdateMonthlyHistoryCase updateMonthlyHistoryCase;
+    private final CacheService cacheService;
     
     public AddTransactionCase(ITransactionRepository transactionRepository, List<IAddTransactionRequestValidator> validations,
             AddTransactionRequestMapper addTransactionRequestMapper, IUpdateMonthlyHistoryCase updateMonthlyHistoryCase,

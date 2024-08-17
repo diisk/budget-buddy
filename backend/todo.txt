@@ -1,8 +1,6 @@
 alerta para quando estiver proximo de exceder o orçamento
 alerta para quando o saldo mensal alterar para negativo
-desacoplar as exceptions do genericexceptionmanager
-organizar as configuracoes
-remover o /api do swagger e colocar nas rotas
 transformar o monthlyhistory para ter categoria
 fazer endpoints dos storages
-fazer updates das despesas e receitas
+fazer updates das transactions
+passar todas as mensagens para o globalmessages

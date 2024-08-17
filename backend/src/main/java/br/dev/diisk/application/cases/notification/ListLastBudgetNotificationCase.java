@@ -12,7 +12,7 @@ import br.dev.diisk.domain.repositories.notification.IBudgetNotificationReposito
 @Service
 public class ListLastBudgetNotificationCase implements IListLastBudgetNotificationCase{
 
-    private IBudgetNotificationRepository notificationRepository;
+    private final IBudgetNotificationRepository notificationRepository;
 
     public ListLastBudgetNotificationCase(IBudgetNotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;

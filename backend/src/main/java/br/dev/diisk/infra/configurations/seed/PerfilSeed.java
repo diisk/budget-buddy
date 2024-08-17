@@ -1,4 +1,4 @@
-package br.dev.diisk.infra.configs.seed;
+package br.dev.diisk.infra.configurations.seed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import jakarta.transaction.Transactional;
 @Component
 public class PerfilSeed implements ApplicationRunner {
 
-    private IUserPerfilRepository userPerfilRepository;
+    private final IUserPerfilRepository userPerfilRepository;
 
     public PerfilSeed(IUserPerfilRepository userPerfilRepository) {
         this.userPerfilRepository = userPerfilRepository;

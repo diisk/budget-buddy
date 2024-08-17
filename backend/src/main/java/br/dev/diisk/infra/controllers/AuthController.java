@@ -28,14 +28,14 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("api/auth")
 public class AuthController {
 
-    private IAuthLoginCase authLoginCase;
-    private IAuthRegisterCase authRegisterCase;
-    private IAuthRenewCase authRenewCase;
-    private ModelMapper mapper;
-    private IResponseService responseService;
+    private final IAuthLoginCase authLoginCase;
+    private final IAuthRegisterCase authRegisterCase;
+    private final IAuthRenewCase authRenewCase;
+    private final ModelMapper mapper;
+    private final IResponseService responseService;
 
     public AuthController(IAuthLoginCase authLoginCase, IAuthRegisterCase authRegisterCase,
             IAuthRenewCase authRenewCase,

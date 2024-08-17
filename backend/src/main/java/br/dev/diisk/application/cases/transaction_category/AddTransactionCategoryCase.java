@@ -17,9 +17,9 @@ import jakarta.transaction.Transactional;
 @Service
 public class AddTransactionCategoryCase implements IAddTransactionCategoryCase {
 
-    private List<IAddTransactionCategoryRequestValidator> validators;
-    private ITransactionCategoryRepository transactionCategoryRepository;
-    private ModelMapper mapper;
+    private final List<IAddTransactionCategoryRequestValidator> validators;
+    private final ITransactionCategoryRepository transactionCategoryRepository;
+    private final ModelMapper mapper;
 
     public AddTransactionCategoryCase(List<IAddTransactionCategoryRequestValidator> validators,
             ITransactionCategoryRepository transactionCategoryRepository, ModelMapper mapper) {

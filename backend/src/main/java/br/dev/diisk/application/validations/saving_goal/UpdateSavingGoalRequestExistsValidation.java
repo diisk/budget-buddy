@@ -17,8 +17,8 @@ import br.dev.diisk.infra.services.UtilService;
 @Component
 public class UpdateSavingGoalRequestExistsValidation implements IUpdateSavingGoalValidator {
 
-    private IListActiveSavingGoalsCase listActiveSavingGoalsCase;
-    private UtilService utilService;
+    private final IListActiveSavingGoalsCase listActiveSavingGoalsCase;
+    private final UtilService utilService;
 
     public UpdateSavingGoalRequestExistsValidation(IListActiveSavingGoalsCase listActiveSavingGoalsCase,
             UtilService utilService) {

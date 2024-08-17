@@ -25,16 +25,16 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("saving-goal")
+@RequestMapping("api/saving-goal")
 @PreAuthorize("hasAuthority('DEFAULT')")
 @SecurityRequirement(name = "bearer-key")
 public class SavingGoalController {
 
-    private ResponseService responseService;
-    private IAddSavingGoalCase addSavingGoalCase;
-    private SavingGoalToAddSavingGoalResponseMapper savingGoalToAddSavingGoalResponseMapper;
-    private IUpdateSavingGoalCase updateSavingGoalCase;
-    private SavingGoalToUpdateSavingGoalResponseMapper savingGoalToUpdateSavingGoalResponseMapper;
+    private final ResponseService responseService;
+    private final IAddSavingGoalCase addSavingGoalCase;
+    private final SavingGoalToAddSavingGoalResponseMapper savingGoalToAddSavingGoalResponseMapper;
+    private final IUpdateSavingGoalCase updateSavingGoalCase;
+    private final SavingGoalToUpdateSavingGoalResponseMapper savingGoalToUpdateSavingGoalResponseMapper;
 
     public SavingGoalController(ResponseService responseService, IAddSavingGoalCase addSavingGoalCase,
             SavingGoalToAddSavingGoalResponseMapper savingGoalToAddSavingGoalResponseMapper,

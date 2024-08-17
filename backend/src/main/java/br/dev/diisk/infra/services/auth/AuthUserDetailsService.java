@@ -10,7 +10,7 @@ import br.dev.diisk.domain.repositories.user.IUserRepository;
 @Service
 public class AuthUserDetailsService implements UserDetailsService{
 
-    private IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
     public AuthUserDetailsService(IUserRepository userRepository) {
         this.userRepository = userRepository;

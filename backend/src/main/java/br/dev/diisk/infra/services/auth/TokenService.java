@@ -15,8 +15,8 @@ public class TokenService implements ITokenService {
 
     @Value("${spring.application.name}")
     private String appName;
-    private Algorithm algorithm;
 
+    private final Algorithm algorithm;
 
     public TokenService(Algorithm algorithm) {
         this.algorithm = algorithm;
@@ -32,7 +32,7 @@ public class TokenService implements ITokenService {
         return token;
     }
 
-    private Instant getExpirationDate() {
+    private final Instant getExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.ofHours(-3));
     }
 

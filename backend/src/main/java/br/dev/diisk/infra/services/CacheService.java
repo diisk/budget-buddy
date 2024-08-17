@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CacheService {
 
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
     public CacheService(CacheManager cacheManager) {
         this.cacheManager = cacheManager;

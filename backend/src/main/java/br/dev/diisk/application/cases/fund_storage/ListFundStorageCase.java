@@ -12,7 +12,7 @@ import br.dev.diisk.domain.repositories.IFundStorageRepository;
 @Service
 public class ListFundStorageCase implements IListFundStorageCase {
 
-    private IFundStorageRepository fundStorageRepository;
+    private final IFundStorageRepository fundStorageRepository;
 
     public ListFundStorageCase(IFundStorageRepository fundStorageRepository) {
         this.fundStorageRepository = fundStorageRepository;

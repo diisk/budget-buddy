@@ -34,4 +34,8 @@ public interface IResponseService {
 
     public ResponseEntity<GenericResponse<?>> forbidden(Collection<ErrorResponse> errors);
 
+    public ResponseEntity<GenericResponse<?>> internal(ErrorResponse error);
+
+    public ResponseEntity<GenericResponse<?>> internal(Collection<ErrorResponse> errors);
+
 }

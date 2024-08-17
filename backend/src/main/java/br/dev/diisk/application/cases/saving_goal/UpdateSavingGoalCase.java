@@ -20,11 +20,11 @@ import jakarta.transaction.Transactional;
 @Service
 public class UpdateSavingGoalCase implements IUpdateSavingGoalCase {
 
-    private IListActiveSavingGoalsCase listActiveSavingGoalsCase;
-    private ISavingGoalRepository savingGoalRepository;
-    private ModelMapper mapper;
-    private List<IUpdateSavingGoalValidator> validations;
-    private CacheService cacheService;
+    private final IListActiveSavingGoalsCase listActiveSavingGoalsCase;
+    private final ISavingGoalRepository savingGoalRepository;
+    private final ModelMapper mapper;
+    private final List<IUpdateSavingGoalValidator> validations;
+    private final CacheService cacheService;
     
     public UpdateSavingGoalCase(IListActiveSavingGoalsCase listActiveSavingGoalsCase,
             ISavingGoalRepository savingGoalRepository, ModelMapper mapper,

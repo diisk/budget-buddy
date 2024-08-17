@@ -1,4 +1,4 @@
-package br.dev.diisk.infra.configs;
+package br.dev.diisk.infra.configurations.cache;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +12,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 
 @Configuration
 @EnableCaching
-public class CacheConfiguration {
+public class CacheConfig {
 
     @Bean
     public Caffeine<Object,Object> caffeineConfig() {

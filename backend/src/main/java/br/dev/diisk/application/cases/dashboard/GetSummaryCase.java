@@ -38,14 +38,14 @@ import br.dev.diisk.infra.services.UtilService;
 @Service
 public class GetSummaryCase implements IGetSummaryCase {
 
-    private IListTransactionCase listTransactionCase;
-    private IListLastBudgetNotificationCase listLastBudgetNotificationsCase;
-    private IListNotificationCase listNotificationCase;
-    private NotificationToLastNotificationMapper notificationToLastNotificationMapper;
-    private IListActiveSavingGoalsCase listActiveSavingGoalsCase;
-    private SavingGoalToDtoMapper savingGoalToDtoMapper;
-    private UtilService utilService;
-    private ModelMapper mapper;
+    private final IListTransactionCase listTransactionCase;
+    private final IListLastBudgetNotificationCase listLastBudgetNotificationsCase;
+    private final IListNotificationCase listNotificationCase;
+    private final NotificationToLastNotificationMapper notificationToLastNotificationMapper;
+    private final IListActiveSavingGoalsCase listActiveSavingGoalsCase;
+    private final SavingGoalToDtoMapper savingGoalToDtoMapper;
+    private final UtilService utilService;
+    private final ModelMapper mapper;
 
     public GetSummaryCase(IListTransactionCase listTransactionCase,
             IListLastBudgetNotificationCase listLastBudgetNotificationsCase, IListNotificationCase listNotificationCase,

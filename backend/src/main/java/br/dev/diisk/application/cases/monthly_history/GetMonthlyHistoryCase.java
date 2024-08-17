@@ -12,8 +12,8 @@ import br.dev.diisk.infra.services.UtilService;
 @Service
 public class GetMonthlyHistoryCase implements IGetMonthlyHistoryCase {
 
-    private UtilService utilService;
-    private IMonthlyHistoriRepository monthlyHistoriRepository;
+    private final UtilService utilService;
+    private final IMonthlyHistoriRepository monthlyHistoriRepository;
 
     public GetMonthlyHistoryCase(UtilService utilService, IMonthlyHistoriRepository monthlyHistoriRepository) {
         this.utilService = utilService;

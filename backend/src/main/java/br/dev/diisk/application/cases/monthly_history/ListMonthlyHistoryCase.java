@@ -13,7 +13,11 @@ import br.dev.diisk.domain.repositories.monthly_history.IMonthlyHistoriRepositor
 @Service
 public class ListMonthlyHistoryCase implements IListMonthlyHistoryCase {
 
-    private IMonthlyHistoriRepository monthlyHistoriRepository;
+    private final IMonthlyHistoriRepository monthlyHistoriRepository;
+
+    public ListMonthlyHistoryCase(IMonthlyHistoriRepository monthlyHistoriRepository) {
+        this.monthlyHistoriRepository = monthlyHistoriRepository;
+    }
 
     @Override
     @Cacheable(value = "monthly-histories", key = "#userId")

@@ -33,18 +33,18 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("transactions")
+@RequestMapping("api/transactions")
 @PreAuthorize("hasAuthority('DEFAULT')")
 @SecurityRequirement(name = "bearer-key")
 public class TransactionController {
 
-    private ModelMapper mapper;
-    private TransactionToResponseMapper transactionToResponseMapper;
-    private IAddTransactionCase addTransactionCase;
-    private IAddTransactionCategoryCase addTransactionCategoryCase;
-    private IResponseService responseService;
-    private IListTransactionCategoryCase listTransactionCategoryCase;
-    private IListTransactionCase listTransactionCase;
+    private final ModelMapper mapper;
+    private final TransactionToResponseMapper transactionToResponseMapper;
+    private final IAddTransactionCase addTransactionCase;
+    private final IAddTransactionCategoryCase addTransactionCategoryCase;
+    private final IResponseService responseService;
+    private final IListTransactionCategoryCase listTransactionCategoryCase;
+    private final IListTransactionCase listTransactionCase;
 
     public TransactionController(ModelMapper mapper, TransactionToResponseMapper transactionToResponseMapper,
             IAddTransactionCase addTransactionCase, IAddTransactionCategoryCase addTransactionCategoryCase,

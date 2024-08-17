@@ -10,7 +10,7 @@ import br.dev.diisk.domain.entities.user.User;
 @Service
 public class AuthService implements IAuthService {
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
     
     public AuthService(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;

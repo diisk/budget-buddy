@@ -17,7 +17,7 @@ import br.dev.diisk.domain.enums.TransactionTypeEnum;
 @Component
 public class AddTransactionRequestTransactionCategoryExistsValidation implements IAddTransactionRequestValidator {
 
-    private IListTransactionCategoryCase listTransactionCategoryCase;
+    private final IListTransactionCategoryCase listTransactionCategoryCase;
 
     public AddTransactionRequestTransactionCategoryExistsValidation(
             IListTransactionCategoryCase listTransactionCategoryCase) {

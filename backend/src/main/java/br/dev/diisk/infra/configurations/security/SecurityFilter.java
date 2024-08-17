@@ -1,4 +1,4 @@
-package br.dev.diisk.infra.configs.security;
+package br.dev.diisk.infra.configurations.security;
 
 import java.io.IOException;
 import org.springframework.lang.NonNull;
@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private ITokenService tokenService;
-    private IUserRepository userRepository;
+    private final ITokenService tokenService;
+    private final IUserRepository userRepository;
 
     public SecurityFilter(ITokenService tokenService, IUserRepository userRepository) {
         this.tokenService = tokenService;

@@ -1,4 +1,4 @@
-package br.dev.diisk.infra.configs.security;
+package br.dev.diisk.infra.configurations.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    private SecurityFilter securityFilter;
-    private CustomAccessDeniedHandler customAccessDeniedHandler;
-    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final SecurityFilter securityFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     
     public SecurityConfiguration(SecurityFilter securityFilter, CustomAccessDeniedHandler customAccessDeniedHandler,
             CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {

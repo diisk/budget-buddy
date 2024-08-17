@@ -18,9 +18,9 @@ import jakarta.transaction.Transactional;
 @Service
 public class AuthRegisterCase implements IAuthRegisterCase {
 
-    private IUserRepository userRepository;
-    private IUserPerfilRepository userPerfilRepository;
-    private IAddFundStorageCase addFundStorageCase;
+    private final IUserRepository userRepository;
+    private final IUserPerfilRepository userPerfilRepository;
+    private final IAddFundStorageCase addFundStorageCase;
 
     public AuthRegisterCase(IUserRepository userRepository, IUserPerfilRepository userPerfilRepository,
             IAddFundStorageCase addFundStorageCase) {

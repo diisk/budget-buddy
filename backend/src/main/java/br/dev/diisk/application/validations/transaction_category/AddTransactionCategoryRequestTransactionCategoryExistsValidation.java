@@ -15,8 +15,8 @@ import br.dev.diisk.infra.services.UtilService;
 @Component
 public class AddTransactionCategoryRequestTransactionCategoryExistsValidation implements IAddTransactionCategoryRequestValidator {
 
-    private IListTransactionCategoryCase listTransactionCategoryCase;
-    private UtilService utilService;
+    private final IListTransactionCategoryCase listTransactionCategoryCase;
+    private final UtilService utilService;
 
     public AddTransactionCategoryRequestTransactionCategoryExistsValidation(
             IListTransactionCategoryCase listTransactionCategoryCase, UtilService utilService) {

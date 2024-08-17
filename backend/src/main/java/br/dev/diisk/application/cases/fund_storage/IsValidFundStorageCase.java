@@ -8,7 +8,11 @@ import br.dev.diisk.domain.repositories.IFundStorageRepository;
 @Service
 public class IsValidFundStorageCase implements IIsvalidFundStorageCase {
 
-    private IFundStorageRepository fundStorageRepository;
+    private final IFundStorageRepository fundStorageRepository;
+
+    public IsValidFundStorageCase(IFundStorageRepository fundStorageRepository) {
+        this.fundStorageRepository = fundStorageRepository;
+    }
 
     @Override
     public Boolean execute(Long id, Long userId) {
