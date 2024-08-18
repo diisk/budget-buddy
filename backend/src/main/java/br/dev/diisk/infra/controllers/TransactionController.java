@@ -17,11 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.dev.diisk.application.interfaces.IResponseService;
 import br.dev.diisk.application.interfaces.transaction.IAddTransactionCase;
 import br.dev.diisk.application.interfaces.transaction.IListTransactionByTypeCase;
-import br.dev.diisk.application.interfaces.transaction.IListTransactionCase;
 import br.dev.diisk.application.interfaces.transaction_category.IAddTransactionCategoryCase;
 import br.dev.diisk.application.interfaces.transaction_category.IListTransactionCategoryCase;
-import br.dev.diisk.application.mappers.transaction.TransactionToResponseMapper;
-import br.dev.diisk.application.dtos.GenericResponse;
+import br.dev.diisk.application.mappers.transaction.TransactionToTransactionResponseMapper;
+import br.dev.diisk.application.dtos.response.SuccessResponse;
 import br.dev.diisk.application.dtos.transaction.AddTransactionRequest;
 import br.dev.diisk.application.dtos.transaction.TransactionResponse;
 import br.dev.diisk.application.dtos.transaction_category.AddTransactionCategoryRequest;
@@ -29,7 +28,6 @@ import br.dev.diisk.application.dtos.transaction_category.TransactionCategoryRes
 import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.domain.enums.TransactionTypeEnum;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
@@ -40,14 +38,14 @@ import jakarta.validation.Valid;
 public class TransactionController {
 
     private final ModelMapper mapper;
-    private final TransactionToResponseMapper transactionToResponseMapper;
+    private final TransactionToTransactionResponseMapper transactionToResponseMapper;
     private final IAddTransactionCase addTransactionCase;
     private final IAddTransactionCategoryCase addTransactionCategoryCase;
     private final IResponseService responseService;
     private final IListTransactionCategoryCase listTransactionCategoryCase;
     private final IListTransactionByTypeCase listTransactionByTypeCase;
 
-    public TransactionController(ModelMapper mapper, TransactionToResponseMapper transactionToResponseMapper,
+    public TransactionController(ModelMapper mapper, TransactionToTransactionResponseMapper transactionToResponseMapper,
             IAddTransactionCase addTransactionCase, IAddTransactionCategoryCase addTransactionCategoryCase,
             IResponseService responseService, IListTransactionCategoryCase listTransactionCategoryCase,
             IListTransactionByTypeCase listTransactionByTypeCase) {
@@ -61,25 +59,25 @@ public class TransactionController {
     }
 
     @PostMapping("categories")
-    public ResponseEntity<GenericResponse<TransactionCategoryResponse>> addCategory(
+    public ResponseEntity<SuccessResponse<TransactionCategoryResponse>> addCategory(
             @Valid @RequestBody AddTransactionCategoryRequest dto, @AuthenticationPrincipal User user) {
         TransactionCategory transactionCategory = addTransactionCategoryCase.execute(dto, user);
         TransactionCategoryResponse response = mapper.map(transactionCategory, TransactionCategoryResponse.class);
-        return responseService.ok(response);
+        return responseService.created(response);
     }
 
     @PostMapping
-    public ResponseEntity<GenericResponse<TransactionResponse>> addTransaction(
+    public ResponseEntity<SuccessResponse<TransactionResponse>> addTransaction(
             @RequestBody @Valid AddTransactionRequest dto,
             @AuthenticationPrincipal User user) {
         Transaction transaction = addTransactionCase.execute(dto, user);
         TransactionResponse response = transactionToResponseMapper.apply(transaction);
-        return responseService.ok(response);
+        return responseService.created(response);
     }
 
     @GetMapping("categories")
-    public ResponseEntity<GenericResponse<List<TransactionCategoryResponse>>> listCategory(
-            @RequestParam TransactionTypeEnum type,
+    public ResponseEntity<SuccessResponse<List<TransactionCategoryResponse>>> listCategory(
+            @RequestParam String type,
             @AuthenticationPrincipal User user) {
         Set<TransactionCategory> categories = listTransactionCategoryCase.execute(user.getId(), type);
         List<TransactionCategoryResponse> response = categories.stream()
@@ -88,10 +86,10 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<GenericResponse<List<TransactionResponse>>> listTransaction(
+    public ResponseEntity<SuccessResponse<List<TransactionResponse>>> listTransaction(
             @RequestParam(required = false) LocalDateTime beginsAt,
             @RequestParam(required = false) LocalDateTime endsAt,
-            @RequestParam TransactionTypeEnum type,
+            @RequestParam String type,
             @AuthenticationPrincipal User user) {
         Set<Transaction> transactions = listTransactionByTypeCase.execute(user.getId(), type,
                 beginsAt, endsAt);

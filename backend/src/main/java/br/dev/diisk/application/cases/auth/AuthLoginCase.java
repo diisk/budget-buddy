@@ -3,7 +3,7 @@ package br.dev.diisk.application.cases.auth;
 import org.springframework.stereotype.Service;
 
 import br.dev.diisk.application.dtos.auth.LoginRequest;
-import br.dev.diisk.application.exceptions.InvalidUserException;
+import br.dev.diisk.application.exceptions.authentication.InvalidUserException;
 import br.dev.diisk.application.interfaces.auth.IAuthLoginCase;
 import br.dev.diisk.application.interfaces.auth.IAuthService;
 import br.dev.diisk.application.interfaces.auth.ITokenService;

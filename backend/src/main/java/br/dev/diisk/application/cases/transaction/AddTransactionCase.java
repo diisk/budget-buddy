@@ -8,7 +8,7 @@ import br.dev.diisk.application.dtos.transaction.AddTransactionRequest;
 import br.dev.diisk.application.interfaces.monthly_history.IUpdateMonthlyHistoryCase;
 import br.dev.diisk.application.interfaces.transaction.IAddTransactionCase;
 import br.dev.diisk.application.interfaces.transaction.IAddTransactionRequestValidator;
-import br.dev.diisk.application.mappers.transaction.AddTransactionRequestMapper;
+import br.dev.diisk.application.mappers.transaction.AddTransactionRequestToTransactionMapper;
 import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.transaction.ITransactionRepository;
@@ -20,12 +20,12 @@ public class AddTransactionCase implements IAddTransactionCase {
 
     private final ITransactionRepository transactionRepository;
     private final List<IAddTransactionRequestValidator> validations;
-    private AddTransactionRequestMapper addTransactionRequestMapper;
+    private AddTransactionRequestToTransactionMapper addTransactionRequestMapper;
     private final IUpdateMonthlyHistoryCase updateMonthlyHistoryCase;
     private final CacheService cacheService;
     
     public AddTransactionCase(ITransactionRepository transactionRepository, List<IAddTransactionRequestValidator> validations,
-            AddTransactionRequestMapper addTransactionRequestMapper, IUpdateMonthlyHistoryCase updateMonthlyHistoryCase,
+            AddTransactionRequestToTransactionMapper addTransactionRequestMapper, IUpdateMonthlyHistoryCase updateMonthlyHistoryCase,
             CacheService cacheService) {
         this.transactionRepository = transactionRepository;
         this.validations = validations;
@@ -42,7 +42,7 @@ public class AddTransactionCase implements IAddTransactionCase {
         validations.forEach(validation -> validation.validate(toValidate, owner));
         dto.setUser(owner);
 
-        cacheService.evictCache("transactions", owner.getId().toString()+"-"+dto.getType());
+        cacheService.evictCache("transactions", owner.getId().toString()+"-"+dto.getCategoryId());
 
         Transaction transaction = addTransactionRequestMapper.apply(dto);
         transactionRepository.save(transaction);

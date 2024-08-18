@@ -17,12 +17,12 @@ import br.dev.diisk.application.interfaces.IResponseService;
 import br.dev.diisk.application.interfaces.auth.IAuthLoginCase;
 import br.dev.diisk.application.interfaces.auth.IAuthRegisterCase;
 import br.dev.diisk.application.interfaces.auth.IAuthRenewCase;
-import br.dev.diisk.application.dtos.GenericResponse;
 import br.dev.diisk.application.dtos.auth.LoginRequest;
 import br.dev.diisk.application.dtos.auth.LoginResponse;
 import br.dev.diisk.application.dtos.auth.RegisterRequest;
 import br.dev.diisk.application.dtos.auth.RegisterResponse;
 import br.dev.diisk.application.dtos.auth.RenewResponse;
+import br.dev.diisk.application.dtos.response.SuccessResponse;
 import br.dev.diisk.domain.entities.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -48,13 +48,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<GenericResponse<LoginResponse>> login(@RequestBody @Valid LoginRequest dto) {
+    public ResponseEntity<SuccessResponse<LoginResponse>> login(@RequestBody @Valid LoginRequest dto) {
         String token = authLoginCase.execute(dto);
         return responseService.ok(new LoginResponse(token));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<GenericResponse<RegisterResponse>> register(@RequestBody @Valid RegisterRequest dto,
+    public ResponseEntity<SuccessResponse<RegisterResponse>> register(@RequestBody @Valid RegisterRequest dto,
             UriComponentsBuilder uriBuilder) {
         User newUser = authRegisterCase.execute(dto);
         RegisterResponse response = mapper.map(newUser, RegisterResponse.class);
@@ -65,7 +65,7 @@ public class AuthController {
     @PreAuthorize("hasAuthority('DEFAULT')")
     @SecurityRequirement(name = "bearer-key")
     @GetMapping("/renew")
-    public ResponseEntity<GenericResponse<RenewResponse>> renew(@AuthenticationPrincipal User user) {
+    public ResponseEntity<SuccessResponse<RenewResponse>> renew(@AuthenticationPrincipal User user) {
         String token = authRenewCase.execute(user);
         return responseService.ok(new RenewResponse(token));
     }

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import br.dev.diisk.application.dtos.auth.RegisterRequest;
 import br.dev.diisk.application.dtos.fund_storage.AddFundStorageRequest;
-import br.dev.diisk.application.exceptions.DbValueNotFoundException;
-import br.dev.diisk.application.exceptions.ValueAlreadyInDatabaseException;
+import br.dev.diisk.application.exceptions.persistence.DbValueNotFoundException;
+import br.dev.diisk.application.exceptions.persistence.ValueAlreadyInDatabaseException;
 import br.dev.diisk.application.interfaces.auth.IAuthRegisterCase;
 import br.dev.diisk.application.interfaces.fund_storage.IAddFundStorageCase;
 import br.dev.diisk.domain.entities.user.User;
@@ -33,11 +33,11 @@ public class AuthRegisterCase implements IAuthRegisterCase {
     @Transactional
     public User execute(RegisterRequest dto) {
         if (userRepository.existsByEmail(dto.getEmail()))
-            throw new ValueAlreadyInDatabaseException("email", User.class.getSimpleName());
+            throw new ValueAlreadyInDatabaseException(User.class, "email");
 
         UserPerfil defaultUserPerfil = userPerfilRepository.findByName("Default");
         if (defaultUserPerfil == null)
-            throw new DbValueNotFoundException("name", UserPerfil.class.getSimpleName());
+            throw new DbValueNotFoundException(UserPerfil.class, "name");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.getPassword());
 

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 
 import br.dev.diisk.application.dtos.saving_goal.UpdateSavingGoalRequest;
-import br.dev.diisk.application.exceptions.PastDateException;
+import br.dev.diisk.application.exceptions.date.PastDateException;
 import br.dev.diisk.application.interfaces.saving_goal.IUpdateSavingGoalValidator;
 import br.dev.diisk.domain.entities.user.User;
 

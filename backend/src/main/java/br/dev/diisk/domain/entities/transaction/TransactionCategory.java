@@ -25,7 +25,6 @@ public class TransactionCategory extends RastreableEntity{
     @Enumerated(EnumType.STRING)
     private TransactionTypeEnum type;
     
-    @Column(nullable = false)
     private BigDecimal budgetLimit;
 
     @Column(nullable = false)

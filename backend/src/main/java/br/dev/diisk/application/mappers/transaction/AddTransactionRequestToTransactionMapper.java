@@ -14,12 +14,12 @@ import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 
 @Component
-public class AddTransactionRequestMapper extends BaseMapper<AddTransactionRequest, Transaction> {
+public class AddTransactionRequestToTransactionMapper extends BaseMapper<AddTransactionRequest, Transaction> {
 
     private final IListFundStorageCase listFundStorageCase;
     private final IListTransactionCategoryCase listTransactionCategoryCase;
 
-    public AddTransactionRequestMapper(ModelMapper mapper, IListFundStorageCase listFundStorageCase,
+    public AddTransactionRequestToTransactionMapper(ModelMapper mapper, IListFundStorageCase listFundStorageCase,
             IListTransactionCategoryCase listTransactionCategoryCase) {
         super(mapper);
         this.listFundStorageCase = listFundStorageCase;

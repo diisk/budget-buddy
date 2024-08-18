@@ -21,7 +21,7 @@ public class ListTransactionCase implements IListTransactionCase {
     }
 
     @Override
-    @Cacheable(value = "transactions", key = "#userId+'-'+type+'-'+#beginsAt+'-'+#endsAt")
+    @Cacheable(value = "transactions", key = "#userId+'-'+#category.getId()+'-'+#beginsAt+'-'+#endsAt")
     public Set<Transaction> execute(Long userId, TransactionCategory category, LocalDateTime beginsAt,
             LocalDateTime endsAt) {
         if (endsAt == null)

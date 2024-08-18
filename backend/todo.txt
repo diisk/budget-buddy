@@ -3,5 +3,3 @@ alerta para quando o saldo mensal alterar para negativo
 fazer endpoints dos storages
 fazer updates das transactions
 passar todas as mensagens para o globalmessages
-verificar o cache das transactions se está tudo certo
-testar o fluxo completo

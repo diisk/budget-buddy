@@ -6,7 +6,7 @@ import java.util.Set;
 import org.springframework.stereotype.Component;
 
 import br.dev.diisk.application.dtos.transaction.AddTransactionRequest;
-import br.dev.diisk.application.exceptions.DbValueNotFoundException;
+import br.dev.diisk.application.exceptions.persistence.DbValueNotFoundException;
 import br.dev.diisk.application.interfaces.fund_storage.IListFundStorageCase;
 import br.dev.diisk.application.interfaces.transaction.IAddTransactionRequestValidator;
 import br.dev.diisk.domain.entities.FundStorage;
@@ -24,9 +24,9 @@ public class AddTransactionRequestFundStorageExistsValidation implements IAddTra
     @Override
     public void validate(List<AddTransactionRequest> dtos, User user) {
         Set<FundStorage> storages = listFundStorageCase.execute(user.getId());
-        for(AddTransactionRequest dto : dtos){
-            if (storages.stream().noneMatch(storage -> storage.getId()==dto.getFundStorageId()))
-            throw new DbValueNotFoundException("id", FundStorage.class.getSimpleName());
+        for (AddTransactionRequest dto : dtos) {
+            if (storages.stream().noneMatch(storage -> storage.getId() == dto.getFundStorageId()))
+                throw new DbValueNotFoundException(FundStorage.class, "id");
         }
     }
 

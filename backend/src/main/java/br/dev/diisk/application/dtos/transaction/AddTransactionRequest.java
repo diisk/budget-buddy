@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.dev.diisk.domain.GlobalMessages;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.domain.enums.TransactionTypeEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -26,8 +25,8 @@ public class AddTransactionRequest {
     @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private String description;
 
-    @NotNull(message = GlobalMessages.BLANK_OR_NULL_FIELD)
-    private TransactionTypeEnum type;
+    @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
+    private String type;
 
     @NotNull(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private Long categoryId;

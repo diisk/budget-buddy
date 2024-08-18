@@ -3,7 +3,7 @@ package br.dev.diisk.application.cases.monthly_history;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
-import br.dev.diisk.application.exceptions.FutureDateException;
+import br.dev.diisk.application.exceptions.date.FutureDateException;
 import br.dev.diisk.application.interfaces.monthly_history.IGetMonthlyHistoryCase;
 import br.dev.diisk.domain.entities.MonthlyHistory;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;

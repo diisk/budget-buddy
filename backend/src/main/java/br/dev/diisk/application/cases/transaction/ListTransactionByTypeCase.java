@@ -10,7 +10,6 @@ import br.dev.diisk.application.interfaces.transaction.IListTransactionCase;
 import br.dev.diisk.application.interfaces.transaction_category.IListTransactionCategoryCase;
 import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
-import br.dev.diisk.domain.enums.TransactionTypeEnum;
 
 @Service
 public class ListTransactionByTypeCase implements IListTransactionByTypeCase {
@@ -25,9 +24,9 @@ public class ListTransactionByTypeCase implements IListTransactionByTypeCase {
     }
 
     @Override
-    public Set<Transaction> execute(Long userId, TransactionTypeEnum type, LocalDateTime beginsAt,
+    public Set<Transaction> execute(Long userId, String transactionType, LocalDateTime beginsAt,
             LocalDateTime endsAt) {
-        Set<TransactionCategory> categories = listTransactionCategoryCase.execute(userId, type);
+        Set<TransactionCategory> categories = listTransactionCategoryCase.execute(userId, transactionType);
         Set<Transaction> transactions = new HashSet<>();
         for (TransactionCategory category : categories) {
             transactions.addAll(listTransactionCase.execute(userId, category, beginsAt, endsAt));

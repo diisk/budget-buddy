@@ -1,6 +1,7 @@
 package br.dev.diisk.infra.configurations.security;
 
 import java.io.IOException;
+
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+
+import br.dev.diisk.application.dtos.response.ErrorResponse;
+import br.dev.diisk.application.interfaces.IResponseService;
 import br.dev.diisk.application.interfaces.auth.ITokenService;
 import br.dev.diisk.domain.repositories.user.IUserRepository;
 import jakarta.servlet.FilterChain;
@@ -21,10 +25,13 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final ITokenService tokenService;
     private final IUserRepository userRepository;
+    private final IResponseService responseService;
 
-    public SecurityFilter(ITokenService tokenService, IUserRepository userRepository) {
+    public SecurityFilter(ITokenService tokenService, IUserRepository userRepository,
+            IResponseService responseService) {
         this.tokenService = tokenService;
         this.userRepository = userRepository;
+        this.responseService = responseService;
     }
 
     @Override
@@ -37,7 +44,15 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
             try {
                 String subject = tokenService.validateToken(token);
-                UserDetails user = userRepository.findByEmail(subject);
+                UserDetails user = userRepository.findByEmail(subject).orElse(null);
+
+                if (user == null) {
+                    Integer statusCode = HttpServletResponse.SC_BAD_REQUEST;
+                    ErrorResponse responseObject = ErrorResponse.getErrorInstance(statusCode,
+                            "Invalid data received from token.");
+                    responseService.writeResponseObject(response, statusCode, responseObject);
+                    return;
+                }
 
                 Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 

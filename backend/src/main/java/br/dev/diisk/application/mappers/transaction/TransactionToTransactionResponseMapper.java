@@ -8,9 +8,9 @@ import br.dev.diisk.application.mappers.BaseMapper;
 import br.dev.diisk.domain.entities.transaction.Transaction;
 
 @Component
-public class TransactionToResponseMapper extends BaseMapper<Transaction, TransactionResponse> {
+public class TransactionToTransactionResponseMapper extends BaseMapper<Transaction, TransactionResponse> {
 
-    public TransactionToResponseMapper(ModelMapper mapper) {
+    public TransactionToTransactionResponseMapper(ModelMapper mapper) {
         super(mapper);
     }
 
@@ -18,6 +18,7 @@ public class TransactionToResponseMapper extends BaseMapper<Transaction, Transac
     protected void doComplexMap(Transaction source, TransactionResponse target) {
         target.setCategoryName(source.getCategory().getName());
         target.setStorageName(source.getStorage().getName());
+        target.setType(source.getCategory().getType());
     }
 
 }

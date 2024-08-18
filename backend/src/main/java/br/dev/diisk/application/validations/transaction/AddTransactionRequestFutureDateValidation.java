@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import br.dev.diisk.application.dtos.transaction.AddTransactionRequest;
-import br.dev.diisk.application.exceptions.FutureDateException;
+import br.dev.diisk.application.exceptions.date.FutureDateException;
 import br.dev.diisk.application.interfaces.transaction.IAddTransactionRequestValidator;
 import br.dev.diisk.domain.entities.user.User;
 

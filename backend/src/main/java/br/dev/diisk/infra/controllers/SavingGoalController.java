@@ -13,7 +13,7 @@ import br.dev.diisk.application.interfaces.saving_goal.IAddSavingGoalCase;
 import br.dev.diisk.application.interfaces.saving_goal.IUpdateSavingGoalCase;
 import br.dev.diisk.application.mappers.saving_goal.SavingGoalToAddSavingGoalResponseMapper;
 import br.dev.diisk.application.mappers.saving_goal.SavingGoalToUpdateSavingGoalResponseMapper;
-import br.dev.diisk.application.dtos.GenericResponse;
+import br.dev.diisk.application.dtos.response.SuccessResponse;
 import br.dev.diisk.application.dtos.saving_goal.AddSavingGoalRequest;
 import br.dev.diisk.application.dtos.saving_goal.AddSavingGoalResponse;
 import br.dev.diisk.application.dtos.saving_goal.UpdateSavingGoalRequest;
@@ -48,7 +48,7 @@ public class SavingGoalController {
     }
 
     @PostMapping
-    public ResponseEntity<GenericResponse<AddSavingGoalResponse>> addSavingGoal(
+    public ResponseEntity<SuccessResponse<AddSavingGoalResponse>> addSavingGoal(
             @Valid @RequestBody AddSavingGoalRequest dto,
             @AuthenticationPrincipal User user) {
         SavingGoal savingGoal = addSavingGoalCase.execute(dto, user);
@@ -57,7 +57,7 @@ public class SavingGoalController {
     }
 
     @PatchMapping(path = "{id}")
-    public ResponseEntity<GenericResponse<UpdateSavingGoalResponse>> updateSavingGoal(@PathVariable Long id,
+    public ResponseEntity<SuccessResponse<UpdateSavingGoalResponse>> updateSavingGoal(@PathVariable Long id,
             @Valid @RequestBody UpdateSavingGoalRequest dto,
             @AuthenticationPrincipal User user) {
         SavingGoal savingGoal = updateSavingGoalCase.execute(id, dto, user);

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 import br.dev.diisk.application.dtos.saving_goal.AddSavingGoalRequest;
-import br.dev.diisk.application.exceptions.PastDateException;
+import br.dev.diisk.application.exceptions.date.PastDateException;
 import br.dev.diisk.application.interfaces.saving_goal.IAddSavingGoalValidator;
 import br.dev.diisk.domain.entities.user.User;
 
