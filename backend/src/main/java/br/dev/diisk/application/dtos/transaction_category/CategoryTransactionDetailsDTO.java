@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.dev.diisk.domain.enums.TransactionTypeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,8 +16,9 @@ public class CategoryTransactionDetailsDTO {
 
     @JsonIgnore
     private Long id;
-    
+
     private String categoryName;
+    private TransactionTypeEnum type;
     private BigDecimal value;
     private BigDecimal budgetLimit;
     private BigDecimal percentageUsed;

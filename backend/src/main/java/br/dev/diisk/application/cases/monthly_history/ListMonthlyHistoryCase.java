@@ -1,5 +1,6 @@
 package br.dev.diisk.application.cases.monthly_history;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +21,10 @@ public class ListMonthlyHistoryCase implements IListMonthlyHistoryCase {
     }
 
     @Override
-    @Cacheable(value = "monthly-histories", key = "#userId")
-    public List<MonthlyHistory> execute(Long userId) {
-        return monthlyHistoriRepository.findAllByUserId(userId).stream()
+    @Cacheable(value = "monthly-histories", key = "#userId+'-'+#beginsReference+'-'+#endsReference")
+    public List<MonthlyHistory> execute(Long userId, LocalDateTime beginsReference, LocalDateTime endsReference) {
+        return monthlyHistoriRepository.findAllByUserIdAndPeriodReference(userId, beginsReference, endsReference)
+                .stream()
                 .sorted((mh1, mh2) -> mh1.getReferenceDate().compareTo(mh2.getReferenceDate()))
                 .collect(Collectors.toList());
     }
