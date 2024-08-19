@@ -1,5 +1,7 @@
 package br.dev.diisk.domain.entities;
 
+import java.math.BigDecimal;
+
 import br.dev.diisk.domain.entities.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,6 +28,9 @@ public class FundStorage {
     
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private BigDecimal balance;
 
     @Column(nullable = false)
     private Boolean creditCard;

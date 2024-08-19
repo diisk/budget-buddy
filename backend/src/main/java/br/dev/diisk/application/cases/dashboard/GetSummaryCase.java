@@ -15,14 +15,17 @@ import br.dev.diisk.application.dtos.HistoryDTO;
 import br.dev.diisk.application.dtos.HistoryGraphsDTO;
 import br.dev.diisk.application.dtos.NotificationDTO;
 import br.dev.diisk.application.dtos.SummaryResponse;
+import br.dev.diisk.application.dtos.fund_storage.FundStorageDetailsDTO;
 import br.dev.diisk.application.dtos.transaction_category.CategoryTransactionDetailsDTO;
 import br.dev.diisk.application.interfaces.dashboard.IGetSummaryCase;
+import br.dev.diisk.application.interfaces.fund_storage.IListFundStorageCase;
 import br.dev.diisk.application.interfaces.monthly_history.IListMonthlyHistoryCase;
 import br.dev.diisk.application.interfaces.notification.IListLastBudgetNotificationCase;
 import br.dev.diisk.application.interfaces.notification.IListNotificationCase;
 import br.dev.diisk.application.interfaces.saving_goal.IListActiveSavingGoalsCase;
 import br.dev.diisk.application.mappers.notification.NotificationToLastNotificationMapper;
 import br.dev.diisk.application.mappers.saving_goal.SavingGoalToDtoMapper;
+import br.dev.diisk.domain.entities.FundStorage;
 import br.dev.diisk.domain.entities.MonthlyHistory;
 import br.dev.diisk.domain.entities.SavingGoal;
 import br.dev.diisk.domain.entities.notification.BudgetNotification;
@@ -43,12 +46,14 @@ public class GetSummaryCase implements IGetSummaryCase {
     private final UtilService utilService;
     private final ModelMapper mapper;
     private final IListMonthlyHistoryCase listMonthlyHistoryCase;
+    private final IListFundStorageCase listFundStorageCase;
 
     public GetSummaryCase(IListLastBudgetNotificationCase listLastBudgetNotificationsCase,
             IListNotificationCase listNotificationCase,
             NotificationToLastNotificationMapper notificationToLastNotificationMapper,
             IListActiveSavingGoalsCase listActiveSavingGoalsCase, SavingGoalToDtoMapper savingGoalToDtoMapper,
-            UtilService utilService, ModelMapper mapper, IListMonthlyHistoryCase listMonthlyHistoryCase) {
+            UtilService utilService, ModelMapper mapper, IListMonthlyHistoryCase listMonthlyHistoryCase,
+            IListFundStorageCase listFundStorageCase) {
         this.listLastBudgetNotificationsCase = listLastBudgetNotificationsCase;
         this.listNotificationCase = listNotificationCase;
         this.notificationToLastNotificationMapper = notificationToLastNotificationMapper;
@@ -57,6 +62,7 @@ public class GetSummaryCase implements IGetSummaryCase {
         this.utilService = utilService;
         this.mapper = mapper;
         this.listMonthlyHistoryCase = listMonthlyHistoryCase;
+        this.listFundStorageCase = listFundStorageCase;
     }
 
     @Override
@@ -72,7 +78,7 @@ public class GetSummaryCase implements IGetSummaryCase {
         Set<SavingGoal> activeSavingGoals = listActiveSavingGoalsCase.execute(user.getId(), endsAt);
 
         List<CategoryTransactionDetailsDTO> categoriesDetails = getCategoriesDetails(monthlyHistories);
-        BalanceDetailsDTO details = new BalanceDetailsDTO();// FAZER CASOS DOS STORAGES PARA FAZER ESSE
+        BalanceDetailsDTO details = getBalanceDetails(user);
         BudgetSummaryDTO budgetSummary = getBudgetSummary(monthlyHistories);
         HistoryGraphsDTO historyGraph = getHistoryGraphs(monthlyHistories);
 
@@ -88,6 +94,16 @@ public class GetSummaryCase implements IGetSummaryCase {
         summary.setSavingGoals(savingGoalToDtoMapper.mapList(activeSavingGoals));
 
         return summary;
+    }
+
+    private BalanceDetailsDTO getBalanceDetails(User user) {
+        BalanceDetailsDTO balanceDetails = new BalanceDetailsDTO();
+        Set<FundStorage> fundStorages = listFundStorageCase.execute(user.getId());
+        balanceDetails.setFundStorageBalances(
+                fundStorages.stream().map(fs -> mapper.map(fs, FundStorageDetailsDTO.class)).toList());
+        balanceDetails.setTotalBalance(
+                fundStorages.stream().map(fs -> fs.getBalance()).reduce(BigDecimal.ZERO, BigDecimal::add));
+        return balanceDetails;
     }
 
     private HistoryGraphsDTO getHistoryGraphs(List<MonthlyHistory> monthlyHistories) {
