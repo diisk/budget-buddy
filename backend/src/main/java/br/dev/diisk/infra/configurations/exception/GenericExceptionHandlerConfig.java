@@ -2,6 +2,7 @@ package br.dev.diisk.infra.configurations.exception;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -31,6 +32,11 @@ public class GenericExceptionHandlerConfig {
         return responseService.internal(new ErrorDetailsResponse(ex.getMessage(), null));
     }
 
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<?> handleException(AuthorizationDeniedException ex) {
+        return responseService.unauthorized(new ErrorDetailsResponse("You have no rights here.", null));
+    }
+    
     @ExceptionHandler(CustomRuntimeException.class)
     public ResponseEntity<?> handleCustomRuntimeException(CustomRuntimeException ex) {
         System.err.println(ex);

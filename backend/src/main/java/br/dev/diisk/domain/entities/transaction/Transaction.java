@@ -34,7 +34,7 @@ public class Transaction extends RastreableEntity {
     private LocalDateTime date;
 
     @ManyToOne(optional = false)
-    private FundStorage storage;
+    private FundStorage fundStorage;
 
     @ManyToOne(optional = false)
     private User user;

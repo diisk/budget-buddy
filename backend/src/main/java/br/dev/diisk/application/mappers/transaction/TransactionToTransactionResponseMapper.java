@@ -17,7 +17,7 @@ public class TransactionToTransactionResponseMapper extends BaseMapper<Transacti
     @Override
     protected void doComplexMap(Transaction source, TransactionResponse target) {
         target.setCategoryName(source.getCategory().getName());
-        target.setStorageName(source.getStorage().getName());
+        target.setStorageName(source.getFundStorage().getName());
         target.setType(source.getCategory().getType());
     }
 

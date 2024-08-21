@@ -39,7 +39,7 @@ public class AddTransactionRequestToTransactionMapper extends BaseMapper<AddTran
 
         target.setUser(source.getUser());
         target.setCategory(category);
-        target.setStorage(storage);
+        target.setFundStorage(storage);
     }
 
 }

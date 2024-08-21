@@ -20,7 +20,7 @@ public interface ITransactionRepository extends JpaRepository<Transaction, Long>
     @Query("""
             SELECT t FROM Transaction t
             JOIN FETCH t.category c
-            JOIN FETCH t.storage s
+            JOIN FETCH t.fundStorage s
             WHERE (
                 t.user.id = :userId
                 AND t.category.id = :categoryId

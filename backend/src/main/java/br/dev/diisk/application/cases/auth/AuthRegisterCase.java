@@ -4,7 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.dev.diisk.application.dtos.auth.RegisterRequest;
-import br.dev.diisk.application.dtos.fund_storage.AddFundStorageRequest;
+import br.dev.diisk.application.dtos.fund_storage.AddFundStorageDTO;
 import br.dev.diisk.application.exceptions.persistence.DbValueNotFoundException;
 import br.dev.diisk.application.exceptions.persistence.ValueAlreadyInDatabaseException;
 import br.dev.diisk.application.interfaces.auth.IAuthRegisterCase;
@@ -44,7 +44,7 @@ public class AuthRegisterCase implements IAuthRegisterCase {
         User newUser = new User(dto.getName(), dto.getEmail(), encryptedPassword, defaultUserPerfil);
         userRepository.save(newUser);
         addFundStorageCase.execute(
-                new AddFundStorageRequest("Conta corrente", false),
+                new AddFundStorageDTO("Conta corrente", false),
                 newUser);
         return newUser;
     }
