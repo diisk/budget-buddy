@@ -16,13 +16,15 @@ public abstract class BaseMapper<S, T> implements Function<S, T> {
 
     private Class<T> targetType;
     private Class<S> sourceType;
-    
+
     private final ModelMapper mapper;
 
     @SuppressWarnings("unchecked")
     public BaseMapper(ModelMapper mapper) {
-        this.sourceType = (Class<S>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        this.targetType = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        this.sourceType = (Class<S>) ((ParameterizedType) getClass().getGenericSuperclass())
+                .getActualTypeArguments()[0];
+        this.targetType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+                .getActualTypeArguments()[1];
         this.mapper = mapper;
     }
 
@@ -32,14 +34,18 @@ public abstract class BaseMapper<S, T> implements Function<S, T> {
         configureMapping(typeMap);
     }
 
-    protected void configureMapping(TypeMap<S, T> typeMap){
+    protected void configureMapping(TypeMap<S, T> typeMap) {
 
     }
 
-    protected void doComplexMap(S source, T target){
+    protected void doComplexMap(S source, T target) {
 
     }
-    
+
+    protected void doComplexUpdate(S source, T target) {
+
+    }
+
     @Override
     public T apply(S source) {
         T target = mapper.map(source, targetType);
@@ -49,6 +55,7 @@ public abstract class BaseMapper<S, T> implements Function<S, T> {
 
     public void update(S source, T target) {
         mapper.map(source, target);
+        doComplexUpdate(source, target);
     }
 
     public List<T> mapList(Collection<S> source) {
