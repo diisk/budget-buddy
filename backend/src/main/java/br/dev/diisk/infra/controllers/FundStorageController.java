@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,22 +18,24 @@ import org.springframework.web.bind.annotation.RestController;
 import br.dev.diisk.application.interfaces.IResponseService;
 import br.dev.diisk.application.interfaces.fund_storage.IAddFundStorageCase;
 import br.dev.diisk.application.interfaces.fund_storage.IListFundStorageCase;
+import br.dev.diisk.application.interfaces.fund_storage.ISetFundStorageActiveCase;
 import br.dev.diisk.application.interfaces.fund_storage.IUpdateFundStorageCase;
 import br.dev.diisk.application.dtos.fund_storage.AddFundStorageDTO;
 import br.dev.diisk.application.dtos.fund_storage.AddFundStorageRequest;
 import br.dev.diisk.application.dtos.fund_storage.FundStorageResponse;
-import br.dev.diisk.application.dtos.fund_storage.UpdateFundStorageDTO;
 import br.dev.diisk.application.dtos.fund_storage.UpdateFundStorageRequest;
 import br.dev.diisk.application.dtos.response.SuccessResponse;
 import br.dev.diisk.domain.entities.FundStorage;
 import br.dev.diisk.domain.entities.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("api/fund-storages")
 @PreAuthorize("hasAuthority('DEFAULT')")
 @SecurityRequirement(name = "bearer-key")
+@RequiredArgsConstructor
 public class FundStorageController {
 
     private final ModelMapper mapper;
@@ -40,16 +43,7 @@ public class FundStorageController {
     private final IAddFundStorageCase addFundStorageCase;
     private final IUpdateFundStorageCase updateFundStorageCase;
     private final IListFundStorageCase listFundStorageCase;
-
-    public FundStorageController(ModelMapper mapper, IResponseService responseService,
-            IAddFundStorageCase addFundStorageCase, IUpdateFundStorageCase updateFundStorageCase,
-            IListFundStorageCase listFundStorageCase) {
-        this.mapper = mapper;
-        this.responseService = responseService;
-        this.addFundStorageCase = addFundStorageCase;
-        this.updateFundStorageCase = updateFundStorageCase;
-        this.listFundStorageCase = listFundStorageCase;
-    }
+    private final ISetFundStorageActiveCase setFundStorageActiveCase;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<FundStorageResponse>> addFundStorage(
@@ -63,11 +57,19 @@ public class FundStorageController {
     @PatchMapping("{id}")
     public ResponseEntity<SuccessResponse<FundStorageResponse>> updateFundStorage(
             @PathVariable Long id,
-            @RequestBody UpdateFundStorageRequest dto,
+            @RequestBody @Valid UpdateFundStorageRequest dto,
             @AuthenticationPrincipal User user) {
-        FundStorage fundStorage = updateFundStorageCase.execute(id, mapper.map(dto, UpdateFundStorageDTO.class), user);
+        FundStorage fundStorage = updateFundStorageCase.execute(id, dto, user);
         FundStorageResponse response = mapper.map(fundStorage, FundStorageResponse.class);
-        return responseService.created(response);
+        return responseService.ok(response);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<SuccessResponse<FundStorageResponse>> deleteFundStorage(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User user) {
+        setFundStorageActiveCase.execute(id, false, user);
+        return responseService.ok();
     }
 
     @GetMapping

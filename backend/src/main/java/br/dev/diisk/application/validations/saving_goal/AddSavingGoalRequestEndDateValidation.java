@@ -13,8 +13,8 @@ public class AddSavingGoalRequestEndDateValidation implements IAddSavingGoalVali
 
     @Override
     public void validate(AddSavingGoalRequest dto, User user) {
-        if(dto.getEndDate().isBefore(LocalDateTime.now()))
-            throw new PastDateException("endDate");
+        if (dto.getEndDate().isBefore(LocalDateTime.now()))
+            throw new PastDateException(getClass(), "endDate");
     }
 
 }

@@ -3,13 +3,10 @@ package br.dev.diisk.domain.entities;
 import java.math.BigDecimal;
 
 import br.dev.diisk.domain.entities.user.User;
+import br.dev.diisk.domain.interfaces.IEntityWithUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +17,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "funds_storages")
-public class FundStorage {
+public class FundStorage extends RastreableEntity implements IEntityWithUser {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
     @Column(nullable = false)
     private String name;
 
@@ -35,15 +28,7 @@ public class FundStorage {
     @Column(nullable = false)
     private Boolean creditCard;
 
-    @Column(nullable = false)
-    private Boolean active;
-
     @ManyToOne(optional = false)
     private User user;
-
-    @PrePersist
-    private void init(){
-        active = true;
-    }
 
 }

@@ -13,29 +13,25 @@ import br.dev.diisk.application.interfaces.saving_goal.IUpdateSavingGoalValidato
 import br.dev.diisk.domain.entities.SavingGoal;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.infra.services.UtilService;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class UpdateSavingGoalRequestExistsValidation implements IUpdateSavingGoalValidator {
 
     private final IListActiveSavingGoalsCase listActiveSavingGoalsCase;
     private final UtilService utilService;
-
-    public UpdateSavingGoalRequestExistsValidation(IListActiveSavingGoalsCase listActiveSavingGoalsCase,
-            UtilService utilService) {
-        this.listActiveSavingGoalsCase = listActiveSavingGoalsCase;
-        this.utilService = utilService;
-    }
 
     @Override
     public void validate(Long id, UpdateSavingGoalRequest dto, User user) {
         Set<SavingGoal> savings = listActiveSavingGoalsCase.execute(user.getId(), LocalDateTime.now());
         if (savings.stream()
                 .noneMatch(sav -> sav.getId() == id))
-            throw new DbValueNotFoundException(SavingGoal.class, "id");
+            throw new DbValueNotFoundException(getClass(), "id");
         if (savings.stream()
                 .anyMatch(sav -> sav.getId() != id
                         && utilService.equalsIgnoreCaseAndAccents(sav.getGoalName(), dto.getGoalName())))
-            throw new ValueAlreadyInDatabaseException(SavingGoal.class, "goalName");
+            throw new ValueAlreadyInDatabaseException(getClass(), "goalName");
     }
 
 }

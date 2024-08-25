@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 public class InvalidUserException extends CustomRuntimeException {
 
-    public InvalidUserException() {
-        super(null, "Invalid username or password.");
+    public InvalidUserException(Class<?> classObject) {
+        super(classObject, "Invalid username or password.");
     }
 
 }

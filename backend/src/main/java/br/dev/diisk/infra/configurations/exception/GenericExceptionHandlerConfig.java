@@ -16,17 +16,15 @@ import br.dev.diisk.application.exceptions.CustomRuntimeException;
 import br.dev.diisk.application.exceptions.NotFoundFieldCustomRuntimeException;
 import br.dev.diisk.application.exceptions.NotFoundValueCustomRuntimeException;
 import br.dev.diisk.application.interfaces.IResponseService;
+import lombok.RequiredArgsConstructor;
 
 @RestControllerAdvice
 @Order(2)
+@RequiredArgsConstructor
 public class GenericExceptionHandlerConfig {
 
     private final IResponseService responseService;
-
-    public GenericExceptionHandlerConfig(IResponseService responseService) {
-        this.responseService = responseService;
-    }
-
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception ex) {
         return responseService.internal(new ErrorDetailsResponse(ex.getMessage(), null));

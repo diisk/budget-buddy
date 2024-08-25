@@ -16,9 +16,9 @@ public class AddTransactionRequestFutureDateValidation implements IAddTransactio
     @Override
     public void validate(List<AddTransactionRequest> dtos, User user) {
         LocalDateTime now = LocalDateTime.now();
-        for(AddTransactionRequest dto : dtos){
-            if(dto.getDate().isAfter(now))
-            throw new FutureDateException("date");
+        for (AddTransactionRequest dto : dtos) {
+            if (dto.getDate().isAfter(now))
+                throw new FutureDateException(getClass(), "date");
         }
     }
 

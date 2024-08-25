@@ -10,18 +10,14 @@ import br.dev.diisk.application.interfaces.transaction.IListTransactionCase;
 import br.dev.diisk.application.interfaces.transaction_category.IListTransactionCategoryCase;
 import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ListTransactionByTypeCase implements IListTransactionByTypeCase {
 
     private final IListTransactionCase listTransactionCase;
     private final IListTransactionCategoryCase listTransactionCategoryCase;
-
-    public ListTransactionByTypeCase(IListTransactionCase listTransactionCase,
-            IListTransactionCategoryCase listTransactionCategoryCase) {
-        this.listTransactionCase = listTransactionCase;
-        this.listTransactionCategoryCase = listTransactionCategoryCase;
-    }
 
     @Override
     public Set<Transaction> execute(Long userId, String transactionType, LocalDateTime beginsAt,

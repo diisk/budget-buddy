@@ -11,15 +11,13 @@ import br.dev.diisk.application.interfaces.IResponseService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final IResponseService responseService;
-
-    public CustomAuthenticationEntryPoint(IResponseService responseService) {
-        this.responseService = responseService;
-    }
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,

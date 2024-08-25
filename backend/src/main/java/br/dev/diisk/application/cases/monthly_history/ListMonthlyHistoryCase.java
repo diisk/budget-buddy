@@ -10,16 +10,14 @@ import org.springframework.stereotype.Service;
 import br.dev.diisk.application.interfaces.monthly_history.IListMonthlyHistoryCase;
 import br.dev.diisk.domain.entities.MonthlyHistory;
 import br.dev.diisk.domain.repositories.monthly_history.IMonthlyHistoriRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ListMonthlyHistoryCase implements IListMonthlyHistoryCase {
 
     private final IMonthlyHistoriRepository monthlyHistoriRepository;
-
-    public ListMonthlyHistoryCase(IMonthlyHistoriRepository monthlyHistoriRepository) {
-        this.monthlyHistoriRepository = monthlyHistoriRepository;
-    }
-
+    
     @Override
     @Cacheable(value = "monthly-histories", key = "#userId+'-'+#beginsReference+'-'+#endsReference")
     public List<MonthlyHistory> execute(Long userId, LocalDateTime beginsReference, LocalDateTime endsReference) {

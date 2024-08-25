@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import br.dev.diisk.domain.entities.RastreableEntity;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.enums.TransactionTypeEnum;
+import br.dev.diisk.domain.interfaces.IEntityWithUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,7 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "transactions_categories")
-public class TransactionCategory extends RastreableEntity{
+public class TransactionCategory extends RastreableEntity implements IEntityWithUser{
 
     @Enumerated(EnumType.STRING)
     private TransactionTypeEnum type;

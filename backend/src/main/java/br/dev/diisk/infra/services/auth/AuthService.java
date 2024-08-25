@@ -6,15 +6,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import br.dev.diisk.application.interfaces.auth.IAuthService;
 import br.dev.diisk.domain.entities.user.User;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService implements IAuthService {
 
     private final AuthenticationManager authenticationManager;
-    
-    public AuthService(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
 
     @Override
     public User authenticate(String username, String password) {

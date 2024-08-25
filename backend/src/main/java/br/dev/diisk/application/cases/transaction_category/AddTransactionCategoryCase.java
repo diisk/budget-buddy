@@ -12,21 +12,15 @@ import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.transaction.ITransactionCategoryRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AddTransactionCategoryCase implements IAddTransactionCategoryCase {
 
     private final List<IAddTransactionCategoryRequestValidator> validators;
     private final ITransactionCategoryRepository transactionCategoryRepository;
     private final AddTransactionCategoryRequestToTransactionCategoryMapper addTransactionCategoryRequestToTransactionCategoryMapper;
-
-    public AddTransactionCategoryCase(List<IAddTransactionCategoryRequestValidator> validators,
-            ITransactionCategoryRepository transactionCategoryRepository,
-            AddTransactionCategoryRequestToTransactionCategoryMapper addTransactionCategoryRequestToTransactionCategoryMapper) {
-        this.validators = validators;
-        this.transactionCategoryRepository = transactionCategoryRepository;
-        this.addTransactionCategoryRequestToTransactionCategoryMapper = addTransactionCategoryRequestToTransactionCategoryMapper;
-    }
 
     @Override
     @Transactional

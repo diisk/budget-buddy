@@ -19,20 +19,15 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final ITokenService tokenService;
     private final IUserRepository userRepository;
     private final IResponseService responseService;
-
-    public SecurityFilter(ITokenService tokenService, IUserRepository userRepository,
-            IResponseService responseService) {
-        this.tokenService = tokenService;
-        this.userRepository = userRepository;
-        this.responseService = responseService;
-    }
 
     @Override
     protected void doFilterInternal(

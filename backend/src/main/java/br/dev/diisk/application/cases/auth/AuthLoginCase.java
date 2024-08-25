@@ -8,26 +8,23 @@ import br.dev.diisk.application.interfaces.auth.IAuthLoginCase;
 import br.dev.diisk.application.interfaces.auth.IAuthService;
 import br.dev.diisk.application.interfaces.auth.ITokenService;
 import br.dev.diisk.domain.entities.user.User;
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class AuthLoginCase implements IAuthLoginCase{
+@RequiredArgsConstructor
+public class AuthLoginCase implements IAuthLoginCase {
 
     private final IAuthService authService;
     private final ITokenService tokenService;
-    
-    public AuthLoginCase(IAuthService authService, ITokenService tokenService) {
-        this.authService = authService;
-        this.tokenService = tokenService;
-    }
 
     @Override
     public String execute(LoginRequest dto) {
         User user;
-        try{
+        try {
             user = authService.authenticate(dto.getEmail(), dto.getPassword());
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.err.println(ex);
-            throw new InvalidUserException();
+            throw new InvalidUserException(getClass());
         }
         String token = tokenService.generateToken(user);
         return token;

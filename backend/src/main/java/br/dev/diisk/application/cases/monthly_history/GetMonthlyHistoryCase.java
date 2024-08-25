@@ -9,24 +9,21 @@ import br.dev.diisk.domain.entities.MonthlyHistory;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.repositories.monthly_history.IMonthlyHistoriRepository;
 import br.dev.diisk.infra.services.UtilService;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class GetMonthlyHistoryCase implements IGetMonthlyHistoryCase {
 
     private final UtilService utilService;
     private final IMonthlyHistoriRepository monthlyHistoriRepository;
-
-    public GetMonthlyHistoryCase(UtilService utilService, IMonthlyHistoriRepository monthlyHistoriRepository) {
-        this.utilService = utilService;
-        this.monthlyHistoriRepository = monthlyHistoriRepository;
-    }
 
     @Override
     public MonthlyHistory execute(Long userId, LocalDateTime referenceDate, TransactionCategory category) {
         referenceDate = utilService.toReference(referenceDate);
 
         if (referenceDate.isAfter(LocalDateTime.now()))
-            throw new FutureDateException("referenceDate");
+            throw new FutureDateException(getClass(), "referenceDate");
 
         return monthlyHistoriRepository
                 .findByReferenceDateAndUserId(referenceDate, userId).orElse(null);

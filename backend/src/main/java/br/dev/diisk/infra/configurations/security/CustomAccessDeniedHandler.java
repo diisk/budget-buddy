@@ -10,15 +10,13 @@ import br.dev.diisk.application.interfaces.IResponseService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     private final IResponseService responseService;
-
-    public CustomAccessDeniedHandler(IResponseService responseService) {
-        this.responseService = responseService;
-    }
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,

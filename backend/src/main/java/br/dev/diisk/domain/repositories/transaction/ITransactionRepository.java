@@ -1,7 +1,6 @@
 package br.dev.diisk.domain.repositories.transaction;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,17 +15,8 @@ public interface ITransactionRepository extends JpaRepository<Transaction, Long>
             JOIN FETCH t.category c
             JOIN FETCH t.user u
             JOIN FETCH t.fundStorage fs
-            WHERE t.id = :id
-            AND u.id = :userId
-            """)
-    Optional<Transaction> findByIdAndUserId(Long id, Long userId);
-
-    @Query("""
-            SELECT t FROM Transaction t
-            JOIN FETCH t.category c
-            JOIN FETCH t.user u
-            JOIN FETCH t.fundStorage fs
             WHERE t.user.id = :id
+            AND t.removed = false
             """)
     Set<Transaction> findAllByUserId(Long id);
 
@@ -36,7 +26,8 @@ public interface ITransactionRepository extends JpaRepository<Transaction, Long>
             JOIN FETCH t.user u
             JOIN FETCH t.fundStorage fs
             WHERE (
-                t.user.id = :userId
+                t.removed = false
+                AND t.user.id = :userId
                 AND t.category.id = :categoryId
                 AND (
                     (

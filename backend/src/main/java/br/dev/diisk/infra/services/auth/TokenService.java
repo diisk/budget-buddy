@@ -9,18 +9,16 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import br.dev.diisk.application.interfaces.auth.ITokenService;
 import br.dev.diisk.domain.entities.user.User;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class TokenService implements ITokenService {
 
     @Value("${spring.application.name}")
     private String appName;
 
     private final Algorithm algorithm;
-
-    public TokenService(Algorithm algorithm) {
-        this.algorithm = algorithm;
-    }
 
     @Override
     public String generateToken(User user) {

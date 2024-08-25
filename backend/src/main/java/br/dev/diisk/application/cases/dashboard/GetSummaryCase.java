@@ -34,8 +34,10 @@ import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.enums.TransactionTypeEnum;
 import br.dev.diisk.infra.services.UtilService;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class GetSummaryCase implements IGetSummaryCase {
 
     private final IListLastBudgetNotificationCase listLastBudgetNotificationsCase;
@@ -47,23 +49,6 @@ public class GetSummaryCase implements IGetSummaryCase {
     private final ModelMapper mapper;
     private final IListMonthlyHistoryCase listMonthlyHistoryCase;
     private final IListFundStorageCase listFundStorageCase;
-
-    public GetSummaryCase(IListLastBudgetNotificationCase listLastBudgetNotificationsCase,
-            IListNotificationCase listNotificationCase,
-            NotificationToLastNotificationMapper notificationToLastNotificationMapper,
-            IListActiveSavingGoalsCase listActiveSavingGoalsCase, SavingGoalToDtoMapper savingGoalToDtoMapper,
-            UtilService utilService, ModelMapper mapper, IListMonthlyHistoryCase listMonthlyHistoryCase,
-            IListFundStorageCase listFundStorageCase) {
-        this.listLastBudgetNotificationsCase = listLastBudgetNotificationsCase;
-        this.listNotificationCase = listNotificationCase;
-        this.notificationToLastNotificationMapper = notificationToLastNotificationMapper;
-        this.listActiveSavingGoalsCase = listActiveSavingGoalsCase;
-        this.savingGoalToDtoMapper = savingGoalToDtoMapper;
-        this.utilService = utilService;
-        this.mapper = mapper;
-        this.listMonthlyHistoryCase = listMonthlyHistoryCase;
-        this.listFundStorageCase = listFundStorageCase;
-    }
 
     @Override
     public SummaryResponse execute(LocalDateTime beginsAt, LocalDateTime endsAt, User user) {

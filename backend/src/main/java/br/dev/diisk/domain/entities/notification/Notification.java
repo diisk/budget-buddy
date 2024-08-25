@@ -2,6 +2,7 @@ package br.dev.diisk.domain.entities.notification;
 
 import br.dev.diisk.domain.entities.RastreableEntity;
 import br.dev.diisk.domain.entities.user.User;
+import br.dev.diisk.domain.interfaces.IEntityWithUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "notifications")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Notification extends RastreableEntity{
+public class Notification extends RastreableEntity implements IEntityWithUser{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

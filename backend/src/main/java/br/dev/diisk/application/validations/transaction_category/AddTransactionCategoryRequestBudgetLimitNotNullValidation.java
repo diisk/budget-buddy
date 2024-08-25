@@ -16,7 +16,7 @@ public class AddTransactionCategoryRequestBudgetLimitNotNullValidation
     public void validate(AddTransactionCategoryRequest dto, User user) {
         if (dto.getType().equalsIgnoreCase(TransactionTypeEnum.EXPENSE.toString())
                 && dto.getBudgetLimit() == null)
-            throw new FieldNotNullException(AddTransactionCategoryRequest.class, "budgetLimit");
+            throw new FieldNotNullException(getClass(), "budgetLimit");
     }
 
 }

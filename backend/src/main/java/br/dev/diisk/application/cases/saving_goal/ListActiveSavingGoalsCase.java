@@ -9,15 +9,13 @@ import org.springframework.stereotype.Service;
 import br.dev.diisk.application.interfaces.saving_goal.IListActiveSavingGoalsCase;
 import br.dev.diisk.domain.entities.SavingGoal;
 import br.dev.diisk.domain.repositories.saving_goal.ISavingGoalRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ListActiveSavingGoalsCase implements IListActiveSavingGoalsCase {
 
     private final ISavingGoalRepository savingGoalRepository;
-
-    public ListActiveSavingGoalsCase(ISavingGoalRepository savingGoalRepository) {
-        this.savingGoalRepository = savingGoalRepository;
-    }
 
     @Override
     @Cacheable(value = "saving-goals", key = "#userId+'-'+#referenceDate")

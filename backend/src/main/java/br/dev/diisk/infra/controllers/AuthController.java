@@ -26,9 +26,11 @@ import br.dev.diisk.application.dtos.response.SuccessResponse;
 import br.dev.diisk.domain.entities.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final IAuthLoginCase authLoginCase;
@@ -36,16 +38,6 @@ public class AuthController {
     private final IAuthRenewCase authRenewCase;
     private final ModelMapper mapper;
     private final IResponseService responseService;
-
-    public AuthController(IAuthLoginCase authLoginCase, IAuthRegisterCase authRegisterCase,
-            IAuthRenewCase authRenewCase,
-            ModelMapper mapper, IResponseService responseService) {
-        this.authLoginCase = authLoginCase;
-        this.authRegisterCase = authRegisterCase;
-        this.authRenewCase = authRenewCase;
-        this.mapper = mapper;
-        this.responseService = responseService;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<SuccessResponse<LoginResponse>> login(@RequestBody @Valid LoginRequest dto) {

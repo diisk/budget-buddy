@@ -23,11 +23,13 @@ import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.infra.services.ResponseService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("api/saving-goal")
 @PreAuthorize("hasAuthority('DEFAULT')")
 @SecurityRequirement(name = "bearer-key")
+@RequiredArgsConstructor
 public class SavingGoalController {
 
     private final ResponseService responseService;
@@ -36,20 +38,9 @@ public class SavingGoalController {
     private final IUpdateSavingGoalCase updateSavingGoalCase;
     private final SavingGoalToUpdateSavingGoalResponseMapper savingGoalToUpdateSavingGoalResponseMapper;
 
-    public SavingGoalController(ResponseService responseService, IAddSavingGoalCase addSavingGoalCase,
-            SavingGoalToAddSavingGoalResponseMapper savingGoalToAddSavingGoalResponseMapper,
-            IUpdateSavingGoalCase updateSavingGoalCase,
-            SavingGoalToUpdateSavingGoalResponseMapper savingGoalToUpdateSavingGoalResponseMapper) {
-        this.responseService = responseService;
-        this.addSavingGoalCase = addSavingGoalCase;
-        this.savingGoalToAddSavingGoalResponseMapper = savingGoalToAddSavingGoalResponseMapper;
-        this.updateSavingGoalCase = updateSavingGoalCase;
-        this.savingGoalToUpdateSavingGoalResponseMapper = savingGoalToUpdateSavingGoalResponseMapper;
-    }
-
     @PostMapping
     public ResponseEntity<SuccessResponse<AddSavingGoalResponse>> addSavingGoal(
-            @Valid @RequestBody AddSavingGoalRequest dto,
+            @RequestBody @Valid AddSavingGoalRequest dto,
             @AuthenticationPrincipal User user) {
         SavingGoal savingGoal = addSavingGoalCase.execute(dto, user);
         AddSavingGoalResponse response = savingGoalToAddSavingGoalResponseMapper.apply(savingGoal);
@@ -58,7 +49,7 @@ public class SavingGoalController {
 
     @PatchMapping(path = "{id}")
     public ResponseEntity<SuccessResponse<UpdateSavingGoalResponse>> updateSavingGoal(@PathVariable Long id,
-            @Valid @RequestBody UpdateSavingGoalRequest dto,
+            @RequestBody @Valid UpdateSavingGoalRequest dto,
             @AuthenticationPrincipal User user) {
         SavingGoal savingGoal = updateSavingGoalCase.execute(id, dto, user);
         UpdateSavingGoalResponse response = savingGoalToUpdateSavingGoalResponseMapper.apply(savingGoal);

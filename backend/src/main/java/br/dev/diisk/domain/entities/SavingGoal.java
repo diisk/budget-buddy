@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import br.dev.diisk.domain.entities.user.User;
+import br.dev.diisk.domain.interfaces.IEntityWithUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "saving_goals")
-public class SavingGoal extends RastreableEntity{
+public class SavingGoal extends RastreableEntity implements IEntityWithUser{
     
     @Column(nullable = false)
     private String goalName;

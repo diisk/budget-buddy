@@ -14,8 +14,8 @@ public class UpdateTransactionRequestFutureDateValidation implements IUpdateTran
     @Override
     public void validate(Long id, UpdateTransactionRequest dto, User user) {
         LocalDateTime now = LocalDateTime.now();
-        if(dto.getDate().isAfter(now))
-            throw new FutureDateException("date");
+        if (dto.getDate().isAfter(now))
+            throw new FutureDateException(getClass(), "date");
     }
 
 }

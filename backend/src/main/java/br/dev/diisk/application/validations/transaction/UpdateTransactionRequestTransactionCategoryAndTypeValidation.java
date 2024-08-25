@@ -12,16 +12,13 @@ import br.dev.diisk.application.interfaces.transaction_category.IListTransaction
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.enums.TransactionTypeEnum;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class UpdateTransactionRequestTransactionCategoryAndTypeValidation implements IUpdateTransactionRequestValidator {
 
     private final IListTransactionCategoryCase listTransactionCategoryCase;
-
-    public UpdateTransactionRequestTransactionCategoryAndTypeValidation(
-            IListTransactionCategoryCase listTransactionCategoryCase) {
-        this.listTransactionCategoryCase = listTransactionCategoryCase;
-    }
 
     @Override
     public void validate(Long id, UpdateTransactionRequest dto, User user) {
@@ -32,7 +29,7 @@ public class UpdateTransactionRequestTransactionCategoryAndTypeValidation implem
             categories.addAll(typeCategories);
         }
         if (categories.stream().noneMatch(category -> category.getId() == dto.getCategoryId()))
-                throw new DbValueNotFoundException(TransactionCategory.class, "id");
+                throw new DbValueNotFoundException(getClass(), "id");
     }
 
 }

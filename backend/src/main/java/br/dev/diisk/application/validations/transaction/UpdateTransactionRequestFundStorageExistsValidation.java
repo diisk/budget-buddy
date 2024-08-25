@@ -10,21 +10,19 @@ import br.dev.diisk.application.interfaces.fund_storage.IListFundStorageCase;
 import br.dev.diisk.application.interfaces.transaction.IUpdateTransactionRequestValidator;
 import br.dev.diisk.domain.entities.FundStorage;
 import br.dev.diisk.domain.entities.user.User;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class UpdateTransactionRequestFundStorageExistsValidation implements IUpdateTransactionRequestValidator {
 
     private final IListFundStorageCase listFundStorageCase;
-
-    public UpdateTransactionRequestFundStorageExistsValidation(IListFundStorageCase listFundStorageCase) {
-        this.listFundStorageCase = listFundStorageCase;
-    }
 
     @Override
     public void validate(Long id, UpdateTransactionRequest dto, User user) {
         Set<FundStorage> storages = listFundStorageCase.execute(user.getId());
         if (storages.stream().noneMatch(storage -> storage.getId() == dto.getFundStorageId()))
-                throw new DbValueNotFoundException(FundStorage.class, "id");
+                throw new DbValueNotFoundException(getClass(), "id");
     }
 
 }

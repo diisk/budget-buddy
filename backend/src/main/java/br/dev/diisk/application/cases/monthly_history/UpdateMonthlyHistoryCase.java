@@ -15,8 +15,10 @@ import br.dev.diisk.domain.repositories.monthly_history.IMonthlyHistoriRepositor
 import br.dev.diisk.infra.services.CacheService;
 import br.dev.diisk.infra.services.UtilService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UpdateMonthlyHistoryCase implements IUpdateMonthlyHistoryCase {
 
     private final UtilService utilService;
@@ -24,16 +26,6 @@ public class UpdateMonthlyHistoryCase implements IUpdateMonthlyHistoryCase {
     private final IMonthlyHistoriRepository monthlyHistoriRepository;
     private final IGetMonthlyHistoryCase getMonthlyHistoryCase;
     private final CacheService cacheService;
-
-    public UpdateMonthlyHistoryCase(UtilService utilService, IListTransactionCase listTransactionCase,
-            IMonthlyHistoriRepository monthlyHistoriRepository, IGetMonthlyHistoryCase getMonthlyHistoryCase,
-            CacheService cacheService) {
-        this.utilService = utilService;
-        this.listTransactionCase = listTransactionCase;
-        this.monthlyHistoriRepository = monthlyHistoriRepository;
-        this.getMonthlyHistoryCase = getMonthlyHistoryCase;
-        this.cacheService = cacheService;
-    }
 
     @Override
     @Transactional

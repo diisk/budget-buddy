@@ -5,15 +5,13 @@ import org.springframework.stereotype.Service;
 import br.dev.diisk.application.interfaces.auth.IAuthRenewCase;
 import br.dev.diisk.application.interfaces.auth.ITokenService;
 import br.dev.diisk.domain.entities.user.User;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AuthRenewCase implements IAuthRenewCase{
 
     private final ITokenService tokenService;
-    
-    public AuthRenewCase(ITokenService tokenService) {
-        this.tokenService = tokenService;
-    }
 
     @Override
     public String execute(User user) {

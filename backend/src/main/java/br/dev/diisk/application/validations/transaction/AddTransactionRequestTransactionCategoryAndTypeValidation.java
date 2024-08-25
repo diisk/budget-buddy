@@ -15,16 +15,13 @@ import br.dev.diisk.application.interfaces.transaction_category.IListTransaction
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.enums.TransactionTypeEnum;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class AddTransactionRequestTransactionCategoryAndTypeValidation implements IAddTransactionRequestValidator {
 
     private final IListTransactionCategoryCase listTransactionCategoryCase;
-
-    public AddTransactionRequestTransactionCategoryAndTypeValidation(
-            IListTransactionCategoryCase listTransactionCategoryCase) {
-        this.listTransactionCategoryCase = listTransactionCategoryCase;
-    }
 
     @Override
     public void validate(List<AddTransactionRequest> dtos, User user) {
@@ -37,11 +34,11 @@ public class AddTransactionRequestTransactionCategoryAndTypeValidation implement
         for (AddTransactionRequest dto : dtos) {
             Optional<TransactionTypeEnum> type = TransactionTypeEnum.getByName(dto.getType());
             if (type.isEmpty())
-                throw new EnumValueNotFoundException(TransactionTypeEnum.class, dto.getType());
+                throw new EnumValueNotFoundException(getClass(), dto.getType());
 
             if (categories.stream().noneMatch(category -> category.getId() == dto.getCategoryId()
                     && type.get() == category.getType()))
-                throw new DbValueNotFoundException(TransactionCategory.class, "id");
+                throw new DbValueNotFoundException(getClass(), "id");
         }
     }
 

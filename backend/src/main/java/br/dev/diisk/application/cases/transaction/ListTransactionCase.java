@@ -10,15 +10,13 @@ import br.dev.diisk.application.interfaces.transaction.IListTransactionCase;
 import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.repositories.transaction.ITransactionRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ListTransactionCase implements IListTransactionCase {
 
     private final ITransactionRepository transactionRepository;
-
-    public ListTransactionCase(ITransactionRepository transactionRepository) {
-        this.transactionRepository = transactionRepository;
-    }
 
     @Override
     @Cacheable(value = "transactions", key = "#userId+'-'+#category.getId()+'-'+#beginsAt+'-'+#endsAt")

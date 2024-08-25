@@ -16,8 +16,10 @@ import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.saving_goal.ISavingGoalRepository;
 import br.dev.diisk.infra.services.CacheService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UpdateSavingGoalCase implements IUpdateSavingGoalCase {
 
     private final IListActiveSavingGoalsCase listActiveSavingGoalsCase;
@@ -25,16 +27,6 @@ public class UpdateSavingGoalCase implements IUpdateSavingGoalCase {
     private final ModelMapper mapper;
     private final List<IUpdateSavingGoalValidator> validations;
     private final CacheService cacheService;
-    
-    public UpdateSavingGoalCase(IListActiveSavingGoalsCase listActiveSavingGoalsCase,
-            ISavingGoalRepository savingGoalRepository, ModelMapper mapper,
-            List<IUpdateSavingGoalValidator> validations, CacheService cacheService) {
-        this.listActiveSavingGoalsCase = listActiveSavingGoalsCase;
-        this.savingGoalRepository = savingGoalRepository;
-        this.mapper = mapper;
-        this.validations = validations;
-        this.cacheService = cacheService;
-    }
 
     @Override
     @Transactional

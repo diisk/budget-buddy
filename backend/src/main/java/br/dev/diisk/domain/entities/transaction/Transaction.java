@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import br.dev.diisk.domain.entities.FundStorage;
 import br.dev.diisk.domain.entities.RastreableEntity;
 import br.dev.diisk.domain.entities.user.User;
+import br.dev.diisk.domain.interfaces.IEntityWithUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Transaction extends RastreableEntity {
+public class Transaction extends RastreableEntity  implements IEntityWithUser{
 
     @ManyToOne(optional = false)
     private TransactionCategory category;

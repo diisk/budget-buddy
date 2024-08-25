@@ -14,30 +14,25 @@ import br.dev.diisk.domain.entities.user.UserPerfil;
 import br.dev.diisk.domain.repositories.user.IUserPerfilRepository;
 import br.dev.diisk.domain.repositories.user.IUserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AuthRegisterCase implements IAuthRegisterCase {
 
     private final IUserRepository userRepository;
     private final IUserPerfilRepository userPerfilRepository;
     private final IAddFundStorageCase addFundStorageCase;
 
-    public AuthRegisterCase(IUserRepository userRepository, IUserPerfilRepository userPerfilRepository,
-            IAddFundStorageCase addFundStorageCase) {
-        this.userRepository = userRepository;
-        this.userPerfilRepository = userPerfilRepository;
-        this.addFundStorageCase = addFundStorageCase;
-    }
-
     @Override
     @Transactional
     public User execute(RegisterRequest dto) {
         if (userRepository.existsByEmail(dto.getEmail()))
-            throw new ValueAlreadyInDatabaseException(User.class, "email");
+            throw new ValueAlreadyInDatabaseException(getClass(), "email");
 
         UserPerfil defaultUserPerfil = userPerfilRepository.findByName("Default");
         if (defaultUserPerfil == null)
-            throw new DbValueNotFoundException(UserPerfil.class, "name");
+            throw new DbValueNotFoundException(getClass(), "name");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.getPassword());
 

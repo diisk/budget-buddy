@@ -11,22 +11,20 @@ import br.dev.diisk.application.interfaces.transaction_category.IListTransaction
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.enums.TransactionTypeEnum;
 import br.dev.diisk.domain.repositories.transaction.ITransactionCategoryRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ListTransactionCategoryCase implements IListTransactionCategoryCase {
 
     private final ITransactionCategoryRepository transactionCategoryRepository;
-
-    public ListTransactionCategoryCase(ITransactionCategoryRepository transactionCategoryRepository) {
-        this.transactionCategoryRepository = transactionCategoryRepository;
-    }
 
     @Override
     @Cacheable(value = "transactions-categories", key = "#userId+'-'+#transactionType")
     public Set<TransactionCategory> execute(Long userId, String transactionType) {
         Optional<TransactionTypeEnum> type = TransactionTypeEnum.getByName(transactionType);
         if (type.isEmpty())
-            throw new EnumValueNotFoundException(TransactionTypeEnum.class, transactionType);
+            throw new EnumValueNotFoundException(getClass(), transactionType);
         return transactionCategoryRepository.findAllByTypeAndUserId(userId, type.get());
     }
 

@@ -9,15 +9,13 @@ import br.dev.diisk.domain.entities.user.UserPerfil;
 import br.dev.diisk.domain.enums.user.UserPermissionEnum;
 import br.dev.diisk.domain.repositories.user.IUserPerfilRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class PerfilSeed implements ApplicationRunner {
 
     private final IUserPerfilRepository userPerfilRepository;
-
-    public PerfilSeed(IUserPerfilRepository userPerfilRepository) {
-        this.userPerfilRepository = userPerfilRepository;
-    }
 
     @Override
     @Transactional

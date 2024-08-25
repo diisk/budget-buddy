@@ -44,7 +44,11 @@ public abstract class RastreableEntity {
         this.removed = true;
     }
 
-    public Boolean isRemove() {
+    public void revive(){
+        this.removed = false;
+    }
+
+    public Boolean isRemoved() {
         return removed;
     }
 }

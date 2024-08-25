@@ -1,10 +1,6 @@
 alerta para quando estiver proximo de exceder o orçamento
 alerta para quando o saldo mensal alterar para negativo
 testar update das transactions e verificar se está ok o armazem de fundos
-fazer endpoint para atualizar transactions
-fazer endpoint para cancelar transactions
-fazer endpoint para desativar categorias
-fazer endpoint para desativar fundos (apenas caso esteja zerado)
 passar todas as mensagens para o globalmessages
 testar o dashboard
-testar os endpoints do armazem de fundos
+testar os endpoints do armazem de fundos    

@@ -11,26 +11,22 @@ import br.dev.diisk.application.interfaces.transaction_category.IListTransaction
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.infra.services.UtilService;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class AddTransactionCategoryRequestTransactionCategoryExistsValidation
         implements IAddTransactionCategoryRequestValidator {
 
     private final IListTransactionCategoryCase listTransactionCategoryCase;
     private final UtilService utilService;
 
-    public AddTransactionCategoryRequestTransactionCategoryExistsValidation(
-            IListTransactionCategoryCase listTransactionCategoryCase, UtilService utilService) {
-        this.listTransactionCategoryCase = listTransactionCategoryCase;
-        this.utilService = utilService;
-    }
-
     @Override
     public void validate(AddTransactionCategoryRequest dto, User user) {
         Set<TransactionCategory> categories = listTransactionCategoryCase.execute(user.getId(), dto.getType());
         if (categories.stream()
                 .anyMatch(category -> utilService.equalsIgnoreCaseAndAccents(category.getName(), dto.getName())))
-            throw new ValueAlreadyInDatabaseException(TransactionCategory.class, "name");
+            throw new ValueAlreadyInDatabaseException(getClass(), "name");
     }
 
 }

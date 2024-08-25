@@ -6,14 +6,13 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class CacheService {
 
     private final CacheManager cacheManager;
-
-    public CacheService(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
 
     public void evictCache(String value, String startsWith) {
         Cache cache = cacheManager.getCache(value);

@@ -12,16 +12,6 @@ public interface IFundStorageRepository extends JpaRepository<FundStorage, Long>
     @Query("""
             SELECT br FROM FundStorage br
             JOIN br.user u
-            WHERE (
-                u.id = :userId
-                AND br.id = :id
-            )
-            """)
-    FundStorage findByIdAndUserId(Long id, Long userId);
-
-    @Query("""
-            SELECT br FROM FundStorage br
-            JOIN br.user u
             WHERE u.id = :id
             """)
     Set<FundStorage> findAllByUserId(Long id);

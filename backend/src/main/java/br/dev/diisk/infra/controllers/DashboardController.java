@@ -14,20 +14,17 @@ import br.dev.diisk.application.dtos.SummaryResponse;
 import br.dev.diisk.application.dtos.response.SuccessResponse;
 import br.dev.diisk.domain.entities.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("api/dashboard")
 @PreAuthorize("hasAuthority('DEFAULT')")
 @SecurityRequirement(name = "bearer-key")
+@RequiredArgsConstructor
 public class DashboardController {
 
     private final IResponseService responseService;
     private final IGetSummaryCase getSummaryCase;
-
-    public DashboardController(IResponseService responseService, IGetSummaryCase getSummaryCase) {
-        this.responseService = responseService;
-        this.getSummaryCase = getSummaryCase;
-    }
 
     @GetMapping("summary")
     public ResponseEntity<SuccessResponse<SummaryResponse>> getSummary(
