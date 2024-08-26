@@ -8,11 +8,13 @@ import br.dev.diisk.application.dtos.fund_storage.TransactionValueDTO;
 import br.dev.diisk.application.dtos.transaction.UpdateTransactionRequest;
 import br.dev.diisk.application.interfaces.fund_storage.IRegisterTransactionValueCase;
 import br.dev.diisk.application.interfaces.monthly_history.IUpdateMonthlyHistoryCase;
+import br.dev.diisk.application.interfaces.notification.IUpdateBudgetNotificationCase;
 import br.dev.diisk.application.interfaces.transaction.IGetTransactionCase;
 import br.dev.diisk.application.interfaces.transaction.IUpdateTransactionCase;
 import br.dev.diisk.application.interfaces.transaction.IUpdateTransactionRequestValidator;
 import br.dev.diisk.application.mappers.transaction.UpdateTransactionRequestToTransactionMapper;
 import br.dev.diisk.domain.entities.FundStorage;
+import br.dev.diisk.domain.entities.MonthlyHistory;
 import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.transaction.ITransactionRepository;
@@ -31,6 +33,7 @@ public class UpdateTransactionCase implements IUpdateTransactionCase {
     private final CacheService cacheService;
     private final IRegisterTransactionValueCase registerTransactionValueCase;
     private final UpdateTransactionRequestToTransactionMapper updateTransactionRequestToTransactionMapper;
+    private final IUpdateBudgetNotificationCase updateBudgetNotificationCase;
 
     @Override
     @Transactional
@@ -59,7 +62,10 @@ public class UpdateTransactionCase implements IUpdateTransactionCase {
 
         transactionRepository.save(transaction);
 
-        updateMonthlyHistoryCase.execute(owner, transaction.getDate(), transaction.getCategory());
+        MonthlyHistory monthlyHistory = updateMonthlyHistoryCase.execute(owner, transaction.getDate(),
+                transaction.getCategory());
+
+        updateBudgetNotificationCase.execute(monthlyHistory);
 
         return transaction;
     }

@@ -15,6 +15,7 @@ public interface IBudgetNotificationRepository extends JpaRepository<BudgetNotif
             JOIN FETCH n.category c
             WHERE (
                 n.user.id = :userId
+                AND n.removed = false
                 AND n.createdAt <= :referenceDate
                 AND n.createdAt = (
                     SELECT MAX(n2.createdAt) FROM BudgetNotification n2

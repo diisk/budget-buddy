@@ -19,10 +19,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "notifications")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Notification extends RastreableEntity implements IEntityWithUser{
-    
+public class Notification extends RastreableEntity implements IEntityWithUser {
+
     @Column(nullable = false)
     private String message;
+
+    @Column(nullable = false)
+    private Boolean readed;
 
     @ManyToOne(optional = false)
     private User user;

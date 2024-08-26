@@ -13,6 +13,7 @@ public interface INotificationRepository extends JpaRepository<Notification, Lon
             SELECT n FROM Notification n
             WHERE (
                 n.user.id = :userId
+                AND n.removed = false
             ) ORDER BY n.createdAt DESC
             """)
     List<Notification> findAllByUserId(Long userId);
