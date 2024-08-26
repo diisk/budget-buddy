@@ -20,7 +20,7 @@ import br.dev.diisk.application.dtos.transaction_category.CategoryTransactionDet
 import br.dev.diisk.application.interfaces.dashboard.IGetSummaryCase;
 import br.dev.diisk.application.interfaces.fund_storage.IListFundStorageCase;
 import br.dev.diisk.application.interfaces.monthly_history.IListMonthlyHistoryCase;
-import br.dev.diisk.application.interfaces.notification.IListLastBudgetNotificationCase;
+import br.dev.diisk.application.interfaces.notification.IListLastBudgetNotificationByCategoryCase;
 import br.dev.diisk.application.interfaces.notification.IListNotificationCase;
 import br.dev.diisk.application.interfaces.saving_goal.IListActiveSavingGoalsCase;
 import br.dev.diisk.application.mappers.notification.NotificationToLastNotificationMapper;
@@ -40,7 +40,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GetSummaryCase implements IGetSummaryCase {
 
-    private final IListLastBudgetNotificationCase listLastBudgetNotificationsCase;
+    private final IListLastBudgetNotificationByCategoryCase listLastBudgetNotificationsCase;
     private final IListNotificationCase listNotificationCase;
     private final NotificationToLastNotificationMapper notificationToLastNotificationMapper;
     private final IListActiveSavingGoalsCase listActiveSavingGoalsCase;

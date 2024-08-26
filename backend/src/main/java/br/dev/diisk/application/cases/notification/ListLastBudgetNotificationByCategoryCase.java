@@ -5,14 +5,14 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import br.dev.diisk.application.interfaces.notification.IListLastBudgetNotificationCase;
+import br.dev.diisk.application.interfaces.notification.IListLastBudgetNotificationByCategoryCase;
 import br.dev.diisk.domain.entities.notification.BudgetNotification;
 import br.dev.diisk.domain.repositories.notification.IBudgetNotificationRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ListLastBudgetNotificationCase implements IListLastBudgetNotificationCase{
+public class ListLastBudgetNotificationByCategoryCase implements IListLastBudgetNotificationByCategoryCase{
 
     private final IBudgetNotificationRepository notificationRepository;
     

@@ -5,7 +5,7 @@ import java.util.Set;
 
 import br.dev.diisk.domain.entities.notification.BudgetNotification;
 
-public interface IListLastBudgetNotificationCase {
+public interface IListLastBudgetNotificationByCategoryCase {
 
     Set<BudgetNotification> execute(Long userId, LocalDateTime referenceDate);
 
