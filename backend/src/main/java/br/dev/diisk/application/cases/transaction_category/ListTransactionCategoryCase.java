@@ -20,12 +20,17 @@ public class ListTransactionCategoryCase implements IListTransactionCategoryCase
     private final ITransactionCategoryRepository transactionCategoryRepository;
 
     @Override
-    @Cacheable(value = "transactions-categories", key = "#userId+'-'+#transactionType")
     public Set<TransactionCategory> execute(Long userId, String transactionType) {
         Optional<TransactionTypeEnum> type = TransactionTypeEnum.getByName(transactionType);
         if (type.isEmpty())
             throw new EnumValueNotFoundException(getClass(), transactionType);
-        return transactionCategoryRepository.findAllByTypeAndUserId(userId, type.get());
+        return execute(userId, type.get());
+    }
+
+    @Override
+    @Cacheable(value = "transactions-categories", key = "#userId+'-'+#transactionType")
+    public Set<TransactionCategory> execute(Long userId, TransactionTypeEnum type) {
+        return transactionCategoryRepository.findAllByTypeAndUserId(userId, type);
     }
 
 }

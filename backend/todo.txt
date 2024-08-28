@@ -1,5 +1,3 @@
-alerta para quando o saldo mensal alterar para negativo
-colocar a porcentagem de mandar notificação de orçamento na categoria
 passar todas as mensagens para o globalmessages
 
 
@@ -7,3 +5,4 @@ testar o dashboard
 testar os endpoints do armazem de fundos  
 testar update das transactions e verificar se está ok o armazem de fundos
 testar as notificações
+testar os caches

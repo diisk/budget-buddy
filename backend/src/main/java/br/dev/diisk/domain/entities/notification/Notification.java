@@ -9,6 +9,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "notifications")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Notification extends RastreableEntity implements IEntityWithUser {
@@ -25,7 +27,7 @@ public class Notification extends RastreableEntity implements IEntityWithUser {
     private String message;
 
     @Column(nullable = false)
-    private Boolean readed;
+    private Boolean readed = false;
 
     @ManyToOne(optional = false)
     private User user;
