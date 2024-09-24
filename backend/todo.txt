@@ -1,6 +1,8 @@
 passar todas as mensagens para o globalmessages
+verificar se vale a pena mudar o cache para redis
+mover as interfaces com regra de negocio da application para domain
 
-
+fazer testes unitários
 testar o dashboard
 testar os endpoints do armazem de fundos  
 testar update das transactions e verificar se está ok o armazem de fundos

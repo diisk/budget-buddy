@@ -1,4 +1,5 @@
 package br.dev.diisk.infra.services;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,11 +7,12 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
+import br.dev.diisk.application.interfaces.cache.ICacheService;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CacheService {
+public class CacheService implements ICacheService {
 
     private final CacheManager cacheManager;
 

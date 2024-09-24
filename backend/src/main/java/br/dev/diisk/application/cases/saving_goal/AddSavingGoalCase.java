@@ -11,7 +11,7 @@ import br.dev.diisk.application.interfaces.saving_goal.IAddSavingGoalValidator;
 import br.dev.diisk.domain.entities.SavingGoal;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.saving_goal.ISavingGoalRepository;
-import br.dev.diisk.infra.services.CacheService;
+import br.dev.diisk.application.interfaces.cache.ICacheService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +21,7 @@ public class AddSavingGoalCase implements IAddSavingGoalCase {
 
     private final ISavingGoalRepository savingGoalRepository;
     private final List<IAddSavingGoalValidator> validations;
-    private final CacheService cacheService;
+    private final ICacheService cacheService;
 
     @Override
     @Transactional

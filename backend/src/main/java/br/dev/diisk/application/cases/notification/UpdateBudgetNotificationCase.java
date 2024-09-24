@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.dev.diisk.application.UtilService;
 import br.dev.diisk.application.dtos.notification.AddBudgetNotificationDTO;
 import br.dev.diisk.application.exceptions.domain.InvalidTransactionTypeException;
 import br.dev.diisk.application.interfaces.notification.IAddBudgetNotificationCase;
@@ -17,7 +18,6 @@ import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.enums.TransactionTypeEnum;
 import br.dev.diisk.domain.repositories.notification.IBudgetNotificationRepository;
-import br.dev.diisk.infra.services.UtilService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

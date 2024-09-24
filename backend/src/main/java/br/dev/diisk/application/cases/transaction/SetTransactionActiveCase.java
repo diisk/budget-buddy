@@ -11,7 +11,7 @@ import br.dev.diisk.domain.entities.FundStorage;
 import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.transaction.ITransactionRepository;
-import br.dev.diisk.infra.services.CacheService;
+import br.dev.diisk.application.interfaces.cache.ICacheService;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -20,12 +20,12 @@ public class SetTransactionActiveCase extends SetEntityActiveCase<Transaction> i
     private final ITransactionRepository transactionRepository;
     private final IGetTransactionCase getTransactionCase;
     private final IUpdateMonthlyHistoryCase updateMonthlyHistoryCase;
-    private final CacheService cacheService;
+    private final ICacheService cacheService;
     private final IRegisterTransactionValueCase registerTransactionValueCase;
 
     public SetTransactionActiveCase(ITransactionRepository repository, ITransactionRepository transactionRepository,
             IGetTransactionCase getTransactionCase, IUpdateMonthlyHistoryCase updateMonthlyHistoryCase,
-            CacheService cacheService, IRegisterTransactionValueCase registerTransactionValueCase) {
+            ICacheService cacheService, IRegisterTransactionValueCase registerTransactionValueCase) {
         super(repository);
         this.transactionRepository = transactionRepository;
         this.getTransactionCase = getTransactionCase;

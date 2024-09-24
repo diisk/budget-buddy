@@ -9,6 +9,7 @@ import java.util.Set;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import br.dev.diisk.application.UtilService;
 import br.dev.diisk.application.dtos.BalanceDetailsDTO;
 import br.dev.diisk.application.dtos.BudgetSummaryDTO;
 import br.dev.diisk.application.dtos.HistoryDTO;
@@ -33,7 +34,6 @@ import br.dev.diisk.domain.entities.notification.Notification;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.enums.TransactionTypeEnum;
-import br.dev.diisk.infra.services.UtilService;
 import lombok.RequiredArgsConstructor;
 
 @Service

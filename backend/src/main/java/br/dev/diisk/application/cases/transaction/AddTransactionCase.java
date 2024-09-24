@@ -17,7 +17,7 @@ import br.dev.diisk.domain.entities.transaction.Transaction;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.repositories.transaction.ITransactionRepository;
-import br.dev.diisk.infra.services.CacheService;
+import br.dev.diisk.application.interfaces.cache.ICacheService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +29,7 @@ public class AddTransactionCase implements IAddTransactionCase {
     private final List<IAddTransactionRequestValidator> validations;
     private final AddTransactionRequestToTransactionMapper addTransactionRequestMapper;
     private final IUpdateMonthlyHistoryCase updateMonthlyHistoryCase;
-    private final CacheService cacheService;
+    private final ICacheService cacheService;
     private final IRegisterTransactionValueCase registerTransactionValueCase;
     private final IUpdateBudgetNotificationCase updateBudgetNotificationCase;
 

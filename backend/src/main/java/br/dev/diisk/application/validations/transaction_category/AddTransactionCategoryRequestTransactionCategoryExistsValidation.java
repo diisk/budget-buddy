@@ -4,13 +4,13 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
+import br.dev.diisk.application.UtilService;
 import br.dev.diisk.application.dtos.transaction_category.AddTransactionCategoryRequest;
 import br.dev.diisk.application.exceptions.persistence.ValueAlreadyInDatabaseException;
 import br.dev.diisk.application.interfaces.transaction_category.IAddTransactionCategoryRequestValidator;
 import br.dev.diisk.application.interfaces.transaction_category.IListTransactionCategoryCase;
 import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
-import br.dev.diisk.infra.services.UtilService;
 import lombok.RequiredArgsConstructor;
 
 @Component

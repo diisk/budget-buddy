@@ -21,6 +21,9 @@ public class AddTransactionCategoryRequest {
     @Setter
     private User user;
 
+    @NotBlank(message = "{"+GlobalMessages.TESTE+"}")
+    private String teste;
+
     @NotBlank(message = GlobalMessages.BLANK_OR_NULL_FIELD)
     private String name;
 

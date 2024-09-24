@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import org.springframework.stereotype.Service;
+
+import br.dev.diisk.application.UtilService;
+import br.dev.diisk.application.interfaces.cache.ICacheService;
 import br.dev.diisk.application.interfaces.monthly_history.IListMonthlyHistoryCase;
 import br.dev.diisk.application.interfaces.monthly_history.IUpdateMonthlyHistoryCase;
 import br.dev.diisk.application.interfaces.notification.IAddNotificationCase;
@@ -15,8 +18,6 @@ import br.dev.diisk.domain.entities.transaction.TransactionCategory;
 import br.dev.diisk.domain.entities.user.User;
 import br.dev.diisk.domain.enums.TransactionTypeEnum;
 import br.dev.diisk.domain.repositories.monthly_history.IMonthlyHistoriRepository;
-import br.dev.diisk.infra.services.CacheService;
-import br.dev.diisk.infra.services.UtilService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +28,7 @@ public class UpdateMonthlyHistoryCase implements IUpdateMonthlyHistoryCase {
     private final UtilService utilService;
     private final IListTransactionCase listTransactionCase;
     private final IMonthlyHistoriRepository monthlyHistoriRepository;
-    private final CacheService cacheService;
+    private final ICacheService cacheService;
     private final IListMonthlyHistoryCase listMonthlyHistoryCase;
     private final IAddNotificationCase addNotificationCase;
 
